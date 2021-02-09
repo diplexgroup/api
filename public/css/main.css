@@ -1,0 +1,18 @@
+body {
+  min-height: 100vh; }
+
+/**
+AUTH
+ */
+.auth-cnt {
+  min-height: 100vh; }
+
+.auth-form {
+  max-width: 450px;
+  margin-bottom: 10%;
+  background-color: #cafdca;
+  padding: 40px 20px 20px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px #ccc; }
+
+/*# sourceMappingURL=main.css.map */
