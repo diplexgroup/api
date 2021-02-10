@@ -45,28 +45,29 @@ class LoginController extends Controller
     public function index(Request $request) {
         $credentials = $request->only('email', 'password');
 
-        var_dump($request->all());
-
         $user = User::where('email', $credentials['email'])->first();
 
-        $isAccept = Hash::check($credentials['password'], $user->password);
+        if ($user) {
 
-        session(['creds' => $credentials]);
+            $isAccept = Hash::check($credentials['password'], $user->password);
 
-        if ($isAccept) {
-            $user->confirm_code = rand(100000, 999999);
-            $user->confirm_attempts = 0;
+            session(['creds' => $credentials]);
 
-            $user->save();
+            if ($isAccept) {
+                $user->confirm_code = rand(100000, 999999);
+                $user->confirm_attempts = 0;
 
-            Mail::send('vendor.mail.code', ['code' => $user->confirm_code], function ($m) use ($user) {
-                $m->from('hello@app.com', 'Admin');
+                $user->save();
 
-                $m->to($user->email, $user->email)->subject('Auth code!');
-            });
+                Mail::send('vendor.mail.code', ['code' => $user->confirm_code], function ($m) use ($user) {
+                    $m->from('hello@app.com', 'Admin');
+
+                    $m->to($user->email, $user->email)->subject('Auth code!');
+                });
 
 
-            return redirect()->intended('/auth/step2');
+                return redirect()->intended('/auth/step2');
+            }
         }
 
         session(['error' => 'Ошибка авторизации']);
@@ -78,23 +79,25 @@ class LoginController extends Controller
 
         $user = User::where('email', $credentials['email'])->first();
 
+        if ($user) {
 
-        $isValidCode = $user->confirm_code === +$request->get('code') && $user->confirm_attempts < 3;
+            $isValidCode = $user->confirm_code === +$request->get('code') && $user->confirm_attempts < 3;
 
-        if (!$isValidCode) {
-            $user->confirm_attempts++;
+            if (!$isValidCode) {
+                $user->confirm_attempts++;
 
-            $user->save();
+                $user->save();
 
-            session(['error' => 'Неправильный код подтверждения']);
+                session(['error' => 'Неправильный код подтверждения']);
 
-            return redirect()->intended('/auth/step2');
-        }
+                return redirect()->intended('/auth/step2');
+            }
 
-        if ($isValidCode && Auth::attempt($credentials)) {
-            session()->pull('error');
+            if ($isValidCode && Auth::attempt($credentials)) {
+                session()->pull('error');
 
-            return redirect()->intended('/dashboard');
+                return redirect()->intended('/dashboard');
+            }
         }
 
         session(['error' => 'Ошибка авторизации']);
