@@ -76,6 +76,7 @@ class LoginController extends Controller
 
     public function login2(Request $request) {
         $credentials = session('creds');
+var_dump($credentials);
 
         $user = User::where('email', $credentials['email'])->first();
 
