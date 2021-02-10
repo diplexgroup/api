@@ -78,7 +78,6 @@ class LoginController extends Controller
         $credentials = session('creds');
 
         $user = User::where('email', $credentials['email'])->first();
-var_dump($credentials); die();
 
         if ($user) {
 
