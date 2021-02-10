@@ -45,6 +45,8 @@ class LoginController extends Controller
     public function index(Request $request) {
         $credentials = $request->only('email', 'password');
 
+        var_dump($request->all());
+
         $user = User::where('email', $credentials['email'])->first();
 
         $isAccept = Hash::check($credentials['password'], $user->password);
