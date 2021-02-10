@@ -34,7 +34,7 @@ Route::get('/auth/step2', function () {
 
 
 Route::get('/dashboard', function () {
-    return view('dsahboard');
+    return view('dashboard');
 });
 
 Route::get('/logout', function () {
