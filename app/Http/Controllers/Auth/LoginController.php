@@ -44,7 +44,6 @@ class LoginController extends Controller
 
     public function index(Request $request) {
         $credentials = $request->only('email', 'password');
-        var_dump($credentials);
 
         $user = User::where('email', $credentials['email'])->first();
 
@@ -77,7 +76,6 @@ class LoginController extends Controller
 
     public function login2(Request $request) {
         $credentials = session('creds');
-var_dump($credentials);
 
         $user = User::where('email', $credentials['email'])->first();
 
