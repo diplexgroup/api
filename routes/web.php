@@ -34,7 +34,7 @@ Route::get('/auth/step2', function () {
 
 
 Route::get('/dashboard', function () {
-    return "Нет доступных модулей";
+    return view('dsahboard');
 });
 
 Route::get('/logout', function () {
