@@ -48,3 +48,5 @@ Route::get('/logout', function () {
 Route::post('/auth/login', [LoginController::class, 'index']);
 
 Route::post('/auth/login2', [LoginController::class, 'login2']);
+
+require __DIR__ . '/modules/projects.php';
