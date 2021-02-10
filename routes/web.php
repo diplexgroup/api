@@ -27,7 +27,7 @@ Route::get('/', function () {
 
 Route::get('/auth/step2', function () {
     $error = session()->pull('error');
-    $creds = session()->pull('creds');
+    $creds = session('creds');
 
     return view('login2', ['error'=> $error, 'creds' => $creds]);
 });
