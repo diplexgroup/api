@@ -32,7 +32,7 @@
 
                                     <tr>
                                         <td>Стратегия комиссии</td>
-                                        <td><input name="forms[tax_strategy]" value="{{$doc->tax_strategy}}"/></td>
+                                        <td><textarea name="forms[tax_strategy]" value="{{$doc->tax_strategy}}"></textarea></td>
                                     </tr>
 
 

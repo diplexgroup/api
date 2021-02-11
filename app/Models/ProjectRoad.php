@@ -70,10 +70,6 @@ class ProjectRoad extends Model
             $model->setAttr($field, $value);
         }
 
-        if ($model->fromProject === $model->toProject) {
-            throw new \Exception('Проекты не должны совпадать');
-        }
-
         $another = self::where(['fromProject' => $model->fromProject, 'toProject' => $model->toProject])->first();
         if ($another && $another->id !== $model->id) {
             throw new \Exception('Уже существует');
