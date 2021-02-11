@@ -23,7 +23,7 @@ Route::get('/', function () {
     $creds = session()->pull('creds');
 
     return view('login', ['error'=> $error, 'creds' => $creds]);
-});
+})->name('login');
 
 Route::get('/auth/step2', function () {
     $error = session()->pull('error');
@@ -50,3 +50,4 @@ Route::post('/auth/login', [LoginController::class, 'index']);
 Route::post('/auth/login2', [LoginController::class, 'login2']);
 
 require __DIR__ . '/modules/projects.php';
+require __DIR__ . '/modules/project_roads.php';

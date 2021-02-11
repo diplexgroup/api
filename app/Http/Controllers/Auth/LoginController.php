@@ -66,7 +66,7 @@ class LoginController extends Controller
                 });
 
 
-                return redirect()->intended('/auth/step2');
+                return redirect('/auth/step2');
             }
         }
 
@@ -90,7 +90,7 @@ class LoginController extends Controller
 
                 session(['error' => 'Неправильный код подтверждения']);
 
-                return redirect()->intended('/auth/step2');
+                return redirect('/auth/step2');
             }
 
             if ($isValidCode && Auth::attempt($credentials)) {

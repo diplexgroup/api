@@ -241,11 +241,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/widgets.html" class="nav-link">
+                        <a href="/project_roads" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Связи
-                                <span class="right badge badge-danger">0</span>
+                                <span class="right badge badge-danger">{{$navs['projectRoadCount']}}</span>
                             </p>
                         </a>
                     </li>

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Project;
+use App\Models\ProjectRoad;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 
@@ -34,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
 
 
         $navs['projectCount'] = Project::count();
+        $navs['projectRoadCount'] = ProjectRoad::count();
 
         View::share('navs', $navs);
     }
