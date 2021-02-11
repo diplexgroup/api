@@ -214,20 +214,20 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/widgets.html" class="nav-link">
+                        <a href="/users" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Пользователи
-                                <span class="right badge badge-danger">0</span>
+                                <span class="right badge badge-danger">{{$navs['userCount']}}</span>
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/widgets.html" class="nav-link">
+                        <a href="/user_roles" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Роли
-                                <span class="right badge badge-danger">0</span>
+                                <span class="right badge badge-danger">{{$navs['userRoleCount']}}</span>
                             </p>
                         </a>
                     </li>

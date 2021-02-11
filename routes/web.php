@@ -51,3 +51,5 @@ Route::post('/auth/login2', [LoginController::class, 'login2']);
 
 require __DIR__ . '/modules/projects.php';
 require __DIR__ . '/modules/project_roads.php';
+require __DIR__ . '/modules/user.php';
+require __DIR__ . '/modules/user_roles.php';

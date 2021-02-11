@@ -31,7 +31,6 @@
                                     @endforeach
 
 
-
                                     <tr>
                                         <td></td>
                                         <td><button class="btn btn-success">OK</button></td>

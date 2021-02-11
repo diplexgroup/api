@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Project;
 use App\Models\ProjectRoad;
+use App\Models\UserRole;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 
@@ -36,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
 
         $navs['projectCount'] = Project::count();
         $navs['projectRoadCount'] = ProjectRoad::count();
+        $navs['userCount'] = User::count();
+        $navs['userRoleCount'] = UserRole::count();
 
         View::share('navs', $navs);
     }

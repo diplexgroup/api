@@ -19,7 +19,7 @@
                                     <thead>
                                     <tr>
                                         <th>{{$docLabel}} #{{$doc->id}}</th>
-                                        <th><a href="/{{$link}}/edit/{{$doc->id}}" class="fa fa-edit">редактировать</a></th>
+                                        <th><a href="/{{$link}}/view/{{$doc->id}}" class="fa fa-eye">просмотреть</a></th>
                                     </tr>
                                     </thead>
                                     <tbody>
