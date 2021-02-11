@@ -12,7 +12,7 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
             'docs' => $docs,
             'fields' => $fields,
             'link' => 'user_roles',
-            'docsLabel' => 'Всего пользователей',
+            'docsLabel' => 'Всего ролей',
         ]);
     });
 
@@ -25,7 +25,7 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
             'doc' => $doc,
             'link' => 'user_roles',
             'fields' => $fields,
-            'docLabel' => 'Пользователь',
+            'docLabel' => 'Роль',
         ]);
     });
 
@@ -44,7 +44,7 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
             'doc' => $doc,
             'link' => 'user_roles',
             'fields' => $fields,
-            'docLabel' => 'Пользователь',
+            'docLabel' => 'Роль',
             'error' => $error
         ]);
     });
