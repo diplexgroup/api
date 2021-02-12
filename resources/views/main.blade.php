@@ -200,16 +200,15 @@
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Dashboard
-                                <span class="right badge badge-danger">0</span>
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/widgets.html" class="nav-link">
+                        <a href="/modules" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Модули
-                                <span class="right badge badge-danger">0</span>
+                                <span class="right badge badge-danger">{{$navs['moduleCount']}}</span>
                             </p>
                         </a>
                     </li>
@@ -246,6 +245,24 @@
                             <p>
                                 Связи
                                 <span class="right badge badge-danger">{{$navs['projectRoadCount']}}</span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/currency" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Валюты
+                                <span class="right badge badge-danger">{{$navs['currencyCount']}}</span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/wallet" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Кошельки
+                                <span class="right badge badge-danger">{{$navs['walletCount']}}</span>
                             </p>
                         </a>
                     </li>

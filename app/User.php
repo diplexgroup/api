@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'updated_at', 'created_at'
+        'email', 'password', 'updated_at', 'created_at', 'fname', 'sname', 'tname', 'position', 'department', 'ip', 'tg_nick'
     ];
 
     /**
@@ -33,7 +33,9 @@ class User extends Authenticatable
         return [
             'id' => 'ID',
             'email' => 'Email',
-            'status' => 'Статус'
+            'status' => 'Статус',
+            'tg_nick' => 'Телеграм',
+            'fio' => 'ФИО',
         ];
     }
 
@@ -46,12 +48,21 @@ class User extends Authenticatable
             'status' => 'Статус',
             'roles' => 'Роли',
             'updated_at' => 'Обновлён',
+            'fname' => 'Имя',
+            'sname' => 'Фамилия',
+            'tname' => 'Отчество',
+            'position' => 'Должность',
+            'department' => 'Отдел',
+            'ip' => 'IP',
+            'tg_nick' => 'Ник в телеграме',
         ];
     }
 
     public static function defaultInputList() {
         $list = [
-            'email', 'password', 'status', 'roles'
+            'email', 'password', 'status', 'roles',
+            'fname', 'sname', 'tname', 'position',
+            'department', 'ip', 'tg_nick'
         ];
 
         $result = [];
@@ -94,6 +105,17 @@ class User extends Authenticatable
     public function getAttr($attr) {
         if ($attr === 'status') {
             return $this->status === 1 ? 'Активный' : 'Выключен';
+        }
+
+        if ($attr === 'fio') {
+            $result = [];
+            foreach (['sname', 'fname', 'tname'] as $field) {
+                if ($this->$field) {
+                    $result [] = $this->$field;
+                }
+            }
+
+            return implode(' ', $result);
         }
 
         return $this->$attr;
