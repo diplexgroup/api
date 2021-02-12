@@ -56,3 +56,4 @@ require __DIR__ . '/modules/user_roles.php';
 require __DIR__ . '/modules/modules.php';
 require __DIR__ . '/modules/currency.php';
 require __DIR__ . '/modules/wallet.php';
+require __DIR__ . '/modules/api.php';
