@@ -1,8 +1,9 @@
 <?php
 
 use App\Models\ProjectRoad;
+use  \App\Models\Project;
 
-function calculate1($tStrategy, $amount) {
+function calculate1($road, $tStrategy, $amount) {
     $fee_amount = $tStrategy['amount'] ?? 0;
     $percent = $tStrategy['percent'] ?? 0;
     $min = $tStrategy['min'] ?? 0;
@@ -17,36 +18,42 @@ function calculate1($tStrategy, $amount) {
 Route::get('/api/calculate-fee', function () {
     global $currentProject;
 
-    $project = +request()->get('project', 0);
-    $direction = +request()->get('direction', 1);
+    $toProjectPref = request()->get('toProject', '');
 
+    $amount = +request()->get('amount', 0);
     $cId = $currentProject->id;
 
-    if ($direction === 2) {
-        [$cId, $project] = [$project, $cId];
-    }
+    $toProject = Project::where('pref', $toProjectPref)->first();
+
 
     $road = ProjectRoad::where([
         'status' => 1,
         'fromProject' => $cId,
-        'toProject' => $project
+        'toProject' => $toProject ? $toProject->id : 0
     ])->first();
 
     $tStrategy = null;
     $feeAmount = 0;
-    try {
-        $tStrategy = json_decode($road->tax_strategy, true);
+    $err = 'Cannot find transaction direction';
+    if ($road && $currentProject->status === 1 && $toProject->status === 1 && $road->status === 1) {
 
-        $amount = +request()->get('amount', 0);
+        if ($amount < $road->minAmount || $amount > $road->maxAmount) {
+            $err = 'Amount not in ' . $road->minAmount . ' - ' . $road->maxAmount . ' DLX';
+        } else {
+            try {
+                $tStrategy = json_decode($road->tax_strategy, true);
 
-        $type = 'calculate'.$tStrategy['type'];
+                $type = 'calculate' . $tStrategy['type'];
 
-        $feeAmount = $type($tStrategy, $amount);
+                $feeAmount = $type($road, $tStrategy, $amount);
 
-    } catch(Exception $ex) {
+            } catch (Exception $ex) {
 
+            }
+        }
+    } else {
+        $err = 'Transaction direction closed';
     }
-
 
     $result = [
       'success' => !!$road && !!$tStrategy
@@ -54,6 +61,9 @@ Route::get('/api/calculate-fee', function () {
 
     if ($result['success']) {
         $result['fee'] = $feeAmount;
+        $result['burned'] = $feeAmount * $road->burnPercent;
+    } else {
+        $result['err'] = $err;
     }
 
 

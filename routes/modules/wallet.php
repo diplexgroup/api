@@ -2,7 +2,12 @@
 
 use App\Models\Wallet;
 
-Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function () {
+$mids = [
+    \App\Http\Middleware\Authenticate::class,
+    \App\Http\Middleware\CheckUser::class
+];
+
+Route::middleware($mids)->group(function () {
 
     Route::get('/wallet', function () {
         $docs = Wallet::all();

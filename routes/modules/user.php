@@ -2,7 +2,12 @@
 
 use App\User;
 
-Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function () {
+$mids = [
+    \App\Http\Middleware\Authenticate::class,
+    \App\Http\Middleware\CheckUser::class
+];
+
+Route::middleware($mids)->group(function () {
 
     Route::get('/users', function () {
         $docs = User::all();

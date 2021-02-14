@@ -2,8 +2,12 @@
 
 use App\Models\Project;
 
+$mids = [
+    \App\Http\Middleware\Authenticate::class,
+    \App\Http\Middleware\CheckUser::class
+];
 
-Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function () {
+Route::middleware($mids)->group(function () {
 
     Route::get('/projects', function () {
         $docs = Project::all();

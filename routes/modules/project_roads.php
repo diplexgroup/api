@@ -2,7 +2,12 @@
 
 use App\Models\ProjectRoad;
 
-Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function () {
+$mids = [
+    \App\Http\Middleware\Authenticate::class,
+    \App\Http\Middleware\CheckUser::class
+];
+
+Route::middleware($mids)->group(function () {
 
     Route::get('/project_roads', function () {
         $docs = ProjectRoad::all();
@@ -37,6 +42,9 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
         if ($id === '0') {
             $doc = new ProjectRoad();
             $doc->status = 1;
+            $doc->minAmount = 0;
+            $doc->maxAmount = 1000000;
+            $doc->burnPercent = 0;
         }
 
         $fields = ProjectRoad::defaultInputList();

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use App\Http\Helpers\IpHelper;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -52,6 +53,15 @@ class LoginController extends Controller
             $isAccept = Hash::check($credentials['password'], $user->password);
 
             session(['creds' => $credentials]);
+
+            if (IpHelper::getIp() !== $user->ip) {
+
+                session(['error' => 'Неправильный IP']);
+
+                return redirect('/');
+            }
+
+
 
             if ($isAccept) {
                 $user->confirm_code = rand(100000, 999999);

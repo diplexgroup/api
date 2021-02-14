@@ -15,7 +15,7 @@ class ProjectRoad extends Model
      * @var array
      */
     protected $fillable = [
-        'fromProject', 'toProject', 'tax_strategy', 'status'
+        'fromProject', 'toProject', 'tax_strategy', 'status', 'minAmount', 'maxAmount', 'burnPercent'
     ];
 
     public $timestamps = false;
@@ -33,17 +33,20 @@ class ProjectRoad extends Model
 
     public static function getViewFields() {
         return [
-            'pref' => 'Префикс',
             'fromProject' => 'От',
             'toProject' => 'К',
             'status' => 'Статус',
             'tax_strategy' => 'Стратегия категорий',
+            'minAmount' => 'Минимальная сумма',
+            'maxAmount' => 'Максимальная сумма',
+            'burnPercent' => 'Процент от комиссии сжигается (0.01 = 1%)',
         ];
     }
 
     public static function defaultInputList() {
         $list = [
-            'fromProject', 'toProject', 'status'
+            'fromProject', 'toProject', 'status',
+            'minAmount', 'maxAmount', 'burnPercent',
         ];
 
         $result = [];
