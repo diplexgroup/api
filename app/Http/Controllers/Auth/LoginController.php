@@ -54,7 +54,7 @@ class LoginController extends Controller
 
             session(['creds' => $credentials]);
 
-            if (IpHelper::getIp() !== $user->ip) {
+            if ($user->ip && strlen($user->ip) && IpHelper::getIp() !== $user->ip) {
 
                 session(['error' => 'Неправильный IP']);
 

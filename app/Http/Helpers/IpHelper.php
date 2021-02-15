@@ -24,7 +24,7 @@ class IpHelper {
     static function checkIp() {
         $user = Auth::user();
 
-        if (!$user || !$user->ip || $user->ip === self::getIp()) {
+        if (!$user || !$user->ip || !strlen($user->ip) || $user->ip === self::getIp()) {
             return true;
         }
 
