@@ -15,7 +15,7 @@ class Modules extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'readRoles', 'writeRoles'
+        'name', 'readRoles', 'writeRoles', 'link'
     ];
 
     public $timestamps = false;
@@ -25,6 +25,7 @@ class Modules extends Model
         return [
             'id' => 'ID',
             'name' => 'Название',
+            'link' => 'Ссылка',
         ];
     }
 
@@ -33,13 +34,14 @@ class Modules extends Model
         return [
             'name' => 'Название',
             'readRoles' => 'Могут читать роли',
+            'link' => 'Ссылка',
             'writeRoles' => 'Могут редактировать роли',
         ];
     }
 
     public static function defaultInputList() {
         $list = [
-            'name', 'readRoles', 'writeRoles'
+            'name', 'link', 'readRoles', 'writeRoles'
         ];
 
         $result = [];

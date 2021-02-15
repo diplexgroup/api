@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Http\Helpers\IpHelper;
+use App\Models\Modules;
 use App\Models\Project;
 use Closure;
 use Illuminate\Auth\AuthenticationException;
@@ -26,6 +27,23 @@ class CheckUser
            Auth::logout();
 
            return redirect('/');
+        }
+
+        $parts = explode('/', $request->getUri());
+        $link = $parts[3] ?? '';
+
+        $module = Modules::where('link', $link)->first();
+
+        if ($module && $user) {
+            $roles = explode(',', $user->roles ?? '');
+            $field = $request->getMethod() === 'GET' ? 'readRoles' : 'writeRoles';
+            $moduleRoles = explode(',', $module->$field ?? '');
+
+            $interSect = array_intersect($roles, $moduleRoles);
+
+            if (!sizeof($interSect)) {
+                die('Fobbiden');
+            }
         }
 
 
