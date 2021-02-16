@@ -8,6 +8,10 @@ use Illuminate\Notifications\Notifiable;
 class Currency extends Model
 {
     protected $table = 'currency';
+    protected $currencyTypeMap = [
+      1 => 'Фиат',
+      2 => 'Крипто'
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -76,6 +80,21 @@ class Currency extends Model
     }
 
     public function getAttr($attr) {
+        if ($attr === 'type') return $this->currencyTypeMap[$this->$attr] ?? 'Неизвестно';
         return $this->$attr;
+    }
+
+
+    public function getOptions($attr) {
+        if ($attr === 'type') {
+            return $this->currencyTypeMap;
+        }
+
+
+        return [];
+    }
+
+    public function isSelect($attr) {
+        return in_array($attr, ['type']);
     }
 }

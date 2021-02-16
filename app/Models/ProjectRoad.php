@@ -98,4 +98,33 @@ class ProjectRoad extends Model
 
         return $this->$attr;
     }
+
+
+    public function getOptions($attr) {
+        if ($attr === 'status') {
+            return [
+                1 => 'Активный',
+                2 => 'Выключена'
+            ];
+        }
+        if ($attr === 'fromProject' || $attr === 'toProject') {
+            $all = Project::all();
+
+            $result = [
+            ];
+
+            foreach ($all as $proj) {
+                $result[$proj->id] = $proj->name . '(' . $proj->pref . ')';
+            }
+
+            return $result;
+        }
+
+
+        return [];
+    }
+
+    public function isSelect($attr) {
+        return in_array($attr, ['status', 'fromProject', 'toProject']);
+    }
 }

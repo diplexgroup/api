@@ -24,10 +24,7 @@
                                     </thead>
                                     <tbody>
                                     @foreach ($fields as $field=>$label)
-                                        <tr>
-                                            <td>{{$label}}</td>
-                                            <td><input name="forms[{{$field}}]" value="{{$doc->$field}}"/></td>
-                                        </tr>
+                                        @include('base.input')
                                     @endforeach
 
 

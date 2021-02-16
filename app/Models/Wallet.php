@@ -18,6 +18,13 @@ class Wallet extends Model
         'type', 'relationId', 'addr', 'pkey', 'status', 'currency', 'rootType'
     ];
 
+    protected $rootTypes = [
+        0 => 'Не назначен',
+        1 => 'Основной',
+        2 => 'Комиссионный',
+        3 => 'Резервный',
+    ];
+
     public $timestamps = false;
 
 
@@ -87,6 +94,55 @@ class Wallet extends Model
         if ($attr === 'type') {
             return $this->type === '1' ? 'Внутренний' : 'Внешний';
         }
+        if ($attr === 'rootType') {
+            return $this->rootTypes[$this->rootType];
+        }
+        if ($attr === 'relationId') {
+            if (!$this->relationId) return 'Нет';
+
+            $proj = Project::where('id', $this->relationId)->first();
+
+            return $proj->name . '(' . $proj->pref . ')';
+        }
         return $this->$attr;
+    }
+
+
+    public function getOptions($attr) {
+        if ($attr === 'status') {
+            return [
+                1 => 'Активный',
+                2 => 'Выключен'
+            ];
+        }
+        if ($attr === 'type') {
+            return [
+                1 => 'Внутренний',
+                2 => 'Внешний'
+            ];
+        }
+        if ($attr === 'rootType') {
+            return $this->rootTypes;
+        }
+        if ($attr === 'relationId') {
+            $all = Project::all();
+
+            $result = [
+                0 => 'Не назвначен'
+            ];
+
+            foreach ($all as $proj) {
+                $result[$proj->id] = $proj->name . '(' . $proj->pref . ')';
+            }
+
+            return $result;
+        }
+
+
+        return [];
+    }
+
+    public function isSelect($attr) {
+        return in_array($attr, ['status', 'type', 'relationId', 'rootType']);
     }
 }

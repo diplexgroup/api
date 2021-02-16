@@ -120,4 +120,21 @@ class User extends Authenticatable
 
         return $this->$attr;
     }
+
+    public function getOptions($attr) {
+        if ($attr === 'status') {
+            return [
+                1 => 'Активный',
+                2 => 'Выключен'
+            ];
+        }
+
+
+        return [];
+    }
+
+
+    public function isSelect($attr) {
+        return in_array($attr, ['status']);
+    }
 }

@@ -95,6 +95,38 @@ class Project extends Model
             return $this->status === 1 ? 'Активен' : 'Заблокирован';
         }
 
+        if ($attr === 'type') {
+            return $this->type === 1 ? 'Внутренний' : 'Внешний';
+        }
+
         return $this->$attr;
+    }
+
+    public function getOptions($attr) {
+        if ($attr === 'status') {
+            return [
+                1 => 'Активный',
+                2 => 'Заблокирован'
+            ];
+        }
+        if ($attr === 'addr_need_flag') {
+            return [
+                1 => 'Да',
+                0 => 'Нет'
+            ];
+        }
+        if ($attr === 'type') {
+            return [
+                1 => 'Внутренний',
+                0 => 'Внешний'
+            ];
+        }
+
+
+        return [];
+    }
+
+    public function isSelect($attr) {
+        return in_array($attr, ['status', 'addr_need_flag', 'type']);
     }
 }

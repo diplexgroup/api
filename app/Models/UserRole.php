@@ -21,6 +21,10 @@ class UserRole extends Model
     public $timestamps = false;
 
 
+    public function isSelect($attr) {
+        return false;
+    }
+
     public static function getListFields() {
         return [
             'id' => 'ID',
