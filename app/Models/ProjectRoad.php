@@ -49,6 +49,7 @@ class ProjectRoad extends Model
         $list = [
             'from_project', 'to_project', 'status',
             'min_amount', 'max_amount', 'burn_percent',
+            'max_day_amount', 'max_month_amount'
         ];
 
         $result = [];
