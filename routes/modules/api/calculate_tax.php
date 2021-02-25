@@ -2,6 +2,7 @@
 
 use App\Models\ProjectRoad;
 use  \App\Models\Project;
+use  \App\Models\Transaction;
 
 function calculate1($road, $tStrategy, $amount) {
     $fee_amount = $tStrategy['amount'] ?? 0;
@@ -28,17 +29,26 @@ Route::get('/api/calculate-fee', function () {
 
     $road = ProjectRoad::where([
         'status' => 1,
-        'fromProject' => $cId,
-        'toProject' => $toProject ? $toProject->id : 0
+        'from_project' => $cId,
+        'to_project' => $toProject ? $toProject->id : 0
     ])->first();
 
     $tStrategy = null;
     $feeAmount = 0;
     $err = 'Cannot find transaction direction';
+
+    $valueDay = Transaction::getDayValue($currentProject);
+    $valueMonth = Transaction::getMonthValue($currentProject);
+
+
     if ($road && $currentProject->status === 1 && $toProject->status === 1 && $road->status === 1) {
 
-        if ($amount < $road->minAmount || $amount > $road->maxAmount) {
-            $err = 'Amount not in ' . $road->minAmount . ' - ' . $road->maxAmount . ' DLX';
+        if ($amount < $road->min_amount || $amount > $road->max_amount) {
+            $err = 'Amount not in ' . $road->min_amount . ' - ' . $road->max_amount . ' DLX';
+        } else if ($valueDay + $amount > $road->max_day_amount) {
+            $err = 'Day limit exceeded ' . $valueDay . ' + ' . $amount . ' / ' .  $road->max_day_amount;
+        } else if ($valueMonth + $amount > $road->max_day_amount) {
+            $err = 'Month limit exceeded ' . $valueMonth . ' + ' . $amount . ' / ' .  $road->max_day_amount;
         } else {
             try {
                 $tStrategy = json_decode($road->tax_strategy, true);
@@ -48,6 +58,8 @@ Route::get('/api/calculate-fee', function () {
                 $feeAmount = $type($road, $tStrategy, $amount);
 
             } catch (Exception $ex) {
+
+                $err = 'Wrong tax strategy';
 
             }
         }
