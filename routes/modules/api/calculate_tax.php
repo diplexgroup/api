@@ -47,7 +47,7 @@ Route::get('/api/calculate-fee', function () {
             $err = 'Amount not in ' . $road->min_amount . ' - ' . $road->max_amount . ' DLX';
         } else if ($valueDay + $amount > $road->max_day_amount) {
             $err = 'Day limit exceeded ' . $valueDay . ' + ' . $amount . ' / ' .  $road->max_day_amount;
-        } else if ($valueMonth + $amount > $road->max_day_amount) {
+        } else if ($valueMonth + $amount > $road->max_month_amount) {
             $err = 'Month limit exceeded ' . $valueMonth . ' + ' . $amount . ' / ' .  $road->max_day_amount;
         } else {
             try {
