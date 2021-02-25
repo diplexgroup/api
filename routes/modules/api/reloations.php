@@ -8,8 +8,8 @@ Route::get('/api/relations', function () {
         ->where(function($q) {
             global $currentProject;
 
-            $q->where(['fromProject'=>$currentProject->id])
-                ->orWhere(['toProject'=>$currentProject->id]);
+            $q->where(['from_project'=>$currentProject->id])
+                ->orWhere(['from_project'=>$currentProject->id]);
         })
         ->get()
         ->all();
@@ -34,9 +34,13 @@ Route::get('/api/relations', function () {
 
     $result['items'] = array_map(function($item) use ($getProjectPref) {
         return [
-            'from' => $getProjectPref($item->fromProject),
-            'to' => $getProjectPref($item->toProject),
+            'from' => $getProjectPref($item->from_project),
+            'to' => $getProjectPref($item->to_project),
             'fee_strategy' => $item->tax_strategy,
+            'min_amount' => $item->min_amount,
+            'max_amount' => $item->max_amount,
+            'max_day_amount' => $item->max_day_amount,
+            'max_month_amount' => $item->max_month_amount,
         ];
     }, $roads);
 

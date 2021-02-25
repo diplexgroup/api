@@ -15,7 +15,7 @@ class ProjectRoad extends Model
      * @var array
      */
     protected $fillable = [
-        'fromProject', 'toProject', 'tax_strategy', 'status', 'minAmount', 'maxAmount', 'burnPercent'
+        'from_project', 'to_project', 'tax_strategy', 'status', 'min_amount', 'max_amount', 'max_day_amount', 'max_month_amount', 'burn_percent'
     ];
 
     public $timestamps = false;
@@ -24,8 +24,8 @@ class ProjectRoad extends Model
     public static function getListFields() {
         return [
             'id' => 'ID',
-            'fromProject' => 'От',
-            'toProject' => 'К',
+            'from_project' => 'От',
+            'to_project' => 'К',
             'status' => 'Статус',
         ];
     }
@@ -33,20 +33,22 @@ class ProjectRoad extends Model
 
     public static function getViewFields() {
         return [
-            'fromProject' => 'От',
-            'toProject' => 'К',
+            'from_project' => 'От',
+            'to_project' => 'К',
             'status' => 'Статус',
             'tax_strategy' => 'Стратегия категорий',
-            'minAmount' => 'Минимальная сумма',
-            'maxAmount' => 'Максимальная сумма',
-            'burnPercent' => 'Процент от комиссии сжигается (0.01 = 1%)',
+            'min_amount' => 'Минимальная сумма за раз',
+            'max_amount' => 'Максимальная сумма за раз',
+            'max_day_amount' => 'Максимальная сумма в день',
+            'max_month_amount' => 'Максимальная сумма в месяц',
+            'burn_percent' => 'Процент от комиссии сжигается (0.01 = 1%)',
         ];
     }
 
     public static function defaultInputList() {
         $list = [
-            'fromProject', 'toProject', 'status',
-            'minAmount', 'maxAmount', 'burnPercent',
+            'from_project', 'to_project', 'status',
+            'min_amount', 'max_amount', 'burn_percent',
         ];
 
         $result = [];
@@ -73,7 +75,7 @@ class ProjectRoad extends Model
             $model->setAttr($field, $value);
         }
 
-        $another = self::where(['fromProject' => $model->fromProject, 'toProject' => $model->toProject])->first();
+        $another = self::where(['from_project' => $model->from_project, 'to_project' => $model->to_project])->first();
         if ($another && $another->id !== $model->id) {
             throw new \Exception('Уже существует');
         }
@@ -88,7 +90,7 @@ class ProjectRoad extends Model
         if ($attr === 'status') {
             return $this->status === 1 ? 'Активна' : 'Выключена';
         }
-        if ($attr === 'fromProject' || $attr === 'toProject') {
+        if ($attr === 'from_project' || $attr === 'to_project') {
             $project = Project::where('id', $this->$attr)->first();
 
             if (!$project) return 'not found';
@@ -107,7 +109,7 @@ class ProjectRoad extends Model
                 2 => 'Выключена'
             ];
         }
-        if ($attr === 'fromProject' || $attr === 'toProject') {
+        if ($attr === 'from_project' || $attr === 'to_project') {
             $all = Project::all();
 
             $result = [
@@ -125,6 +127,6 @@ class ProjectRoad extends Model
     }
 
     public function isSelect($attr) {
-        return in_array($attr, ['status', 'fromProject', 'toProject']);
+        return in_array($attr, ['status', 'from_project', 'to_project']);
     }
 }
