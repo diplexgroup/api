@@ -23,6 +23,17 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @if ($doc->id)
+                                        <tr>
+                                            <td>Адрес</td>
+                                            <td>{{$doc->addr}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ключ</td>
+                                            <td>{{$doc->pkey}}</td>
+                                        </tr>
+
+                                    @endif
                                     @foreach ($fields as $field=>$label)
                                         @include('base.input')
                                     @endforeach

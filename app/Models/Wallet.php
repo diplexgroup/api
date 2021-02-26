@@ -7,8 +7,8 @@ use Illuminate\Notifications\Notifiable;
 
 class Wallet extends Model
 {
+    public $timestamps = false;
     protected $table = 'wallet';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -17,7 +17,6 @@ class Wallet extends Model
     protected $fillable = [
         'type', 'relationId', 'addr', 'pkey', 'status', 'currency', 'rootType'
     ];
-
     protected $rootTypes = [
         0 => 'Не назначен',
         1 => 'Основной',
@@ -25,10 +24,8 @@ class Wallet extends Model
         3 => 'Резервный',
     ];
 
-    public $timestamps = false;
-
-
-    public static function getListFields() {
+    public static function getListFields()
+    {
         return [
             'id' => 'ID',
             'type' => 'Тип',
@@ -40,22 +37,10 @@ class Wallet extends Model
         ];
     }
 
-
-    public static function getViewFields() {
-        return [
-            'type' => 'Тип',
-            'rootType' => 'Роль в проекте',
-            'relationId' => 'Привязан к',
-            'addr' => 'Адрес',
-            'status' => 'Статус',
-            'currency' => 'Валюта',
-            'pkey' => 'Приватный ключ',
-        ];
-    }
-
-    public static function defaultInputList() {
+    public static function defaultInputList()
+    {
         $list = [
-            'type', 'relationId', 'addr', 'pkey', 'status', 'currency', 'rootType'
+            'type', 'relationId', 'status', 'currency', 'rootType'
         ];
 
         $result = [];
@@ -68,12 +53,21 @@ class Wallet extends Model
         return $result;
     }
 
-    public function setAttr($attr, $value) {
-        $this->$attr = $value;
+    public static function getViewFields()
+    {
+        return [
+            'type' => 'Тип',
+            'rootType' => 'Роль в проекте',
+            'relationId' => 'Привязан к',
+            'addr' => 'Адрес',
+            'status' => 'Статус',
+            'currency' => 'Валюта',
+            'pkey' => 'Приватный ключ',
+        ];
     }
 
-    public static function processPost($id) {
-
+    public static function processPost($id)
+    {
         $model = $id ? self::where(['id' => $id])->first() : new self();
 
         $forms = $_POST['forms'];
@@ -82,12 +76,31 @@ class Wallet extends Model
             $model->setAttr($field, $value);
         }
 
+        //get addr
+        try {
+            if (!$id) {
+                $content = json_decode(file_get_contents('http://localhost:8000/generate-wallet'), true);
+
+                $model->setAttr('addr', $content["base58check_address"]);
+                $model->setAttr('pkey', $content["private_key"]);
+            }
+
+        } catch (\Exception $ex) {
+            var_dump($ex);
+        }
+
         $model->save();
 
         return $model->id;
     }
 
-    public function getAttr($attr) {
+    public function setAttr($attr, $value)
+    {
+        $this->$attr = $value;
+    }
+
+    public function getAttr($attr)
+    {
         if ($attr === 'status') {
             return $this->status === 1 ? 'Активный' : 'Выключен';
         }
@@ -108,7 +121,8 @@ class Wallet extends Model
     }
 
 
-    public function getOptions($attr) {
+    public function getOptions($attr)
+    {
         if ($attr === 'status') {
             return [
                 1 => 'Активный',
@@ -142,7 +156,8 @@ class Wallet extends Model
         return [];
     }
 
-    public function isSelect($attr) {
+    public function isSelect($attr)
+    {
         return in_array($attr, ['status', 'type', 'relationId', 'rootType']);
     }
 }
