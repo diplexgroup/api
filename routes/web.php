@@ -49,12 +49,7 @@ Route::post('/auth/login', [LoginController::class, 'index']);
 
 Route::post('/auth/login2', [LoginController::class, 'login2']);
 
-require __DIR__ . '/modules/projects.php';
-require __DIR__ . '/modules/project_roads.php';
-require __DIR__ . '/modules/user.php';
-require __DIR__ . '/modules/user_roles.php';
-require __DIR__ . '/modules/modules.php';
-require __DIR__ . '/modules/currency.php';
-require __DIR__ . '/modules/wallet.php';
-require __DIR__ . '/modules/api.php';
-require __DIR__ . '/modules/log.php';
+
+foreach (glob(__DIR__ . "/modules/*.php") as $filename) {
+    require $filename;
+}

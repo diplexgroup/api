@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Transaction extends Model
+class Transfer extends Model
 {
-    protected $table = 'transaction';
+    protected $table = 'transfer';
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +15,7 @@ class Transaction extends Model
      * @var array
      */
     protected $fillable = [
-        'tid', 'nextDate', 'retryCount', 'errorCode', 'status', 'amount', 'currency', 'data'
+        'trid', 'type',  'fromProject', 'toProject', 'step', 'dateCreated', 'dateUpdated', 'toAddress', 'fromAddress', 'errorCode', 'status'
     ];
 
     public $timestamps = false;
@@ -24,14 +24,17 @@ class Transaction extends Model
     public static function getListFields() {
         return [
             'id' => 'ID',
-            'tid' => 'ID транзакции',
-            'nextDate' => 'Время обновления',
-            'retryCount' => 'Кол-во ретраев',
+            'trid' => 'ID трансфера',
+            'type' => 'Тип трансфера',
+            'fromProject' => 'С проекта',
+            'toProject' => 'В проект',
+            'step' => 'Шаг',
+            'dateCreated' => 'Время создания',
+            'dateUpdated' => 'Время закрытия',
+            'toAddress' => 'Кому',
+            'fromAddress' => 'Откуда',
             'errorCode' => 'Код ошибки',
-            'status' => 'Статус',
-            'amount' => 'Цена',
-            'currency' => 'Валюта',
-            'data' => 'Доп данные'
+            'status' => 'Статус'
         ];
     }
 

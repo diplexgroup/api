@@ -164,6 +164,22 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="/transaction" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Транзакции
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/transfer" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Трансферы
+                            </p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
