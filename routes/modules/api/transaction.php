@@ -14,7 +14,7 @@ Route::post('/api/transaction', function () {
     global $currentProject;
     $map[$currentProject->id] = $currentProject;
 
-    var_dump($_POST);
+    var_dump($_POST, $currentProject);
 
     return json_encode($result);
 });
