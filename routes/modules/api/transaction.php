@@ -13,7 +13,8 @@ Route::post('/api/transaction', function (Request $request) {
 
     $amount = 0;
     $code = 0;
-
+var_dump($all);
+die();
     if (!isset($all['amount']) || !isset($all['from']) || !isset($all['to']) || !isset($all['pkey'])) {
         $code = 1001;
 
