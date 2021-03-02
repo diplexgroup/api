@@ -13,6 +13,7 @@ Route::post('/api/transaction', function (Request $request) {
 
     $amount = 0;
     $code = 0;
+    $status = 3;
 
     if (!isset($all['amount']) || !isset($all['from']) || !isset($all['to']) || !isset($all['pkey'])) {
         $code = 1001;
@@ -55,7 +56,7 @@ Route::post('/api/transaction', function (Request $request) {
     $t->nextDate = '2999-01-01 00:00:00';
     $t->retryCount = '0';
     $t->errorCode = $code;
-    $t->status = 3;
+    $t->status = $status;
     $t->amount = $amount;
     $t->currency = 'DLXT';
     $t->data = json_encode($result);
