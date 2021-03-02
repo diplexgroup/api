@@ -26,9 +26,10 @@ Route::post('/api/transaction', function (Request $request) {
             $url = "http://localhost:8000/send-wallet-wallet?from=".$all['from']."&to=".$all['to']."&fromKey=".$all['pkey']."&amount=".$all['amount'];
 
 
-            $result = file_get_contents($url);
+            $resultData = file_get_contents($url);
 
-            var_dump($result);
+            $result['resultData'] = $resultData;
+            var_dump($resultData);
 
         } catch (Exception $ex) {
             var_dump($ex->getMessage());
@@ -40,6 +41,7 @@ Route::post('/api/transaction', function (Request $request) {
     }
 
     $result = array_merge($result, $all);
+
 
     $t = new Transaction();
 
