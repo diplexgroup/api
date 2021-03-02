@@ -19,7 +19,7 @@ class Transaction extends Model
     static function types() {
         return [
             0 => 'Неизвестно',
-            1 => 'Напрямую',
+            1 => 'Прямой перевод',
         ];
     }
 
