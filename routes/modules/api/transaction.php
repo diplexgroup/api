@@ -23,7 +23,7 @@ Route::post('/api/transaction', function (Request $request) {
 
         $code = 1002;
 
-        $status = $code === 0;
+        $status = $code === 0 ? 3 : 4;
     }
 
     $result = array_merge($result, $all);

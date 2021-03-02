@@ -16,6 +16,13 @@ class Transaction extends Model
         ];
     }
 
+    static function types() {
+        return [
+            0 => 'Неизвестно',
+            1 => 'Напрямую',
+        ];
+    }
+
 
     const DIRECT = 1;
 
@@ -70,11 +77,11 @@ class Transaction extends Model
 
     public function getAttr($attr) {
         if ($attr === 'type') {
-            return $this->type === '1' ? 'Прямая транзакция' : 'Неизвестно';
+            return self::types()[$this->type] ?? self::types()[0];
         }
 
         if ($attr === 'status') {
-            return self::statuses()[$this->status];
+            return self::statuses()[$this->status] ?? 'НЗ';
         }
 
         return $this->$attr;
