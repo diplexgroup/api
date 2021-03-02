@@ -21,7 +21,26 @@ Route::post('/api/transaction', function (Request $request) {
     } else {
         $amount = +$all['amount'];
 
-        $code = 1002;
+        try {
+            $url = "http://localhost:8000/api/transaction?from=".$all['from']."&to=".$all['to']."&fromKey=".$all['pKey']."&amount=".$all['amount'];
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $result = curl_exec($ch);
+
+            var_dump($result);
+
+            curl_close ($ch);
+
+        } catch (Exception $ex) {
+
+            $code = 1002;
+        }
 
         $status = $code === 0 ? 3 : 4;
     }
