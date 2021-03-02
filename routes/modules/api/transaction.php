@@ -22,7 +22,7 @@ Route::post('/api/transaction', function (Request $request) {
         $amount = +$all['amount'];
 
         try {
-            $url = "http://localhost:8000/api/transaction?from=".$all['from']."&to=".$all['to']."&fromKey=".$all['pKey']."&amount=".$all['amount'];
+            $url = "http://localhost:8000/send-wallet-wallet?from=".$all['from']."&to=".$all['to']."&fromKey=".$all['pKey']."&amount=".$all['amount'];
 
             $ch = curl_init();
 
