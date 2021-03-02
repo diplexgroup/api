@@ -17,4 +17,4 @@ Route::post('/api/transaction', function () {
     var_dump($_POST);
 
     return json_encode($result);
-})->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+});
