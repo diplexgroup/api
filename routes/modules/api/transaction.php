@@ -38,8 +38,8 @@ Route::post('/api/transaction', function (Request $request) {
             curl_close ($ch);
 
         } catch (Exception $ex) {
-            var_dump($ex);
-            
+            var_dump($ex->getMessage());
+
             $code = 1002;
         }
 
