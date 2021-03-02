@@ -14,7 +14,7 @@ Route::post('/api/transaction', function (Request $request) {
     $amount = 0;
     $code = 0;
 
-    if (!$all['amount'] || !$all['from'] || !$all['to'] || !$all['pkey']) {
+    if (!isset($all['amount']) || !isset($all['from']) || !isset($all['to']) || !isset($all['pkey'])) {
         $code = 1001;
 
         $status = 4;
