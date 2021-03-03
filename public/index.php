@@ -9,7 +9,6 @@
 
 define('LARAVEL_START', microtime(true));
 
-file_put_contents(__DIR__ . '/1.txt', '1');
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
