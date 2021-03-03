@@ -60,7 +60,7 @@ class Transaction extends Model
 
         $t->type = $type;
         $t->tid = Transaction::generateTid();
-        $t->nextDate = $status === 1 ? date("Y-m-d H:i:s") : '2999-01-01 00:00:00';
+        $t->nextDate = $status === 2 ? date("Y-m-d H:i:s") : '2999-01-01 00:00:00';
         $t->retryCount = '0';
         $t->errorCode = 0;
         $t->status = $status;
