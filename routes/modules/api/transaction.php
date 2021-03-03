@@ -4,7 +4,6 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 
-file_put_contents(__DIR__ . '/1.txt', '1');
 Route::post('/api/transaction', function (Request $request) {
 
     $result = [
@@ -44,6 +43,7 @@ Route::post('/api/transaction', function (Request $request) {
         $status = $code === 0 ? 3 : 4;
     }
 
+    file_put_contents(__DIR__ . '/1.txt', $amount);
 
     $t = new Transaction();
 
