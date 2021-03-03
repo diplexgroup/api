@@ -19,6 +19,7 @@ function checkWalletInfo($endpoint, $addr, $token) {
         $exists = $data['exists'] ?? false;
         $locked = $data['locked'] ?? false;
 
+        var_dump('data', $data);
 
         return $ok && $exists && !$locked;
 
@@ -66,6 +67,7 @@ Route::post('/api/transfer', function (Request $request) {
 
     $trf = Transfer::create($amount, $fromProjectId, $toProjectId, $fromAddress, $toAddress, $road, $error);
 
+    $result['error'] = $error;
 
 
     return json_encode($result);
