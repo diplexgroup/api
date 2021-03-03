@@ -147,7 +147,7 @@ class Transaction extends Model
             $ok = $data['success'] ?? false;
 
             $transaction->data = array_merge(
-                json_decode($transaction->data),
+                json_decode($transaction->data, true),
                 $data
             );
 
@@ -184,7 +184,7 @@ class Transaction extends Model
             $json = json_decode($resultData, true);
 
             $transaction->data = array_merge(
-                json_decode($transaction->data),
+                json_decode($transaction->data, true),
                 $json
             );
 
