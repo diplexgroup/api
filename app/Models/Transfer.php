@@ -35,7 +35,8 @@ class Transfer extends Model
         $model->toAddress = $toUser;
         $model->fromAddress = $fromUser;
         $model->errorCode = $error;
-        $model->status = $error ? 1 : 3;
+        $model->status = $error ? 3 : 1;
+        $model->status = $error ? 3 : 1;
         $model->trid = Transaction::generateTid();
 
         $model->save();
@@ -46,6 +47,21 @@ class Transfer extends Model
         }
     }
 
+
+    public static function types() {
+        return [
+            1 => 'С проекта на проект',
+        ];
+
+    }
+
+    public static function status() {
+        return [
+            1 => 'Открыт',
+            2 => 'Упешно',
+            3 => 'Ошибка',
+        ];
+    }
 
     public static function getListFields() {
         return [
@@ -77,6 +93,10 @@ class Transfer extends Model
     }
 
     public function getAttr($attr) {
+        if ($attr === 'type') return self::types()[$this->type];
+        if ($attr === 'status') return self::status()[$this->status];
+        if ($attr === 'toProject' || $attr === 'fromProject') return Project::getName($this->$attr);
+
         return $this->$attr;
     }
 }

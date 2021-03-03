@@ -24,6 +24,11 @@ class Project extends Model
         return self::where('pref', $pref)->first();
     }
 
+    public static function getName($id) {
+        $proj = self::where('id', $id)->first();
+
+        return $proj ? $proj->name : '';
+    }
 
     public static function getListFields() {
         return [
