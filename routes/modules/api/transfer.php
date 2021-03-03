@@ -14,7 +14,7 @@ function checkWalletInfo($endpoint, $addr, $token) {
     try {
         $json = file_get_contents($url);
 
-        $data = json_decode($json);
+        $data = json_decode($json, true);
 
         $ok = $data['success'] ?? false;
         $exists = $data['exists'] ?? false;
