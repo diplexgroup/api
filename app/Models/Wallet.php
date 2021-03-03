@@ -172,6 +172,6 @@ class Wallet extends Model
             return self::getBurnWallet();
         }
 
-        return self::where(['projectId' => $project, 'rootType' => $type])->first();
+        return self::where(['relationId' => $project, 'rootType' => $type])->first();
     }
 }
