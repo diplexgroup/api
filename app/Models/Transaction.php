@@ -239,7 +239,7 @@ class Transaction extends Model
         $transaction->updatedAt = date("Y-m-d H:i:s");
         $transaction->save();
 
-        $transaction->dateUpdated = date("Y-m-d H:i:s");
+        $transfer->dateUpdated = date("Y-m-d H:i:s");
         $transfer->save();
 
     }
