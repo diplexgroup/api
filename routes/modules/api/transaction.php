@@ -43,8 +43,6 @@ Route::post('/api/transaction', function (Request $request) {
         $status = $code === 0 ? 3 : 4;
     }
 
-    file_put_contents(__DIR__ . '/1.txt', $amount);
-
     $t = new Transaction();
 
     $t->type = Transaction::DIRECT;
