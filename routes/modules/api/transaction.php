@@ -37,6 +37,9 @@ Route::post('/api/transaction', function (Request $request) {
             }
 
         } catch (Exception $ex) {
+
+            $result['error'] = $ex->getMessage();
+
             $code = 1002;
         }
 
@@ -53,7 +56,7 @@ Route::post('/api/transaction', function (Request $request) {
     $t->status = $status;
     $t->amount = $amount;
     $t->currency = 'DLXT';
-    $t->data = json_encode($result);
+    $t->data = json_encode(array_merge($result, $all));
 
     $t->save();
 
