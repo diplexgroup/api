@@ -127,8 +127,8 @@ class Transaction extends Model
     }
 
     public static function processTransactionWW($transaction) {
-        $data = json_encode($transaction->data, true);
-var_dump($project);
+        $data = json_decode($transaction->data, true);
+var_dump($data);
 
         $project = Project::getById($data['project']);
         $addr = $data['user'];
@@ -161,7 +161,7 @@ var_dump($project);
     }
 
     public static function processTransactionBlockChain($transaction) {
-        $data = json_encode($transaction->data, true);
+        $data = json_decode($transaction->data, true);
 
         $walletFrom = Wallet::getWallet($data['fromProject'], $data['fromType']);
         $walletTo = Wallet::getWallet($data['toProject'], $data['toType']);
