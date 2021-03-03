@@ -137,7 +137,6 @@ class Transaction extends Model
 
         $url = "$endpoint/change_wallet_amount?token=".$token."&wallet=".$addr;
 
-        var_dump($url);
 
         try {
             $json = file_get_contents($url);
@@ -177,6 +176,7 @@ class Transaction extends Model
         try {
             $url = "http://localhost:8000/send-wallet-wallet?from=".$from."&to=".$to."&fromKey=".$fromKey."&amount=".$amount;
 
+            var_dump($url);
             $resultData = file_get_contents($url);
 
             $result['resultData'] = $resultData;
