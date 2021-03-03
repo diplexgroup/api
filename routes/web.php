@@ -51,5 +51,5 @@ Route::post('/auth/login2', [LoginController::class, 'login2']);
 
 
 foreach (glob(__DIR__ . "/modules/*.php") as $filename) {
-    require $filename;
+    require_once $filename;
 }
