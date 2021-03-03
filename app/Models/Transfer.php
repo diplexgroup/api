@@ -27,6 +27,7 @@ class Transfer extends Model
 
         $model->amount = $amount;
         $model->type = 1;
+        $model->step = 1;
         $model->fromProject = $fromProjectId;
         $model->toProject = $toProjectId;
         $model->dateCreated = date("Y-m-d H:i:s");
