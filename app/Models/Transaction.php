@@ -135,7 +135,7 @@ class Transaction extends Model
         $token = $project->token;
         $endpoint = $project->api_endpoint;
 
-        $url = "$endpoint/get_wallet_info?token=".$token."&wallet=".$addr;
+        $url = "$endpoint/change_wallet_amoun?token=".$token."&wallet=".$addr;
 
         try {
             $json = file_get_contents($url);
@@ -143,8 +143,11 @@ class Transaction extends Model
             $data = json_decode($json, true);
 
             $ok = $data['success'] ?? false;
-            $exists = $data['exists'] ?? false;
-            $locked = $data['locked'] ?? false;
+
+            $transaction->data = array_merge(
+                json_decode($transaction->data),
+                $data
+            );
 
 
             return 0;
@@ -170,13 +173,18 @@ class Transaction extends Model
 
 
         try {
-            $url = "http://localhost:8000/send-wallet-wallet?from=".$from."&to=".$to."&fromKey=".$fromKey."&amount=".%amount;
+            $url = "http://localhost:8000/send-wallet-wallet?from=".$from."&to=".$to."&fromKey=".$fromKey."&amount=".$amount;
 
             $resultData = file_get_contents($url);
 
             $result['resultData'] = $resultData;
 
             $json = json_decode($resultData, true);
+
+            $transaction->data = array_merge(
+                json_decode($transaction->data),
+                $json
+            );
 
             if (isset($json['result']) &&  $json['result'] !== 'success') {
                 $code = 10003;
