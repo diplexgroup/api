@@ -10,10 +10,10 @@ function checkWalletInfo($endpoint, $addr, $token) {
 
     $url = "$endpoint/get_wallet_info?token=".$token."&wallet=".$addr;
 
+    var_dump($url);
     try {
         $json = file_get_contents($url);
 
-        var_dump($url);
         $data = json_decode($json);
 
         $ok = $data['success'] ?? false;
@@ -25,7 +25,7 @@ function checkWalletInfo($endpoint, $addr, $token) {
         return $ok && $exists && !$locked;
 
     } catch (Exception $ex) {
-
+        var_dump($ex);
     }
 
     return false;
