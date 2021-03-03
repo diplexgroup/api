@@ -119,7 +119,7 @@ class Transaction extends Model
     }
 
     public static function processTransactions() {
-        $transactions =- self::where('nextDate', '<', date("Y-m-d H:i:s"))->get();
+        $transactions = self::where('nextDate', '<', date("Y-m-d H:i:s"))->get();
 
         foreach ($transactions as $transaction) {
             self::processTransaction($transaction);
@@ -135,7 +135,7 @@ class Transaction extends Model
         $token = $project->token;
         $endpoint = $project->api_endpoint;
 
-        $url = "$endpoint/change_wallet_amoun?token=".$token."&wallet=".$addr;
+        $url = "$endpoint/change_wallet_amount?token=".$token."&wallet=".$addr;
 
         try {
             $json = file_get_contents($url);
