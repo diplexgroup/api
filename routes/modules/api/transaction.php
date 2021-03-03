@@ -23,12 +23,11 @@ Route::post('/api/transaction', function (Request $request) {
         $amount = +$all['amount'];
 
         try {
-//            $url = "http://localhost:8000/send-wallet-wallet?from=".$all['from']."&to=".$all['to']."&fromKey=".$all['pkey']."&amount=".$all['amount'];
-//
-//            $resultData = file_get_contents($url);
-//
-//            $result['resultData'] = $resultData;
+            $url = "http://localhost:8000/send-wallet-wallet?from=".$all['from']."&to=".$all['to']."&fromKey=".$all['pkey']."&amount=".$all['amount'];
 
+            $resultData = file_get_contents($url);
+
+            $result['resultData'] = $resultData;
 
         } catch (Exception $ex) {
             $code = 1002;
