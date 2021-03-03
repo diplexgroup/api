@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\Transaction;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -28,7 +29,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
         $schedule->call(function () {
-            file_put_contents(__DIR__ . '/1.txt',  date("Y-m-d H:i:s"), FILE_APPEND);
+            Transaction::processTransactions();
 
         })->everyMinute();
     }
