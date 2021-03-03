@@ -234,6 +234,7 @@ class Transaction extends Model
 
             $transaction->duration = microtime(true) - $start;
             $transaction->status = 3;
+            $transaction->nextDate = '2099-01-01 00:00:00';
         }
         $transaction->updatedAt = date("Y-m-d H:i:s");
         $transaction->save();

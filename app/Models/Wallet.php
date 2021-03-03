@@ -163,7 +163,7 @@ class Wallet extends Model
     }
 
     public static function getBurnWallet() {
-        return self::where('type', 4)->first();
+        return self::where('rootType', 4)->first();
     }
 
 
