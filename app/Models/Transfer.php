@@ -21,7 +21,7 @@ class Transfer extends Model
     public $timestamps = false;
 
 
-    public static function create($amount, $fromProjectId, $toProjectId, $fromUser, $toUser) {
+    public static function create($amount, $fromProjectId, $toProjectId, $fromUser, $toUser, $road, $error) {
         $model = new self();
 
 
@@ -33,11 +33,16 @@ class Transfer extends Model
         $model->dateUpdated = date("Y-m-d H:i:s");
         $model->toAddress = $toUser;
         $model->fromAddress = $fromUser;
-        $model->errorCode = 0;
-        $model->status = 1;
+        $model->errorCode = $error;
+        $model->status = $error ? 1 : 3;
         $model->trid = Transaction::generateTid();
 
         $model->save();
+
+
+        if (!$error) {
+
+        }
     }
 
 

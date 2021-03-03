@@ -61,7 +61,7 @@ Route::post('/api/transaction', function (Request $request) {
     $t->currency = 'DLXT';
     $t->updatedAt = date("Y-m-d H:i:s");
     $t->createdAt = $startAt;
-    $t->duration =  $start - microtime(true);
+    $t->duration =  microtime(true) - $start;
     $t->data = json_encode(array_merge($result, $all));
 
     $t->save();

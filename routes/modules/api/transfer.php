@@ -6,6 +6,30 @@ use \App\Models\Transfer;
 use \App\Models\Project;
 use \App\Models\ProjectRoad;
 
+function checkWalletInfo($endpoint, $addr, $token) {
+
+    $url = "${$endpoint}/get_wallet_info?token=".$token."&wallet=".$addr;
+
+    try {
+        $json = file_get_contents($url);
+
+        $data = json_decode($json);
+
+        $ok = $data['success'] ?? false;
+        $exists = $data['exists'] ?? false;
+        $locked = $data['locked'] ?? false;
+
+
+        return $ok && $exists && !$locked;
+
+    } catch (Exception $ex) {
+
+    }
+
+    return false;
+}
+
+
 Route::post('/api/transfer', function (Request $request) {
 
     $result = [
@@ -25,9 +49,22 @@ Route::post('/api/transfer', function (Request $request) {
     $toProjectId = $toProject->id;
     $fromAddress = $all['fromUser'];
     $toAddress = $all['toUser'];
+    $error = 0;
 
 
-    $trf = Transfer::create($amount, $fromProjectId, $toProjectId, $fromAddress, $toAddress);
+    if (!checkWalletInfo($currentProject->endpoint, $fromAddress, $currentProject->token) ||
+     !checkWalletInfo($toProject->endpoint, $toAddress, $toProject->token)) {
+        $error = 1101;
+    }
+
+    $road = null;
+    if (!$error) {
+        $road = ProjectRoad::getForTwoProjects($currentProject->id, $toProject->id);
+
+        if (!$road) $error = 1102;
+    }
+
+    $trf = Transfer::create($amount, $fromProjectId, $toProjectId, $fromAddress, $toAddress, $road, $error);
 
 
 

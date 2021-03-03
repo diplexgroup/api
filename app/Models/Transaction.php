@@ -34,7 +34,7 @@ class Transaction extends Model
      * @var array
      */
     protected $fillable = [
-        'tid', 'type', 'nextDate', 'retryCount', 'errorCode', 'status', 'amount', 'currency', 'data', 'createdAt', 'duration', 'updatedAt'
+        'tid', 'type', 'nextDate', 'retryCount', 'errorCode', 'status', 'amount', 'currency', 'data', 'createdAt', 'duration', 'updatedAt', 'trid'
     ];
 
     public $timestamps = false;
@@ -48,11 +48,32 @@ class Transaction extends Model
         return $t;
     }
 
+    public static function createTransaction($type, $status, $amount, $trId, $data) {
+        $t = new Transaction();
+
+        $t->type = Transaction::DIRECT;
+        $t->tid = Transaction::generateTid();
+        $t->nextDate = $status === 1 ? date("Y-m-d H:i:s") : '2999-01-01 00:00:00';
+        $t->retryCount = '0';
+        $t->errorCode = 0;
+        $t->status = $status;
+        $t->amount = $amount;
+        $t->currency = 'DLXT';
+        $t->updatedAt = date("Y-m-d H:i:s");
+        $t->createdAt = date("Y-m-d H:i:s");
+        $t->duration =  0;
+        $t->data = json_encode($data);
+        $t->trId = $trId;
+
+        $t->save();
+    }
+
     public static function getListFields() {
         return [
             'id' => 'ID',
             'type' => 'Тип',
             'tid' => 'ID транзакции',
+            'trid' => 'ID трансфера',
             'createdAt' => 'Время создания',
             'updatedAt' => 'Время закрытия',
             'duration' => 'Время выполнения(c)',
@@ -61,7 +82,8 @@ class Transaction extends Model
             'status' => 'Статус',
             'amount' => 'Цена',
             'currency' => 'Валюта',
-            'data' => 'Доп данные'
+            'data' => 'Доп данные',
+
         ];
     }
 

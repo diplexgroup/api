@@ -130,4 +130,8 @@ class ProjectRoad extends Model
     public function isSelect($attr) {
         return in_array($attr, ['status', 'from_project', 'to_project']);
     }
+
+    public static function getForTwoProjects($fromId, $toId) {
+        return self::where(['fromProject' => $fromId, 'toProject' => $toId])->first();
+    }
 }
