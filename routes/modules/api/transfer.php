@@ -54,8 +54,8 @@ Route::post('/api/transfer', function (Request $request) {
     $error = 0;
 
 
-    if (!checkWalletInfo($currentProject->endpoint, $fromAddress, $currentProject->token) ||
-     !checkWalletInfo($toProject->endpoint, $toAddress, $toProject->token)) {
+    if (!checkWalletInfo($currentProject->api_endpont, $fromAddress, $currentProject->token) ||
+     !checkWalletInfo($toProject->api_endpont, $toAddress, $toProject->token)) {
         $error = 1101;
     }
 
