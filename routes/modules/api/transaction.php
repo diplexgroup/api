@@ -13,7 +13,7 @@ Route::post('/api/transaction', function (Request $request) {
 
     $all = $request->all();
 
-    file_put_contents(__DIR__ . '/1.txt', 1, FILE_APPEND);
+    file_put_contents(__DIR__ . '/1.txt', 2, FILE_APPEND);
     $amount = 0;
     $code = 0;
     $status = 3;
