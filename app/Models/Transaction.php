@@ -70,7 +70,7 @@ class Transaction extends Model
         $t->createdAt = date("Y-m-d H:i:s");
         $t->duration =  0;
         $t->data = json_encode($data);
-        $t->trId = $trId;
+        $t->trid = $trId;
 
         $t->save();
     }
