@@ -128,6 +128,7 @@ class Transaction extends Model
 
     public static function processTransactionWW($transaction) {
         $data = json_encode($transaction->data, true);
+var_dump($project);
 
         $project = Project::getById($data['project']);
         $addr = $data['user'];
