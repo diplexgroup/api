@@ -29,7 +29,7 @@ Route::post('/api/transaction', function (Request $request) {
 
             $result['resultData'] = $resultData;
 
-            $json = json_decode($resultData);
+            $json = json_decode($resultData, true);
 
             if (isset($json['result']) &&  $json['result'] !== 'success') {
                 $code = 10003;
