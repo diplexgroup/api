@@ -21,6 +21,26 @@ class Transfer extends Model
     public $timestamps = false;
 
 
+    public static function create($amount, $fromProjectId, $toProjectId, $fromUser, $toUser) {
+        $model = new self();
+
+
+        $model->amount = $amount;
+        $model->type = 1;
+        $model->fromProject = $fromProjectId;
+        $model->toProject = $toProjectId;
+        $model->dateCreated = date("Y-m-d H:i:s");
+        $model->dateUpdated = date("Y-m-d H:i:s");
+        $model->toAddress = $toUser;
+        $model->fromAddress = $fromUser;
+        $model->errorCode = 0;
+        $model->status = 1;
+        $model->trid = Transaction::generateTid();
+
+        $model->save();
+    }
+
+
     public static function getListFields() {
         return [
             'id' => 'ID',

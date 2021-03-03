@@ -20,6 +20,10 @@ class Project extends Model
 
     public $timestamps = false;
 
+    public static function findByPref($pref) {
+        return self::where('pref', $pref)->first();
+    }
+
 
     public static function getListFields() {
         return [

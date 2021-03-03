@@ -2,7 +2,9 @@
 
 use App\Models\Transaction;
 use Illuminate\Http\Request;
-
+use \App\Models\Transfer;
+use \App\Models\Project;
+use \App\Models\ProjectRoad;
 
 Route::post('/api/transfer', function (Request $request) {
 
@@ -12,39 +14,22 @@ Route::post('/api/transfer', function (Request $request) {
 
     $all = $request->all();
 
-    // create curl resource
-    $ch = curl_init();
+    global $currentProject;
 
-    // set url
-    curl_setopt($ch, CURLOPT_URL, "https://example.com");
+    //checks
+    $toProject = Project::findByPref($all['toProj']);
 
-    //return the transfer as a string
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-    // $output contains the output string
-    $output = curl_exec($ch);
-
-    // close curl resource to free up system resources
-    curl_close($ch);
-
-    echo $output;
+    // check availability
+    $amount = $all['amount'];
+    $fromProjectId = $currentProject->id;
+    $toProjectId = $toProject->id;
+    $fromAddress = $all['fromUser'];
+    $toAddress = $all['toUser'];
 
 
-//    $amount = 0;
-//    $code = 0;
-//    $status = 3;
+    $trf = Transfer::create($amount, $fromProjectId, $toProjectId, $fromAddress, $toAddress);
 
-//    if (!isset($all['amount']) || !isset($all['from']) || !isset($all['to']) || !isset($all['pkey'])) {
-//        $code = 1001;
-//
-//        $status = 4;
-//    }
 
-//    $t = new Transfer();
-//
-//
-//
-//    $t->save();
 
     return json_encode($result);
 });

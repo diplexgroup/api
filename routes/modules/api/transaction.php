@@ -16,6 +16,8 @@ Route::post('/api/transaction', function (Request $request) {
     $code = 0;
     $status = 3;
 
+    $start = microtime();
+
     if (!isset($all['amount']) || !isset($all['from']) || !isset($all['to']) || !isset($all['pkey'])) {
         $code = 1001;
 
@@ -56,6 +58,8 @@ Route::post('/api/transaction', function (Request $request) {
     $t->status = $status;
     $t->amount = $amount;
     $t->currency = 'DLXT';
+    $t->updatedAt = date("Y-m-d H:i:s");
+    $t->duration =  microtime() - $start;
     $t->data = json_encode(array_merge($result, $all));
 
     $t->save();

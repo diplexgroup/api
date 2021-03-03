@@ -34,7 +34,7 @@ class Transaction extends Model
      * @var array
      */
     protected $fillable = [
-        'tid', 'type', 'nextDate', 'retryCount', 'errorCode', 'status', 'amount', 'currency', 'data'
+        'tid', 'type', 'nextDate', 'retryCount', 'errorCode', 'status', 'amount', 'currency', 'data', 'createdAt', 'duration'
     ];
 
     public $timestamps = false;
@@ -53,7 +53,8 @@ class Transaction extends Model
             'id' => 'ID',
             'type' => 'Тип',
             'tid' => 'ID транзакции',
-            'nextDate' => 'Время обновления',
+            'createdAt' => 'Время создания',
+            'duration' => 'Время выполнения(c)',
             'retryCount' => 'Кол-во ретраев',
             'errorCode' => 'Код ошибки',
             'status' => 'Статус',
