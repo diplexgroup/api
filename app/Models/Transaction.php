@@ -146,10 +146,10 @@ class Transaction extends Model
 
             $ok = $data['success'] ?? false;
 
-            $transaction->data = array_merge(
+            $transaction->data = json_encode(array_merge(
                 json_decode($transaction->data, true),
                 $data
-            );
+            ));
 
 
             return 0;
@@ -183,10 +183,10 @@ class Transaction extends Model
 
             $json = json_decode($resultData, true);
 
-            $transaction->data = array_merge(
+            $transaction->data = json_encode(array_merge(
                 json_decode($transaction->data, true),
                 $json
-            );
+            ));
 
             if (isset($json['result']) &&  $json['result'] !== 'success') {
                 $code = 10003;
