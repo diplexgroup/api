@@ -138,4 +138,8 @@ class Project extends Model
     public function isSelect($attr) {
         return in_array($attr, ['status', 'addr_need_flag', 'type']);
     }
+
+    public static function getById($id) {
+        return self::where('id', $id)->first();
+    }
 }

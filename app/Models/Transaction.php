@@ -117,4 +117,119 @@ class Transaction extends Model
 
         return $this->$attr;
     }
+
+    public static function processTransactions() {
+        $transactions =- self::where('nextDate', '<', date("Y-m-d H:i:s"))->get();
+
+        foreach ($transactions as $transaction) {
+            self::processTransaction($transaction);
+        }
+    }
+
+    public static function processTransactionWW($transaction) {
+        $data = json_encode($transaction->data, true);
+
+        $project = Project::getById($data['project']);
+        $addr = $data['user'];
+
+        $token = $project->token;
+        $endpoint = $project->api_endpoint;
+
+        $url = "$endpoint/get_wallet_info?token=".$token."&wallet=".$addr;
+
+        try {
+            $json = file_get_contents($url);
+
+            $data = json_decode($json, true);
+
+            $ok = $data['success'] ?? false;
+            $exists = $data['exists'] ?? false;
+            $locked = $data['locked'] ?? false;
+
+
+            return 0;
+
+        } catch (Exception $ex) {
+        }
+
+        return 1103;
+
+    }
+
+    public static function processTransactionBlockChain($transaction) {
+        $data = json_encode($transaction->data, true);
+
+        $walletFrom = Wallet::getWallet($data['fromProject'], $data['fromType']);
+        $walletTo = Wallet::getWallet($data['toProject'], $data['toType']);
+
+        $from = $walletFrom->addr;
+        $fromKey = $walletFrom->pkey;
+        $amount = $transaction->amount;
+        $to = $walletTo->addr;
+        $code = 0;
+
+
+        try {
+            $url = "http://localhost:8000/send-wallet-wallet?from=".$from."&to=".$to."&fromKey=".$fromKey."&amount=".%amount;
+
+            $resultData = file_get_contents($url);
+
+            $result['resultData'] = $resultData;
+
+            $json = json_decode($resultData, true);
+
+            if (isset($json['result']) &&  $json['result'] !== 'success') {
+                $code = 10003;
+            }
+
+        } catch (Exception $ex) {
+
+            $code = 1002;
+        }
+
+        return $code;
+    }
+
+    public static function getNextTransaction($trid) {
+        return Transaction::where(['trid' => $trid, 'status' => 1])
+                ->orderBy('type', 'asc')->first();
+    }
+
+    public static function processTransaction($transaction) {
+        $error = 0;
+
+        $start = microtime(true);
+        if ($transaction->type === 11 || $transaction->type === 17) {
+            $error = self::processTransactionWW($transaction);
+        } else {
+            $error = self::processTransactionBlockChain($transaction);
+        }
+
+        $transfer = Transfer::where('trid', $transaction->trid)->first();
+
+        if ($error) {
+            $transaction->errorCode = $error;
+            $transaction->retry = $error;
+        } else {
+            $nxtTransaction = self::getNextTransaction($transaction->trid);
+
+            if ($nxtTransaction) {
+                $nxtTransaction->status = 2;
+                $nxtTransaction->nextDate = date("Y-m-d H:i:s");
+                $nxtTransaction->save();
+                $transfer->step++;
+            } else {
+                $transfer->status = 2;
+            }
+
+            $transaction->duration = microtime(true) - $start;
+            $transaction->status = 3;
+        }
+        $transaction->updatedAt = date("Y-m-d H:i:s");
+        $transaction->save();
+
+        $transaction->dateUpdated = date("Y-m-d H:i:s");
+        $transfer->save();
+
+    }
 }

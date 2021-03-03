@@ -25,10 +25,6 @@ class Wallet extends Model
         4 => 'Для сжигания',
     ];
 
-    public static function getBurnWallet() {
-        return self::where('type', 4)->first();
-    }
-
     public static function getListFields()
     {
         return [
@@ -164,5 +160,18 @@ class Wallet extends Model
     public function isSelect($attr)
     {
         return in_array($attr, ['status', 'type', 'relationId', 'rootType']);
+    }
+
+    public static function getBurnWallet() {
+        return self::where('type', 4)->first();
+    }
+
+
+    public static function getWallet($project, $type) {
+        if ($type === 4) {
+            return self::getBurnWallet();
+        }
+
+        return self::where(['projectId' => $project, 'rootType' => $type])->first();
     }
 }
