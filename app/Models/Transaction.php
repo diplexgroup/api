@@ -20,6 +20,13 @@ class Transaction extends Model
         return [
             0 => 'Неизвестно',
             1 => 'Прямой перевод',
+            11 => 'Списание со счёта отправителя',
+            12 => 'Списание с основного кошелька на транзакционный',
+            13 => 'Списание с основного кошелька (комиссия)',
+            14 => 'Списание с основного кошелька (сжигание)',
+            15 => 'Списание с транзакционного на транзакционный получателя',
+            16 => 'Списание с транзитного на основной кошелёк',
+            17 => 'Начисление на кошелёк получателя',
         ];
     }
 
@@ -51,7 +58,7 @@ class Transaction extends Model
     public static function createTransaction($type, $status, $amount, $trId, $data) {
         $t = new Transaction();
 
-        $t->type = Transaction::DIRECT;
+        $t->type = $type;
         $t->tid = Transaction::generateTid();
         $t->nextDate = $status === 1 ? date("Y-m-d H:i:s") : '2999-01-01 00:00:00';
         $t->retryCount = '0';

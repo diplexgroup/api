@@ -22,7 +22,12 @@ class Wallet extends Model
         1 => 'Основной',
         2 => 'Комиссионный',
         3 => 'Резервный',
+        4 => 'Для сжигания',
     ];
+
+    public static function getBurnWallet() {
+        return self::where('type', 4)->first();
+    }
 
     public static function getListFields()
     {

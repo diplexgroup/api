@@ -30,6 +30,20 @@ class ProjectRoad extends Model
         ];
     }
 
+    public function calculateFee($amount) {
+        $tStrategy = json_decode($this->tax_strategy, true);
+
+        $fee_amount = $tStrategy['amount'] ?? 0;
+        $percent = $tStrategy['percent'] ?? 0;
+        $min = $tStrategy['min'] ?? 0;
+
+        if ($min > $amount) {
+            return 0;
+        }
+
+        return $percent*$amount + $fee_amount;
+    }
+
 
     public static function getViewFields() {
         return [
