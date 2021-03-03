@@ -11,8 +11,6 @@ class LogRequest {
     {
         $result = $next($request);
 
-        $response = $next($request);
-
         $log = new \App\Models\Log();
 
         global $currentProject;
