@@ -8,7 +8,7 @@ use \App\Models\ProjectRoad;
 
 function checkWalletInfo($endpoint, $addr, $token) {
 
-    $url = "${$endpoint}/get_wallet_info?token=".$token."&wallet=".$addr;
+    $url = "$endpoint/get_wallet_info?token=".$token."&wallet=".$addr;
 
     try {
         $json = file_get_contents($url);
