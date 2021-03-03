@@ -25,7 +25,7 @@ function checkWalletInfo($endpoint, $addr, $token) {
         return $ok && $exists && !$locked;
 
     } catch (Exception $ex) {
-        var_dump($ex->getMessage());
+//        var_dump($ex->getMessage());
     }
 
     return false;
