@@ -43,8 +43,8 @@ class Transfer extends Model
 
 
         if (!$error) {
-            Transaction::createTransaction(11, 1, -$amount, $model->trId, ['project' => $fromProjectId, 'user' => $fromUser]);
-            Transaction::createTransaction(17, 2, $amount, $model->trId, ['project' => $fromProjectId, 'user' => $fromUser]);
+            Transaction::createTransaction(11, 2, -$amount, $model->trId, ['project' => $fromProjectId, 'user' => $fromUser]);
+            Transaction::createTransaction(17, 1, $amount, $model->trId, ['project' => $toProjectId, 'user' => $toUser]);
 
             $fee = $road->calculateFee($amount);
             $burn = $road->burn_percent * $amount;

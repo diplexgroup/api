@@ -26,6 +26,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        $schedule->call(function () {
+            file_put_contents(__DIR__ . '/1.txt',  date("Y-m-d H:i:s"), FILE_APPEND);
+
+        })->everyMinute();
     }
 
     /**
