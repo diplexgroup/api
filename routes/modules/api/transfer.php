@@ -14,7 +14,7 @@ Route::post('/api/transfer', function (Request $request) {
 
     echo 'PHP version: ' . phpversion();
 
-
+die();
     // create curl resource
     $ch = curl_init();
 
