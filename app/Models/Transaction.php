@@ -128,15 +128,16 @@ class Transaction extends Model
 
     public static function processTransactionWW($transaction) {
         $data = json_decode($transaction->data, true);
-var_dump($data);
 
         $project = Project::getById($data['project']);
         $addr = $data['user'];
 
         $token = $project->token;
-        $endpoint = $project->api_endpoint;
+        $endpoint = $project->api_endpont;
 
         $url = "$endpoint/change_wallet_amount?token=".$token."&wallet=".$addr;
+
+        var_dump($url);
 
         try {
             $json = file_get_contents($url);
