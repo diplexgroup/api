@@ -19,7 +19,7 @@ function checkWalletInfo($endpoint, $addr, $token) {
         $exists = $data['exists'] ?? false;
         $locked = $data['locked'] ?? false;
 
-
+var_dump($data);
         return $ok && $exists && !$locked;
 
     } catch (Exception $ex) {
