@@ -50,19 +50,19 @@ class Transfer extends Model
             $burn = $road->burn_percent * $amount;
 
 
+            Transaction::createTransaction(12, 1, $amount, $model->trid, ['fromProject' => $fromProjectId, 'fromType'=>1, 'toProject' => $fromProjectId, 'toType'=>2]);
+
             if ($fee) {
-                Transaction::createTransaction(13, 1, $fee, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 1, 'toProject' => $fromProjectId, 'toType' => 3]);
+                Transaction::createTransaction(13, 1, $fee, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 2, 'toProject' => $fromProjectId, 'toType' => 3]);
 
                 $amount -= $fee;
             }
 
             if ($burn) {
-                Transaction::createTransaction(14, 1, $burn, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 1, 'toProject' => 0, 'toType' => 4]);
+                Transaction::createTransaction(14, 1, $burn, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 2, 'toProject' => 0, 'toType' => 4]);
 
                 $amount -= $burn;
             }
-
-            Transaction::createTransaction(12, 1, $amount, $model->trid, ['fromProject' => $fromProjectId, 'fromType'=>1, 'toProject' => $fromProjectId, 'toType'=>2]);
 
             if ($fromProjectId !== $toProjectId) {
                 Transaction::createTransaction(15, 1, $amount, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 2, 'toProject' => $toProjectId, 'toType' => 2]);
