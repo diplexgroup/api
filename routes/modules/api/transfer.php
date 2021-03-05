@@ -9,6 +9,7 @@ use \App\Models\ProjectRoad;
 function checkWalletInfo($endpoint, $addr, $token) {
 
     $url = "$endpoint/get_wallet_info?token=".$token."&wallet=".$addr;
+var_dump($url);
 
     try {
         $json = file_get_contents($url);
@@ -19,7 +20,6 @@ function checkWalletInfo($endpoint, $addr, $token) {
         $exists = $data['exists'] ?? false;
         $locked = $data['locked'] ?? false;
 
-var_dump($data);
         return $ok && $exists && !$locked;
 
     } catch (Exception $ex) {
