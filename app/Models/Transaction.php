@@ -135,7 +135,7 @@ class Transaction extends Model
         $token = $project->token;
         $endpoint = $project->api_endpont;
 
-        $url = "$endpoint/change_wallet_amount?token=".$token."&wallet=".$addr;
+        $url = "$endpoint/change_wallet_amount?token=".$token."&wallet=".$addr."&tansactionId=".$transaction->trid."&transferId=".$transaction->tid;
 
 
         try {
@@ -151,7 +151,7 @@ class Transaction extends Model
             ));
 
 
-            return 0;
+            return $data['success'] === true ? 0 : 1104;
 
         } catch (Exception $ex) {
         }
