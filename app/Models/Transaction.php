@@ -136,6 +136,7 @@ class Transaction extends Model
         $endpoint = $project->api_endpont;
 
         $url = "$endpoint/change_wallet_amount?token=".$token."&wallet=".$addr."&tansactionId=".$transaction->trid."&transferId=".$transaction->tid;
+var_dump($url);
 
 
         try {
@@ -206,7 +207,6 @@ class Transaction extends Model
     }
 
     public static function processTransaction($transaction) {
-        $error = 0;
 
         $start = microtime(true);
         if ($transaction->type === 11 || $transaction->type === 17) {
@@ -219,7 +219,9 @@ class Transaction extends Model
 
         if ($error) {
             $transaction->errorCode = $error;
-            $transaction->retry = $error;
+            $transaction->retryCount++;
+            $transaction->nextDate = date("Y-m-d H:i:s", strtotime("+".($transaction->retryCount)." minutes"));
+
         } else {
             $nxtTransaction = self::getNextTransaction($transaction->trid);
 
