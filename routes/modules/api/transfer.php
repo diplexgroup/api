@@ -18,7 +18,7 @@ var_dump($url);
 
         $ok = $data['success'] ?? false;
         $exists = $data['exists'] ?? false;
-        $locked = $data['locked'] ?? false;
+        $locked = $data['locking'] ?? false;
 
         return $ok && $exists && !$locked;
 
