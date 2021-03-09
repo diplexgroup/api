@@ -76,6 +76,7 @@ Route::get('/api/calculate-fee', function () {
         $result['burned'] = $feeAmount * $road->burnPercent;
     } else {
         $result['err'] = $err;
+        $result['error_code'] = 1101;
     }
 
 
