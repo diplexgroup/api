@@ -48,5 +48,7 @@ class AppServiceProvider extends ServiceProvider
         $navs['currencyCount'] = Currency::count();
 
         View::share('navs', $navs);
+
+        View::share('appName', env('APP_NAME'));
     }
 }
