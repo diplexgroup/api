@@ -164,8 +164,8 @@ var_dump($url);
     public static function processTransactionBlockChain($transaction) {
         $data = json_decode($transaction->data, true);
 
-        $walletFrom = Wallet::getWallet($data['fromProject'], $data['fromType']);
-        $walletTo = Wallet::getWallet($data['toProject'], $data['toType']);
+        $walletFrom = Wallet::getWallet($data['fromProject'], $data['fromType'] ?? NULL, $data['fromAddr'] ?? NULL);
+        $walletTo = Wallet::getWallet($data['toProject'], $data['toType'] ?? NULL, $data['toAddr'] ?? NULL);
 
         $from = $walletFrom->addr;
         $fromKey = $walletFrom->pkey;

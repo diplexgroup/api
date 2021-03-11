@@ -44,8 +44,6 @@ Route::post('/api/transfer', function (Request $request) {
 
     // check availability
     $amount = $all['amount'];
-    $fromProjectId = $currentProject->id;
-    $toProjectId = $toProject->id;
     $fromAddress = $all['fromUser'];
     $toAddress = $all['toUser'];
     $error = 0;
@@ -63,7 +61,7 @@ Route::post('/api/transfer', function (Request $request) {
         if (!$road) $error = 1102;
     }
 
-    $trf = Transfer::create($amount, $fromProjectId, $toProjectId, $fromAddress, $toAddress, $road, $error);
+    $trf = Transfer::create($amount, $currentProject, $toProject, $fromAddress, $toAddress, $road, $error);
 
     $result['error'] = $error;
 

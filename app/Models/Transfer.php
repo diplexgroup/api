@@ -21,7 +21,11 @@ class Transfer extends Model
     public $timestamps = false;
 
 
-    public static function create($amount, $fromProjectId, $toProjectId, $fromUser, $toUser, $road, $error) {
+    public static function create($amount, $fromProject, $toProject, $fromUser, $toUser, $road, $error) {
+        $fromProjectId = $fromProject->id;
+        $toProjectId = $toProject->id;
+
+
         $model = new self();
 
 
@@ -43,32 +47,63 @@ class Transfer extends Model
 
 
         if (!$error) {
-            Transaction::createTransaction(11, 2, -$amount, $model->trid, ['project' => $fromProjectId, 'user' => $fromUser]);
-            Transaction::createTransaction(17, 1, $amount, $model->trid, ['project' => $toProjectId, 'user' => $toUser]);
 
             $fee = $road->calculateFee($amount);
             $burn = $road->burn_percent * $amount;
 
+            $fromLast = ['fromProject' => $fromProjectId];
 
-            Transaction::createTransaction(12, 1, $amount, $model->trid, ['fromProject' => $fromProjectId, 'fromType'=>1, 'toProject' => $fromProjectId, 'toType'=>2]);
+            if ($fromProject->pref !== 'OUT') {
 
-            if ($fee) {
-                Transaction::createTransaction(13, 1, $fee, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 2, 'toProject' => $fromProjectId, 'toType' => 3]);
+                Transaction::createTransaction(11, 2, -$amount, $model->trid, ['project' => $fromProjectId, 'user' => $fromUser]);
 
-                $amount -= $fee;
+
+                Transaction::createTransaction(12, 1, $amount, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 1, 'toProject' => $fromProjectId, 'toType' => 2]);
+
+                if ($fee) {
+                    Transaction::createTransaction(13, 1, $fee, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 2, 'toProject' => $fromProjectId, 'toType' => 3]);
+
+                    $amount -= $fee;
+                }
+
+                if ($burn) {
+                    Transaction::createTransaction(14, 1, $burn, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 2, 'toProject' => 0, 'toType' => 4]);
+
+                    $amount -= $burn;
+                }
+
+                $fromLast[ 'fromType'] = 2;
+
+            } else {
+
+                if ($fee) {
+                    Transaction::createTransaction(13, 1, $fee, $model->trid, ['fromProject' => $fromProjectId, 'fromAddr' => $fromUser, 'toProject' => $fromProjectId, 'toType' => 3]);
+
+                    $amount -= $fee;
+                }
+
+                if ($burn) {
+                    Transaction::createTransaction(14, 1, $burn, $model->trid, ['fromProject' => $fromProjectId, 'fromAddr' => $fromUser, 'toProject' => 0, 'toType' => 4]);
+
+                    $amount -= $burn;
+                }
+
+                $fromLast[ 'fromAddr'] = $fromUser;
             }
 
-            if ($burn) {
-                Transaction::createTransaction(14, 1, $burn, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 2, 'toProject' => 0, 'toType' => 4]);
 
-                $amount -= $burn;
+
+            if ($toProject->pref !== 'OUT') {
+
+                if ($fromProjectId !== $toProjectId) {
+                    Transaction::createTransaction(15, 1, $amount, $model->trid, array_merge($fromLast, ['toProject' => $toProjectId, 'toType' => 2]));
+                }
+
+                Transaction::createTransaction(16, 1, $amount, $model->trid, ['fromProject' => $toProjectId, 'fromType' => 2, 'toProject' => $toProjectId, 'toType' => 1]);
+                Transaction::createTransaction(17, 1, $amount, $model->trid, ['project' => $toProjectId, 'user' => $toUser]);
+            } else {
+                Transaction::createTransaction(16, 1, $amount, $model->trid, array_merge($fromLast, ['toProject' => $toProjectId, 'toAddr' => $toUser]));
             }
-
-            if ($fromProjectId !== $toProjectId) {
-                Transaction::createTransaction(15, 1, $amount, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 2, 'toProject' => $toProjectId, 'toType' => 2]);
-            }
-
-            Transaction::createTransaction(16, 1, $amount, $model->trid, ['fromProject' => $toProjectId, 'fromType'=>2, 'toProject' => $toProjectId, 'toType'=>1]);
         }
     }
 

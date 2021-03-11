@@ -167,7 +167,10 @@ class Wallet extends Model
     }
 
 
-    public static function getWallet($project, $type) {
+    public static function getWallet($project, $type, $addr) {
+        if (!$type) {
+            return self::where('addr', $addr)->first();
+        }
         if ($type === 4) {
             return self::getBurnWallet();
         }
