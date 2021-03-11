@@ -80,7 +80,8 @@ class Wallet extends Model
         //get addr
         try {
             if (!$id) {
-                $content = json_decode(file_get_contents('http://localhost:8000/generate-wallet'), true);
+                $port = env('FLASK_PORT');
+                $content = json_decode(file_get_contents('http://localhost:'.$port.'/generate-wallet'), true);
 
                 $model->setAttr('addr', $content["base58check_address"]);
                 $model->setAttr('pkey', $content["private_key"]);

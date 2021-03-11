@@ -2,7 +2,7 @@ image: node:11.13.0
 
 pipelines:
   branches:
-    pre-prod:
+    master:
       - step:
           name: Deploy
           caches:
@@ -12,4 +12,4 @@ pipelines:
               variables:
                 SSH_USER: 'root'
                 SERVER: '93.190.143.5'
-                COMMAND: 'cd /var/www/full-admin && git pull && composer install'
+                COMMAND: 'cd /var/www/dev-full-admin && git pull && composer install'
