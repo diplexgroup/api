@@ -21,7 +21,11 @@ Route::get('/api/generate-wallet', function () {
 
         $result = [
             'success' => true,
-            'wallet' => $model->toArray(),
+            'wallet' => [
+                'addr' => $model->addr,
+                'pkey' => $model->pkey,
+                'currency' => $model->currency
+            ]
         ];
 
         $model->save();
