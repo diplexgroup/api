@@ -20,6 +20,7 @@ var_dump(file_get_contents($url));
         ];
 
     } catch(Exception $ex) {
+        var_dump($ex);
         $result['success'] = false;
     }
 
