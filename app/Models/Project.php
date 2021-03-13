@@ -142,4 +142,8 @@ class Project extends Model
     public static function getById($id) {
         return self::where('id', $id)->first();
     }
+
+    public static function getShort($id) {
+        return self::getById($id)->pref ?? 'UNKNOWN';
+    }
 }
