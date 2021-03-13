@@ -10,7 +10,8 @@ Route::get('/api/get-balance', function () {
 
         $port = env('FLASK_PORT');
         $url = "http://localhost:".$port."/get-balance?addr=" + $addr;
-
+var_dump($url);
+var_dump(file_get_contents($url));
         $data = json_decode(file_get_contents($url), true);
 
         $result = [
