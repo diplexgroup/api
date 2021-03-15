@@ -6,6 +6,16 @@ use Illuminate\Http\Request;
 
 Route::get('/api/exchange', function (Request $request) {
 
+    global $currentProject;
+
+    if ($currentProject->status === 2) {
+        return [
+            'success' => false,
+            'error_code' => 1011,
+            'error' => 'Project Blocked'
+        ];
+    }
+
     if ($errors = ApiHelper::checkAttributes([
         'key' => [],
     ], $request)) {
@@ -15,10 +25,6 @@ Route::get('/api/exchange', function (Request $request) {
             'errors' => $errors
         ];
     }
-
-    global $currentProject;
-
-//    if ($currentProject->status)
 
     $projects = Currency::where([])->get()->all();
 
