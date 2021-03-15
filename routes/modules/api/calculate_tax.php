@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\ProjectRoad;
-use  \App\Models\Project;
-use  \App\Models\Transaction;
+use \App\Models\Project;
+use \App\Models\Transaction;
+use \App\Http\Helpers\ApiHelper;
+use Illuminate\Http\Request;
 
 function calculate1($road, $tStrategy, $amount) {
     $fee_amount = $tStrategy['amount'] ?? 0;
@@ -16,7 +18,22 @@ function calculate1($road, $tStrategy, $amount) {
     return $percent*$amount + $fee_amount;
 }
 
-Route::get('/api/calculate-fee', function () {
+Route::get('/api/calculate-fee', function (Request $request) {
+
+    if ($errors = ApiHelper::checkAttributes([
+        'toProject' => [],
+        'amount' => [],
+        'pref' => [],
+        'key' => [],
+    ], $request)) {
+        return [
+            'success' => false,
+            'error_code' => 1522,
+            'errors' => $errors
+        ];
+    }
+
+
     global $currentProject;
 
     $toProjectPref = request()->get('toProject', '');
@@ -76,7 +93,7 @@ Route::get('/api/calculate-fee', function () {
         $result['burned'] = $feeAmount * $road->burnPercent;
     } else {
         $result['err'] = $err;
-        $result['error_code'] = 1101;
+        $result['error_code'] = 1106;
     }
 
 

@@ -1,8 +1,21 @@
 <?php
 
 use App\Models\Project;
+use \App\Http\Helpers\ApiHelper;
+use Illuminate\Http\Request;
 
-Route::get('/api/projects', function () {
+Route::get('/api/projects', function (Request $request) {
+
+    if ($errors = ApiHelper::checkAttributes([
+        'key' => [],
+    ], $request)) {
+        return [
+            'success' => false,
+            'error_code' => 1522,
+            'errors' => $errors
+        ];
+    }
+
     $projects = Project::where(['status' => 1])->get()->all();
 
     $result = [
