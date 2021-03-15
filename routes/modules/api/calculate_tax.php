@@ -20,6 +20,16 @@ function calculate1($road, $tStrategy, $amount) {
 
 Route::get('/api/calculate-fee', function (Request $request) {
 
+    global $currentProject;
+
+    if ($currentProject->status === 2) {
+        return [
+            'success' => false,
+            'error_code' => 1011,
+            'error' => 'Project Blocked'
+        ];
+    }
+
     if ($errors = ApiHelper::checkAttributes([
         'toProject' => [],
         'amount' => [],
@@ -33,9 +43,6 @@ Route::get('/api/calculate-fee', function (Request $request) {
         ];
     }
 
-
-    global $currentProject;
-
     $toProjectPref = request()->get('toProject', '');
 
     $amount = +request()->get('amount', 0);
@@ -43,12 +50,28 @@ Route::get('/api/calculate-fee', function (Request $request) {
 
     $toProject = Project::where('pref', $toProjectPref)->first();
 
+    if (!$toProject || $toProject->status === 2) {
+        return [
+            'success' => false,
+            'error_code' => 1012,
+            'error' => 'Project Blocked'
+        ];
+    }
 
     $road = ProjectRoad::where([
         'status' => 1,
         'from_project' => $cId,
         'to_project' => $toProject ? $toProject->id : 0
     ])->first();
+
+
+    if (!$road || $road->status === 2) {
+        return [
+            'success' => false,
+            'error_code' => 1005,
+            'error' => 'Road Blocked'
+        ];
+    }
 
     $tStrategy = null;
     $feeAmount = 0;
