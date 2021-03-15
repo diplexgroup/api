@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 Route::get('/api/relations', function (Request $request) {
 
+    global $currentProject;
+
+    if ($currentProject->status === 2) {
+        return [
+            'success' => false,
+            'error_code' => 1011,
+            'error' => 'Project Blocked'
+        ];
+    }
 
     if ($errors = ApiHelper::checkAttributes([
         'key' => [],
@@ -34,7 +43,6 @@ Route::get('/api/relations', function (Request $request) {
 
     $map = [];
 
-    global $currentProject;
     $map[$currentProject->id] = $currentProject;
 
     $getProjectPref = function($id) use (&$map) {

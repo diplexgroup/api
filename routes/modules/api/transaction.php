@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 Route::post('/api/transaction', function (Request $request) {
 
+    global $currentProject;
+
+    if ($currentProject->status === 2) {
+        return [
+            'success' => false,
+            'error_code' => 1011,
+            'error' => 'Project Blocked'
+        ];
+    }
 
     if ($errors = ApiHelper::checkAttributes([
         'key' => [],
@@ -35,36 +44,32 @@ Route::post('/api/transaction', function (Request $request) {
     $start = microtime(true);
     $startAt = date("Y-m-d H:i:s");
 
-    if (!isset($all['amount']) || !isset($all['from']) || !isset($all['to']) || !isset($all['pkey'])) {
-        $code = 1001;
 
-        $status = 4;
-    } else {
+    try {
         $amount = +$all['amount'];
 
-        try {
-            $port = env('FLASK_PORT');
-            $url = "http://localhost:".$port."/send-wallet-wallet?from=".$all['from']."&to=".$all['to']."&fromKey=".$all['pkey']."&amount=".$all['amount'];
+        $port = env('FLASK_PORT');
+        $url = "http://localhost:".$port."/send-wallet-wallet?from=".$all['from']."&to=".$all['to']."&fromKey=".$all['pkey']."&amount=".$all['amount'];
 
-            $resultData = file_get_contents($url);
+        $resultData = file_get_contents($url);
 
-            $result['resultData'] = $resultData;
+        $result['resultData'] = $resultData;
 
-            $json = json_decode($resultData, true);
+        $json = json_decode($resultData, true);
 
-            if (isset($json['result']) &&  $json['result'] !== 'success') {
-                $code = 10003;
-            }
-
-        } catch (Exception $ex) {
-
-            $result['error'] = $ex->getMessage();
-
-            $code = 1002;
+        if (isset($json['result']) &&  $json['result'] !== 'success') {
+            $code = 10003;
         }
 
-        $status = $code === 0 ? 3 : 4;
+    } catch (Exception $ex) {
+
+        $result['error'] = $ex->getMessage();
+
+        $code = 1104;
     }
+
+    $status = $code === 0 ? 3 : 4;
+
 
     $t = new Transaction();
 

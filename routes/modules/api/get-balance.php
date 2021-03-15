@@ -6,6 +6,16 @@ use Illuminate\Http\Request;
 
 Route::get('/api/get-balance', function (Request $request) {
 
+    global $currentProject;
+
+    if ($currentProject->status === 2) {
+        return [
+            'success' => false,
+            'error_code' => 1011,
+            'error' => 'Project Blocked'
+        ];
+    }
+
     if ($errors = ApiHelper::checkAttributes([
         'key' => [],
         'address' => [],
@@ -32,8 +42,9 @@ Route::get('/api/get-balance', function (Request $request) {
         ];
 
     } catch(Exception $ex) {
-        var_dump($ex);
         $result['success'] = false;
+
+        $result['error_code'] = 1001;
     }
 
 

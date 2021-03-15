@@ -33,6 +33,9 @@ function checkWalletInfo($endpoint, $addr, $token) {
 Route::post('/api/transfer', function (Request $request) {
 
     if ($errors = ApiHelper::checkAttributes([
+        'amount' => [],
+        'fromUser' => [],
+        'toUser' => [],
         'key' => [],
     ], $request)) {
         return [
@@ -50,6 +53,14 @@ Route::post('/api/transfer', function (Request $request) {
 
     global $currentProject;
 
+    if ($currentProject->status === 2) {
+        return [
+            'success' => false,
+            'error_code' => 1011,
+            'error' => 'Project Blocked'
+        ];
+    }
+
     //checks
     $toProject = Project::findByPref($all['toProj']);
 
@@ -59,22 +70,38 @@ Route::post('/api/transfer', function (Request $request) {
     $toAddress = $all['toUser'];
     $error = 0;
 
-
-    if (!checkWalletInfo($currentProject->api_endpont, $fromAddress, $currentProject->token) ||
-     !checkWalletInfo($toProject->api_endpont, $toAddress, $toProject->token)) {
-        $error = 1101;
+    if (!$toProject || $toProject->status === 2) {
+        return [
+            'success' => false,
+            'error_code' => 1012,
+            'error' => 'Project Blocked'
+        ];
     }
 
-    $road = null;
+
+    if (!checkWalletInfo($currentProject->api_endpont, $fromAddress, $currentProject->token)) {
+        $error = 1001;
+    }
+
+    if (!checkWalletInfo($toProject->api_endpont, $toAddress, $toProject->token)) {
+        $error = 1003;
+    }
+
+
+    $road = ProjectRoad::getForTwoProjects($currentProject->id, $toProject->id);
+
+    if (!$road) $error = 1005;
+
     if (!$error) {
-        $road = ProjectRoad::getForTwoProjects($currentProject->id, $toProject->id);
+        $trf = Transfer::create($amount, $currentProject, $toProject, $fromAddress, $toAddress, $road, $error);
 
-        if (!$road) $error = 1102;
+        if (!$trf) {
+            return 1106;
+        }
     }
 
-    $trf = Transfer::create($amount, $currentProject, $toProject, $fromAddress, $toAddress, $road, $error);
-
-    $result['error'] = $error;
+    $result['error_code'] = $error;
+    $result['success'] = !!$error;
 
 
     return json_encode($result);

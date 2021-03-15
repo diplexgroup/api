@@ -6,6 +6,16 @@ use Illuminate\Http\Request;
 
 Route::get('/api/projects', function (Request $request) {
 
+    global $currentProject;
+
+    if ($currentProject->status === 2) {
+        return [
+            'success' => false,
+            'error_code' => 1011,
+            'error' => 'Project Blocked'
+        ];
+    }
+
     if ($errors = ApiHelper::checkAttributes([
         'key' => [],
     ], $request)) {

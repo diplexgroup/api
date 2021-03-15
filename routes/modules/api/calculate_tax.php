@@ -3,6 +3,7 @@
 use App\Models\ProjectRoad;
 use \App\Models\Project;
 use \App\Models\Transaction;
+use \App\Models\Transfer;
 use \App\Http\Helpers\ApiHelper;
 use Illuminate\Http\Request;
 
@@ -77,12 +78,18 @@ Route::get('/api/calculate-fee', function (Request $request) {
     $feeAmount = 0;
     $err = 'Cannot find transaction direction';
 
-    $valueDay = Transaction::getDayValue($currentProject);
-    $valueMonth = Transaction::getMonthValue($currentProject);
+    $valueDay = Transfer::getDayValue($currentProject);
+    $valueMonth = Transfer::getMonthValue($currentProject);
+
 
 
     if ($road && $currentProject->status === 1 && $toProject->status === 1 && $road->status === 1) {
-
+        $result['max_amount'] = $road->max_amount;
+        $result['min_amount'] = $road->min_amount;
+        $result['max_month_amount'] = $road->max_month_amount;
+        $result['max_day_amount'] = $road->max_day_amount;
+        $result['cur_day_value'] = $valueDay;
+        $result['cur_month_value'] = $valueMonth;
         if ($amount < $road->min_amount || $amount > $road->max_amount) {
             $err = 'Amount not in ' . $road->min_amount . ' - ' . $road->max_amount . ' DLX';
         } else if ($valueDay + $amount > $road->max_day_amount) {

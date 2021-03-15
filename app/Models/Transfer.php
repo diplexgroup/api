@@ -21,6 +21,22 @@ class Transfer extends Model
     public $timestamps = false;
 
 
+
+    public static function getDayValue($project) {
+        return Transfer::where('fromProject', $project->id)
+            ->where('status', 2)
+            ->where('dateCreated', '>=', date("Y-m-d 00:00:00"))
+            ->sum('amount');
+    }
+
+    public static function getMonthValue($project) {
+        return Transfer::where('fromProject', $project->id)
+            ->where('status', 2)
+            ->where('dateCreated', '>=', date("Y-m-00 00:00:00"))
+            ->sum('amount');
+    }
+
+
     public static function create($amount, $fromProject, $toProject, $fromUser, $toUser, $road, $error) {
         $fromProjectId = $fromProject->id;
         $toProjectId = $toProject->id;

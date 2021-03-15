@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 Route::get('/api/generate-wallet', function (Request $request) {
 
 
+    global $currentProject;
+
+    if ($currentProject->status === 2) {
+        return [
+            'success' => false,
+            'error_code' => 1011,
+            'error' => 'Project Blocked'
+        ];
+    }
 
     if ($errors = ApiHelper::checkAttributes([
         'key' => [],
@@ -18,8 +27,6 @@ Route::get('/api/generate-wallet', function (Request $request) {
             'errors' => $errors
         ];
     }
-
-    global $currentProject;
 
     $project = Project::where('pref', 'OUT')->first();
 
@@ -50,6 +57,8 @@ Route::get('/api/generate-wallet', function (Request $request) {
 
     } catch(Exception $ex) {
         $result['success'] = false;
+
+        $result['error_code'] = 1102;
     }
 
 

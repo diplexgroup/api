@@ -207,20 +207,6 @@ var_dump($url);
                 ->orderBy('type', 'asc')->first();
     }
 
-    public static function getDayValue($project) {
-        return Transfer::where('fromProject', $project->id)
-            ->where('status', 2)
-            ->where('dateCreated', '>=', date("Y-m-d 00:00:00"))
-            ->sum('amount');
-    }
-
-    public static function getMonthValue($project) {
-        return Transfer::where('fromProject', $project->id)
-            ->where('status', 2)
-            ->where('dateCreated', '>=', date("Y-m-00 00:00:00"))
-            ->sum('amount');
-    }
-
     public static function processTransaction($transaction) {
 
         $start = microtime(true);

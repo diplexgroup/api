@@ -9,6 +9,14 @@ Route::get('/api/transfer-status', function (Request $request) {
 
     global $currentProject;
 
+    if ($currentProject->status === 2) {
+        return [
+            'success' => false,
+            'error_code' => 1011,
+            'error' => 'Project Blocked'
+        ];
+    }
+
     $trId = request()->get('transferId', '');
 
     if ($errors = ApiHelper::checkAttributes([
@@ -26,7 +34,8 @@ Route::get('/api/transfer-status', function (Request $request) {
 
     if ($transfer->fromProject !== $currentProject->id && $transfer->toProject !== $currentProject || !$transfer) {
         $result = [
-            'success' => false
+            'success' => false,
+            'error_code' => 1522
         ];
 
     } else {
