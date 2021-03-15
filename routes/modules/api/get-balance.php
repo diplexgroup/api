@@ -1,8 +1,21 @@
 <?php
 
 use App\Models\Wallet;
+use \App\Http\Helpers\ApiHelper;
+use Illuminate\Http\Request;
 
-Route::get('/api/get-balance', function () {
+Route::get('/api/get-balance', function (Request $request) {
+
+    if ($errors = ApiHelper::checkAttributes([
+        'key' => [],
+        'address' => [],
+    ], $request)) {
+        return [
+            'success' => false,
+            'error_code' => 1522,
+            'errors' => $errors
+        ];
+    }
 
     $addr = request()->get('address', '');
 

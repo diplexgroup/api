@@ -1,8 +1,25 @@
 <?php
 
 use App\Models\Currency;
+use \App\Http\Helpers\ApiHelper;
+use Illuminate\Http\Request;
 
-Route::get('/api/exchange', function () {
+Route::get('/api/exchange', function (Request $request) {
+
+    if ($errors = ApiHelper::checkAttributes([
+        'key' => [],
+    ], $request)) {
+        return [
+            'success' => false,
+            'error_code' => 1522,
+            'errors' => $errors
+        ];
+    }
+
+    global $currentProject;
+
+//    if ($currentProject->status)
+
     $projects = Currency::where([])->get()->all();
 
     $result = [

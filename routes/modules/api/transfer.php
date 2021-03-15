@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use \App\Models\Transfer;
 use \App\Models\Project;
 use \App\Models\ProjectRoad;
+use \App\Http\Helpers\ApiHelper;
 
 function checkWalletInfo($endpoint, $addr, $token) {
 
@@ -30,6 +31,16 @@ function checkWalletInfo($endpoint, $addr, $token) {
 
 
 Route::post('/api/transfer', function (Request $request) {
+
+    if ($errors = ApiHelper::checkAttributes([
+        'key' => [],
+    ], $request)) {
+        return [
+            'success' => false,
+            'error_code' => 1522,
+            'errors' => $errors
+        ];
+    }
 
     $result = [
       'success' => true

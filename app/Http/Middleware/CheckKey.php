@@ -24,7 +24,7 @@ class CheckKey
         $project = $key ? Project::where(['token' => $key, 'status' => 1])->first() : null;
 
         if (!$project) {
-            die(json_encode(['error' => 'access denied', 'code' => 403, 'success'=>'false']));
+            die(json_encode(['error' => 'access denied', 'code' => 403, 'success'=>false]));
         }
 
 

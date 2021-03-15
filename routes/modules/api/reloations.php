@@ -2,8 +2,22 @@
 
 use App\Models\ProjectRoad;
 use App\Models\Project;
+use \App\Http\Helpers\ApiHelper;
+use Illuminate\Http\Request;
 
-Route::get('/api/relations', function () {
+Route::get('/api/relations', function (Request $request) {
+
+
+    if ($errors = ApiHelper::checkAttributes([
+        'key' => [],
+    ], $request)) {
+        return [
+            'success' => false,
+            'error_code' => 1522,
+            'errors' => $errors
+        ];
+    }
+
     $roads = ProjectRoad::where(['status' => 1])
         ->where(function($q) {
             global $currentProject;

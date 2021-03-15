@@ -1,9 +1,27 @@
 <?php
 
 use App\Models\Wallet;
+use App\Models\Project;
+use \App\Http\Helpers\ApiHelper;
+use Illuminate\Http\Request;
 
-Route::get('/api/generate-wallet', function () {
+Route::get('/api/generate-wallet', function (Request $request) {
+
+
+
+    if ($errors = ApiHelper::checkAttributes([
+        'key' => [],
+    ], $request)) {
+        return [
+            'success' => false,
+            'error_code' => 1522,
+            'errors' => $errors
+        ];
+    }
+
     global $currentProject;
+
+    $project = Project::where('pref', 'OUT')->first();
 
     try {
         $model = new Wallet();
@@ -15,7 +33,7 @@ Route::get('/api/generate-wallet', function () {
         $model->setAttr('pkey', $content["private_key"]);
         $model->setAttr('type', 1);
         $model->setAttr('rootType', 0);
-        $model->setAttr('relationId', $currentProject->id);
+        $model->setAttr('relationId', $project->id);
         $model->setAttr('currency', 'DLXT');
         $model->setAttr('status', 1);
 

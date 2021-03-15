@@ -1,10 +1,26 @@
 <?php
 
 use App\Models\Transaction;
+use \App\Http\Helpers\ApiHelper;
 use Illuminate\Http\Request;
 
 
 Route::post('/api/transaction', function (Request $request) {
+
+
+    if ($errors = ApiHelper::checkAttributes([
+        'key' => [],
+        'amount' => [],
+        'from' => [],
+        'to' => [],
+        'pkey' => [],
+    ], $request)) {
+        return [
+            'success' => false,
+            'error_code' => 1522,
+            'errors' => $errors
+        ];
+    }
 
     $result = [
       'success' => true

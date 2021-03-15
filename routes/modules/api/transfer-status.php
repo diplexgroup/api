@@ -2,13 +2,24 @@
 
 use App\Models\Transfer;
 use App\Models\Project;
+use \App\Http\Helpers\ApiHelper;
+use Illuminate\Http\Request;
 
-Route::get('/api/transfer-status', function () {
+Route::get('/api/transfer-status', function (Request $request) {
 
     global $currentProject;
 
     $trId = request()->get('transferId', '');
 
+    if ($errors = ApiHelper::checkAttributes([
+        'key' => [],
+    ], $request)) {
+        return [
+            'success' => false,
+            'error_code' => 1522,
+            'errors' => $errors
+        ];
+    }
 
     $transfer = Transfer::where('trid', $trId)
         ->first();
