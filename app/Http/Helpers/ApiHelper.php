@@ -20,7 +20,7 @@ class ApiHelper {
 
         foreach ($checkFor as $attr => $rules) {
 
-            if (!$all[$attr]) {
+            if (!isset($all[$attr])) {
                 addError($errors, $attr, 'Not Exists');
             }
 
