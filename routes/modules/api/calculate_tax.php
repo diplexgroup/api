@@ -113,9 +113,7 @@ Route::get('/api/calculate-fee', function (Request $request) {
         $err = 'Transaction direction closed';
     }
 
-    $result = [
-      'success' => !!$road && !!$tStrategy
-    ];
+    $result['success'] = !!$road && !!$tStrategy;
 
     if ($result['success']) {
         $result['fee'] = $feeAmount;
