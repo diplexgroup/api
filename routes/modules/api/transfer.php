@@ -101,7 +101,7 @@ Route::post('/api/transfer', function (Request $request) {
     }
 
     $result['error_code'] = $error;
-    $result['success'] = !!$error;
+    $result['success'] = !$error;
 
 
     return json_encode($result);

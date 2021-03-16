@@ -38,7 +38,7 @@ Route::get('/api/generate-wallet', function (Request $request) {
 
         $model->setAttr('addr', $content["base58check_address"]);
         $model->setAttr('pkey', $content["private_key"]);
-        $model->setAttr('type', 1);
+        $model->setAttr('type', 2);
         $model->setAttr('rootType', 0);
         $model->setAttr('relationId', $project->id);
         $model->setAttr('currency', 'DLXT');
