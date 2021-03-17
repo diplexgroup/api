@@ -120,7 +120,11 @@ class Transfer extends Model
             } else {
                 Transaction::createTransaction(16, 1, $amount, $model->trid, array_merge($fromLast, ['toProject' => $toProjectId, 'toAddr' => $toUser]));
             }
+
+            return $model;
         }
+
+        return null;
     }
 
 
