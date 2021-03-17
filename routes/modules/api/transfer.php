@@ -115,7 +115,6 @@ Route::post('/api/transfer', function (Request $request) {
             $type = 'calculate' . $tStrategy['type'];
 
             $feeAmount = $type($road, $tStrategy, $amount);
-            $error = 1105;
 
         } catch (Exception $ex) {
 
