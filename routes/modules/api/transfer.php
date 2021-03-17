@@ -130,6 +130,8 @@ Route::post('/api/transfer', function (Request $request) {
 
         if (!$trf) {
             $error = 1106;
+        } else {
+            $result['transfer_id'] = $trf->trid;
         }
     }
 
