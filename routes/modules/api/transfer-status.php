@@ -7,17 +7,6 @@ use Illuminate\Http\Request;
 
 Route::get('/api/transfer-status', function (Request $request) {
 
-    if ($errors = ApiHelper::checkAttributes([
-        'key' => [],
-        'transferId' => [],
-    ], $request)) {
-        return [
-            'success' => false,
-            'error_code' => 1522,
-            'errors' => $errors
-        ];
-    }
-
     global $currentProject;
 
     if ($currentProject->status === 2) {
@@ -32,6 +21,7 @@ Route::get('/api/transfer-status', function (Request $request) {
 
     if ($errors = ApiHelper::checkAttributes([
         'key' => [],
+        'transferId' => [],
     ], $request)) {
         return [
             'success' => false,
