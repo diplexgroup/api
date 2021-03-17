@@ -37,6 +37,7 @@ Route::post('/api/transfer', function (Request $request) {
         'fromUser' => [],
         'toUser' => [],
         'key' => [],
+        'toProj' => [],
     ], $request)) {
         return [
             'success' => false,
@@ -96,7 +97,7 @@ Route::post('/api/transfer', function (Request $request) {
         $trf = Transfer::create($amount, $currentProject, $toProject, $fromAddress, $toAddress, $road, $error);
 
         if (!$trf) {
-            return 1106;
+            $error = 1106;
         }
     }
 
