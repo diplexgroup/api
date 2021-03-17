@@ -32,7 +32,7 @@ Route::get('/api/transfer-status', function (Request $request) {
     $transfer = Transfer::where('trid', $trId)
         ->first();
 
-    if ($transfer->fromProject !== $currentProject->id && $transfer->toProject !== $currentProject || !$transfer) {
+    if (!$transfer || $transfer->fromProject !== $currentProject->id && $transfer->toProject !== $currentProject) {
         $result = [
             'success' => false,
             'error_code' => 1522
