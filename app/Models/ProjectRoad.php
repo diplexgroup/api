@@ -146,6 +146,8 @@ class ProjectRoad extends Model
     }
 
     public static function getForTwoProjects($fromId, $toId) {
-        return self::where(['from_project' => $fromId, 'to_project' => $toId])->first();
+        return self::where('from_project', $fromId)
+            ->where('to_project', $toId)
+            ->first();
     }
 }
