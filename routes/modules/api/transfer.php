@@ -91,6 +91,7 @@ Route::post('/api/transfer', function (Request $request) {
 
     $road = ProjectRoad::getForTwoProjects($currentProject->id, $toProject->id);
 
+    $err = '';
 
     if (!$road)  {
         $error = 1005;
@@ -99,7 +100,6 @@ Route::post('/api/transfer', function (Request $request) {
 
         $valueDay = Transfer::getDayValue($currentProject);
         $valueMonth = Transfer::getMonthValue($currentProject);
-        $err = '';
 
         if ($amount < $road->min_amount || $amount > $road->max_amount) {
             $err = 'Amount not in ' . $road->min_amount . ' - ' . $road->max_amount . ' DLX';
