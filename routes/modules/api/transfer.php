@@ -95,6 +95,7 @@ Route::post('/api/transfer', function (Request $request) {
 
     if (!$road)  {
         $error = 1005;
+        $err = $currentProject->id . ' ---- ' . $toProject->id;
     } else {
 
 
