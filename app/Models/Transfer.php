@@ -65,7 +65,7 @@ class Transfer extends Model
         if (!$error) {
 
             $fee = $road->calculateFee($amount);
-            $burn = $road->burn_percent * $amount;
+            $burn = $road->burn_percent * $fee;
 
             $fromLast = ['fromProject' => $fromProjectId];
 
