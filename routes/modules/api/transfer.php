@@ -92,46 +92,49 @@ Route::post('/api/transfer', function (Request $request) {
     $road = ProjectRoad::getForTwoProjects($currentProject->id, $toProject->id);
 
 
-    if (!$road) $error = 1005;
-
-
-    $valueDay = Transfer::getDayValue($currentProject);
-    $valueMonth = Transfer::getMonthValue($currentProject);
-    $err = '';
-
-    if ($amount < $road->min_amount || $amount > $road->max_amount) {
-        $err = 'Amount not in ' . $road->min_amount . ' - ' . $road->max_amount . ' DLX';
-        $error = 1105;
-    } else if ($valueDay + $amount > $road->max_day_amount) {
-        $err = 'Day limit exceeded ' . $valueDay . ' + ' . $amount . ' / ' .  $road->max_day_amount;
-        $error = 1105;
-    } else if ($valueMonth + $amount > $road->max_month_amount) {
-        $err = 'Month limit exceeded ' . $valueMonth . ' + ' . $amount . ' / ' .  $road->max_day_amount;
-        $error = 1105;
+    if (!$road)  {
+        $error = 1005;
     } else {
-        try {
-            $tStrategy = json_decode($road->tax_strategy, true);
 
-            $type = 'calculate' . $tStrategy['type'];
 
-            $feeAmount = $type($road, $tStrategy, $amount);
+        $valueDay = Transfer::getDayValue($currentProject);
+        $valueMonth = Transfer::getMonthValue($currentProject);
+        $err = '';
 
-        } catch (Exception $ex) {
-
-            $err = 'Wrong tax strategy';
+        if ($amount < $road->min_amount || $amount > $road->max_amount) {
+            $err = 'Amount not in ' . $road->min_amount . ' - ' . $road->max_amount . ' DLX';
             $error = 1105;
-
-        }
-    }
-
-
-    if (!$error) {
-        $trf = Transfer::create($amount, $currentProject, $toProject, $fromAddress, $toAddress, $road, $error);
-
-        if (!$trf) {
-            $error = 1106;
+        } else if ($valueDay + $amount > $road->max_day_amount) {
+            $err = 'Day limit exceeded ' . $valueDay . ' + ' . $amount . ' / ' . $road->max_day_amount;
+            $error = 1105;
+        } else if ($valueMonth + $amount > $road->max_month_amount) {
+            $err = 'Month limit exceeded ' . $valueMonth . ' + ' . $amount . ' / ' . $road->max_day_amount;
+            $error = 1105;
         } else {
-            $result['transfer_id'] = $trf->trid;
+            try {
+                $tStrategy = json_decode($road->tax_strategy, true);
+
+                $type = 'calculate' . $tStrategy['type'];
+
+                $feeAmount = $type($road, $tStrategy, $amount);
+
+            } catch (Exception $ex) {
+
+                $err = 'Wrong tax strategy';
+                $error = 1105;
+
+            }
+        }
+
+
+        if (!$error) {
+            $trf = Transfer::create($amount, $currentProject, $toProject, $fromAddress, $toAddress, $road, $error);
+
+            if (!$trf) {
+                $error = 1106;
+            } else {
+                $result['transfer_id'] = $trf->trid;
+            }
         }
     }
 
