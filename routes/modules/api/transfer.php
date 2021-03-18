@@ -119,7 +119,7 @@ Route::post('/api/transfer', function (Request $request) {
 
                 $feeAmount = $type($road, $tStrategy, $amount);
 
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
 
                 $err = 'Wrong tax strategy';
                 $error = 1105;
