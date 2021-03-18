@@ -116,7 +116,7 @@ Route::post('/api/transfer', function (Request $request) {
                 $tStrategy = json_decode($road->tax_strategy, true);
 
                 $type = 'calculate' . $tStrategy['type'];
-
+return $type;
                 $feeAmount = $type($road, $tStrategy, $amount);
 
             } catch (\Exception $ex) {
