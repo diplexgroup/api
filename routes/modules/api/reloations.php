@@ -57,7 +57,9 @@ Route::get('/api/relations', function (Request $request) {
     $result['items'] = array_map(function($item) use ($getProjectPref) {
         return [
             'from' => $getProjectPref($item->from_project),
+            'fromName' => Project::getName($item->from_project),
             'to' => $getProjectPref($item->to_project),
+            'toName' => Project::getName($item->to_project),
             'fee_strategy' => $item->tax_strategy,
             'min_amount' => $item->min_amount,
             'max_amount' => $item->max_amount,
