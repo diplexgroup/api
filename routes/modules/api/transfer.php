@@ -80,11 +80,11 @@ Route::post('/api/transfer', function (Request $request) {
     }
 
 
-    if (!checkWalletInfo($currentProject->api_endpont, $fromAddress, $currentProject->token)) {
+    if ($fromAddress->pref !== 'OUT' && !checkWalletInfo($currentProject->api_endpont, $fromAddress, $currentProject->token)) {
         $error = 1001;
     }
 
-    if (!checkWalletInfo($toProject->api_endpont, $toAddress, $toProject->token)) {
+    if ($toProject->pref !== 'OUT' && !checkWalletInfo($toProject->api_endpont, $toAddress, $toProject->token)) {
         $error = 1003;
     }
 
