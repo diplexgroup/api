@@ -25,7 +25,7 @@ class LogRequest {
 
         $log->request = json_encode($request->all());
 
-        $log->response = json_encode($request->all());
+        $log->response = is_array($result) ? json_encode($result) : $result;
 
         $log->date = date("Y-m-d H:i:s");
 
