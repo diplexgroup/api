@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 Route::get('/api/get-wallet-info', function (Request $request) {
 
     if ($errors = ApiHelper::checkAttributes([
-        'amount' => [],
         'wallet' => [],
         'key' => [],
         'proj' => [],
@@ -39,12 +38,6 @@ Route::get('/api/get-wallet-info', function (Request $request) {
     //checks
     $toProject = Project::findByPref($all['proj']);
 
-    // check availability
-    $amount = $all['amount'];
-    $fromAddress = $all['fromUser'];
-    $toAddress = $all['toUser'];
-    $error = 0;
-
     if (!$toProject || $toProject->status === 2) {
         return [
             'success' => false,
@@ -58,8 +51,6 @@ Route::get('/api/get-wallet-info', function (Request $request) {
     $token = $currentProject->token;
 
     $url = "$endpoint/get_wallet_info?token=".$token."&wallet=".$addr;
-
-
 
     try {
         $json = file_get_contents($url);
