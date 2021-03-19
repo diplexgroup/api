@@ -53,7 +53,7 @@ Route::get('/api/transfer-status', function (Request $request) {
             'step' => $transfer->step,
             'amount' => $transfer->amount,
             'status' => $transfer->status,
-            'transactions' => $transactions
+            'transactions' => strlen($transactions)
         ];
     }
 
