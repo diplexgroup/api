@@ -42,7 +42,7 @@ Route::get('/api/transfer-status', function (Request $request) {
 
     } else {
         try {
-            $transactionList = Transaction::where('trid', $transfer->id);
+            $transactionList = Transaction::where('trid', $transfer->trid);
 
             $transactions = [];
             foreach ($transactionList as $transaction) {
