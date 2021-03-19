@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Wallet;
+use App\Models\Project;
 use \App\Http\Helpers\ApiHelper;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,7 @@ Route::get('/api/get-wallet-info', function (Request $request) {
         'amount' => [],
         'wallet' => [],
         'key' => [],
-        'toProj' => [],
+        'proj' => [],
     ], $request)) {
         return [
             'success' => false,
@@ -36,7 +37,7 @@ Route::get('/api/get-wallet-info', function (Request $request) {
     }
 
     //checks
-    $toProject = Project::findByPref($all['toProj']);
+    $toProject = Project::findByPref($all['proj']);
 
     // check availability
     $amount = $all['amount'];
