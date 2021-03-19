@@ -42,7 +42,7 @@ Route::get('/api/transfer-status', function (Request $request) {
 
     } else {
         try {
-            $transactionList = Transaction::where('tr_id', $transfer->id);
+            $transactionList = Transaction::where('trid', $transfer->id);
 
             $transactions = [];
             foreach ($transactionList as $transaction) {
@@ -58,8 +58,7 @@ Route::get('/api/transfer-status', function (Request $request) {
                 'step' => $transfer->step,
                 'amount' => $transfer->amount,
                 'status' => $transfer->status,
-                'transactions' => $transactions,
-                'tlen' => sizeof($transactionList)
+                'transactions' => $transactions
             ];
         } catch (Exception $ex) {
             var_dump($ex);
