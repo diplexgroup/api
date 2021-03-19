@@ -46,7 +46,13 @@ Route::get('/api/transfer-status', function (Request $request) {
 
             $transactions = [];
             foreach ($transactionList as $transaction) {
-                $transactions []= $transaction->toArray();
+                $transactions []= [
+                    'tid' => $transaction->tid,
+                    'type' => $transaction->type,
+                    'status' => $transaction->status,
+                    'amount' => $transaction->amount,
+                    'currency' => $transaction->currency
+                ];
             }
 
             $result = [
