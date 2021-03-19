@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Transfer;
+use App\Models\Transaction;
 use App\Models\Project;
 use \App\Http\Helpers\ApiHelper;
 use Illuminate\Http\Request;
@@ -41,6 +42,8 @@ Route::get('/api/transfer-status', function (Request $request) {
 
     } else {
 
+        $transactions = Transaction::where('tr_id', $transfer->id)->get();
+
         $result = [
             'success' => true,
             'fromProject' => Project::getShort($transfer->fromProject),
@@ -50,6 +53,7 @@ Route::get('/api/transfer-status', function (Request $request) {
             'step' => $transfer->step,
             'amount' => $transfer->amount,
             'status' => $transfer->status,
+            'transactions' => $transactions
         ];
     }
 
