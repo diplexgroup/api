@@ -209,6 +209,9 @@ var_dump($url);
 
     public static function processTransaction($transaction) {
 
+        $transaction->nextDate = date("Y-m-d H:i:s", strtotime("+".($transaction->retryCount)." minutes"));
+        $transaction->save();
+
         $start = microtime(true);
         if ($transaction->type === 11 || $transaction->type === 17) {
             $error = self::processTransactionWW($transaction);
@@ -221,7 +224,6 @@ var_dump($url);
         if ($error) {
             $transaction->errorCode = $error;
             $transaction->retryCount++;
-            $transaction->nextDate = date("Y-m-d H:i:s", strtotime("+".($transaction->retryCount)." minutes"));
 
         } else {
             $nxtTransaction = self::getNextTransaction($transaction->trid);
