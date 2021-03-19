@@ -58,7 +58,8 @@ Route::get('/api/transfer-status', function (Request $request) {
                 'step' => $transfer->step,
                 'amount' => $transfer->amount,
                 'status' => $transfer->status,
-                'transactions' => $transactions
+                'transactions' => $transactions,
+                'tlen' => sizeof($transactionList)
             ];
         } catch (Exception $ex) {
             var_dump($ex);
