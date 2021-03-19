@@ -10,7 +10,7 @@ Route::get('/api/get-wallet-info', function (Request $request) {
     if ($errors = ApiHelper::checkAttributes([
         'wallet' => [],
         'key' => [],
-        'proj' => [],
+        'project' => [],
     ], $request)) {
         return [
             'success' => false,
@@ -36,7 +36,7 @@ Route::get('/api/get-wallet-info', function (Request $request) {
     }
 
     //checks
-    $toProject = Project::findByPref($all['proj']);
+    $toProject = Project::findByPref($all['project']);
 
     if (!$toProject || $toProject->status === 2) {
         return [
