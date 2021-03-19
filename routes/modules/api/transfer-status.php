@@ -42,22 +42,27 @@ Route::get('/api/transfer-status', function (Request $request) {
 
     } else {
         try {
-        $transactions = Transaction::where('tr_id', $transfer->id);
+            $transactionList = Transaction::where('tr_id', $transfer->id);
 
-    $result = [
-        'success' => true,
-        'fromProject' => Project::getShort($transfer->fromProject),
-        'toProject' => Project::getShort($transfer->toProject),
-        'fromUser' => $transfer->fromAddress,
-        'toUser' => $transfer->toAddress,
-        'step' => $transfer->step,
-        'amount' => $transfer->amount,
-        'status' => $transfer->status,
-        'transactions' => $transactions->toArray()
-    ];
-} catch (Exception $ex) {
-    var_dump($ex);
-}
+            $transactions = [];
+            foreach ($transactionList as $transaction) {
+                $transactions []= $transaction->toArray();
+            }
+
+            $result = [
+                'success' => true,
+                'fromProject' => Project::getShort($transfer->fromProject),
+                'toProject' => Project::getShort($transfer->toProject),
+                'fromUser' => $transfer->fromAddress,
+                'toUser' => $transfer->toAddress,
+                'step' => $transfer->step,
+                'amount' => $transfer->amount,
+                'status' => $transfer->status,
+                'transactions' => $transactions
+            ];
+        } catch (Exception $ex) {
+            var_dump($ex);
+        }
     }
 
 
