@@ -42,8 +42,7 @@ Route::get('/api/transfer-status', function (Request $request) {
 
     } else {
         try {
-        $transactions = Transaction::where('tr_id', $transfer->id)
-            ->toArray();
+        $transactions = Transaction::where('tr_id', $transfer->id);
 
     $result = [
         'success' => true,
@@ -54,7 +53,7 @@ Route::get('/api/transfer-status', function (Request $request) {
         'step' => $transfer->step,
         'amount' => $transfer->amount,
         'status' => $transfer->status,
-        'transactions' => $transactions
+        'transactions' => $transactions->toArray()
     ];
 } catch (Exception $ex) {
     var_dump($ex);
