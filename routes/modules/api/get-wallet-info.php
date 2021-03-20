@@ -46,9 +46,9 @@ Route::get('/api/get-wallet-info', function (Request $request) {
         ];
     }
 
-    $endpoint = $currentProject->api_endpont;
+    $endpoint = $toProject->api_endpont;
     $addr = $all['wallet'] ?? '';
-    $token = $currentProject->token;
+    $token = $toProject->token;
 
     $url = "$endpoint/get_wallet_info?token=".$token."&wallet=".$addr;
 
