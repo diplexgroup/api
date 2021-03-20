@@ -136,7 +136,7 @@ class Transaction extends Model
         $token = $project->token;
         $endpoint = $project->api_endpont;
 
-        $url = "$endpoint/change_wallet_amount?token=".$token."&amount=".$transaction->amount."&wallet=".$addr."&transaction_id=".$transaction->trid."&transfer_id=".$transaction->tid;
+        $url = "$endpoint/change_wallet_amount?token=".$token."&amount=".$transaction->amount."&wallet=".$addr."&transaction_id=".$transaction->tid."&transfer_id=".$transaction->trid;
 var_dump($url);
 
 
