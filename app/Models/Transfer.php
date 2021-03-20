@@ -93,7 +93,7 @@ class Transfer extends Model
             } else {
 
                 if ($fee) {
-                    Transaction::createTransaction(13, 1, $fee, $model->trid, ['fromProject' => $fromProjectId, 'fromAddr' => $fromUser, 'toProject' => $fromProjectId, 'toType' => 3]);
+                    Transaction::createTransaction(13, 1, $fee - $burn, $model->trid, ['fromProject' => $fromProjectId, 'fromAddr' => $fromUser, 'toProject' => $fromProjectId, 'toType' => 3]);
 
                     $amount -= $fee;
                 }
