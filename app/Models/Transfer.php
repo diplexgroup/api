@@ -77,9 +77,9 @@ class Transfer extends Model
                 Transaction::createTransaction(12, 1, $amount, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 1, 'toProject' => $fromProjectId, 'toType' => 2]);
 
                 if ($fee) {
-                    Transaction::createTransaction(13, 1, $fee, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 2, 'toProject' => $fromProjectId, 'toType' => 3]);
+                    Transaction::createTransaction(13, 1, $fee - $burn, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 2, 'toProject' => $fromProjectId, 'toType' => 3]);
 
-                    $amount -= $fee;
+                    $amount -= $fee - $burn;
                 }
 
                 if ($burn) {
@@ -95,7 +95,7 @@ class Transfer extends Model
                 if ($fee) {
                     Transaction::createTransaction(13, 1, $fee - $burn, $model->trid, ['fromProject' => $fromProjectId, 'fromAddr' => $fromUser, 'toProject' => $fromProjectId, 'toType' => 3]);
 
-                    $amount -= $fee;
+                    $amount -= $fee - $burn;
                 }
 
                 if ($burn) {
