@@ -45,13 +45,18 @@ Route::get('/api/transfer-status', function (Request $request) {
             $transactionList = Transaction::where('trid', $trId)->get();
 
             $transactions = [];
+
             foreach ($transactionList as $transaction) {
+
+                $data = json_decode($transaction->data);
+
                 $transactions []= [
                     'tid' => $transaction->tid,
                     'type' => $transaction->type,
                     'status' => $transaction->status,
                     'amount' => $transaction->amount,
-                    'currency' => $transaction->currency
+                    'currency' => $transaction->currency,
+                    'explorer_transaction_id' => $data['id'] ?? '0'
                 ];
             }
 
