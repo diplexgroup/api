@@ -56,7 +56,7 @@ Route::get('/api/transfer-status', function (Request $request) {
                     'status' => $transaction->status,
                     'amount' => $transaction->amount,
                     'currency' => $transaction->currency,
-                    'explorer_transaction_id' => $data['id'] ?? '0'
+                    'explorer_transaction_id' => $data['id'] ?? 'none'
                 ];
             }
 
