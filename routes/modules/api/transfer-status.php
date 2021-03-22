@@ -48,7 +48,7 @@ Route::get('/api/transfer-status', function (Request $request) {
 
             foreach ($transactionList as $transaction) {
 
-                $data = json_decode($transaction->data);
+                $data = json_decode($transaction->data, true);
 
                 $transactions []= [
                     'tid' => $transaction->tid,
