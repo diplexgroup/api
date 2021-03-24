@@ -22,6 +22,7 @@
                                 <table class="table table-striped table-valign-middle">
                                     <thead>
                                     <tr>
+                                        <th></th>
                                         @foreach ($fields as $field=>$lavel)
                                             <th>{{$lavel}}</th>
                                         @endforeach
@@ -30,6 +31,7 @@
                                     <tbody>
                                     @foreach($docs as $doc)
                                         <tr>
+                                            <td><a href="/transaction?trid={{$doc->trid}}" class="fa fa-eye"></a></td>
                                             @foreach ($fields as $field=>$lavel)
                                                 <td>{!! $doc->getAttr($field) !!}</td>
                                             @endforeach
