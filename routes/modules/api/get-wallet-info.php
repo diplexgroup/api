@@ -50,7 +50,7 @@ Route::get('/api/get-wallet-info', function (Request $request) {
     $addr = $all['wallet'] ?? '';
     $token = $toProject->token;
 
-    $url = "$endpoint/get_wallet_info?token=".$token."&wallet=".$addr;
+    $url = "$endpoint/get_wallet_info?token=".$token."&wallet=".urlencode($addr);
 
     try {
         $json = file_get_contents($url);
