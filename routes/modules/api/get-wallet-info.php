@@ -69,7 +69,7 @@ Route::get('/api/get-wallet-info', function (Request $request) {
     } catch (Exception $ex) {
 
         $result['success'] = false;
-        $result['error_code'] = 1001;
+        $result['error_code'] = 1006;
 
     }
 
