@@ -10,7 +10,10 @@ $mids = [
 Route::middleware($mids)->group(function () {
 
     Route::get('/transaction', function () {
-        $docs = Transaction::all();
+
+        $trid = $_GET['trid'] ?? null;
+
+        $docs = $trid ? Transaction::where('trid', $trid)->orderBy('createdAt', 'desc')->get() : Transaction::orderBy('createdAt', 'desc')->get();
         $fields = Transaction::getListFields();
 
         return view('transaction/list', [
