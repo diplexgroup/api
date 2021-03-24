@@ -10,7 +10,7 @@ $mids = [
 Route::middleware($mids)->group(function () {
 
     Route::get('/transfer', function () {
-        $docs = Transfer::all();
+        $docs = Transfer::orderBy('dateCreated', 'desc')->get();
         $fields = Transfer::getListFields();
 
         return view('transfer/list', [
