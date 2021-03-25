@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Transaction;
+use App\Models\Wallet;
 use \App\Http\Helpers\ApiHelper;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,6 @@ Route::post('/api/transaction', function (Request $request) {
         'amount' => [],
         'from' => [],
         'to' => [],
-        'pkey' => [],
     ], $request)) {
         return [
             'success' => false,
@@ -30,6 +30,7 @@ Route::post('/api/transaction', function (Request $request) {
             'errors' => $errors
         ];
     }
+
 
     $result = [
       'success' => true
@@ -46,10 +47,12 @@ Route::post('/api/transaction', function (Request $request) {
 
 
     try {
+        $wallet = Wallet::where('addr', $all['addr'])->first();
+
         $amount = +$all['amount'];
 
         $port = env('FLASK_PORT');
-        $url = "http://localhost:".$port."/send-wallet-wallet?from=".$all['from']."&to=".$all['to']."&fromKey=".$all['pkey']."&amount=".$all['amount'];
+        $url = "http://localhost:".$port."/send-wallet-wallet?from=".$all['from']."&to=".$all['to']."&fromKey=".($wallet -> pkey)."&amount=".$all['amount'];
 
         $resultData = file_get_contents($url);
 
