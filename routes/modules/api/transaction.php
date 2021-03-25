@@ -46,7 +46,7 @@ Route::post('/api/transaction', function (Request $request) {
 
 
     try {
-        $wallet = Wallet::where('addr', $all['addr'])->first();
+        $wallet = Wallet::where('addr', $all['from'])->first();
 
         $amount = +$all['amount'];
 
