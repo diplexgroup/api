@@ -40,7 +40,6 @@ Route::post('/api/transaction', function (Request $request) {
 
     $amount = 0;
     $code = 0;
-    $status = 3;
 
     $start = microtime(true);
     $startAt = date("Y-m-d H:i:s");
