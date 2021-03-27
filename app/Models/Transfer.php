@@ -36,6 +36,38 @@ class Transfer extends Model
             ->sum('amount');
     }
 
+    public static function createComission($amount, $project, $user, $error) {
+        $fromProjectId = $project->id;
+        $toProjectId = $project->id;
+
+
+        $model = new self();
+
+
+        $model->amount = $amount;
+        $model->type = 2;
+        $model->step = 1;
+        $model->fromProject = $fromProjectId;
+        $model->toProject = $toProjectId;
+        $model->dateCreated = date("Y-m-d H:i:s");
+        $model->dateUpdated = date("Y-m-d H:i:s");
+        $model->toAddress = '-';
+        $model->fromAddress = $user;
+        $model->errorCode = $error;
+        $model->status = $error ? 3 : 1;
+        $model->status = $error ? 3 : 1;
+        $model->trid = Transaction::generateTid();
+
+        $model->save();
+
+        if (!$error) {
+            Transaction::createTransaction(18, 1, $amount, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 3, 'toProject' => $fromProjectId, 'toType' => 1]);
+
+            Transaction::createTransaction(17, 1, $amount, $model->trid, ['project' => $toProjectId, 'user' => $user]);
+
+        }
+    }
+
 
     public static function create($amount, $fromProject, $toProject, $fromUser, $toUser, $road, $error) {
         $fromProjectId = $fromProject->id;
@@ -131,6 +163,7 @@ class Transfer extends Model
     public static function types() {
         return [
             1 => 'С проекта на проект',
+            2 => 'С комиссионного на виртуальный',
         ];
 
     }
