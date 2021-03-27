@@ -61,7 +61,7 @@ class Transfer extends Model
         $model->save();
 
         if (!$error) {
-            Transaction::createTransaction(18, 1, $amount, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 3, 'toProject' => $fromProjectId, 'toType' => 1]);
+            Transaction::createTransaction(18, 2, $amount, $model->trid, ['fromProject' => $fromProjectId, 'fromType' => 3, 'toProject' => $fromProjectId, 'toType' => 1]);
 
             Transaction::createTransaction(17, 1, $amount, $model->trid, ['project' => $toProjectId, 'user' => $user]);
 
