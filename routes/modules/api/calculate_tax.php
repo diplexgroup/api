@@ -32,8 +32,8 @@ Route::get('/api/calculate-fee', function (Request $request) {
     }
 
     if ($errors = ApiHelper::checkAttributes([
-        'toProject' => [],
-        'amount' => [],
+        'toProject' => ['regex' => '/[A-Z]{2,4}/'],
+        'amount' => ['regex' => '/\d+(\.\d+)?/'],
         'key' => [],
     ], $request)) {
         return [

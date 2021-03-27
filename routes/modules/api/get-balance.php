@@ -18,7 +18,7 @@ Route::get('/api/get-balance', function (Request $request) {
 
     if ($errors = ApiHelper::checkAttributes([
         'key' => [],
-        'address' => [],
+        'address' => ['regex' => '/[a-zA-Z\d]{10,}/'],
     ], $request)) {
         return [
             'success' => false,
