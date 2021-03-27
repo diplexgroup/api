@@ -65,7 +65,10 @@ class Transfer extends Model
 
             Transaction::createTransaction(17, 1, $amount, $model->trid, ['project' => $toProjectId, 'user' => $user]);
 
+            return $model;
         }
+
+        return null;
     }
 
 
