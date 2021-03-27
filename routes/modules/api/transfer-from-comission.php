@@ -64,6 +64,8 @@ Route::post('/api/transfer-from-comission', function (Request $request) {
     } catch(Exception $ex) {
         $result['success'] = false;
 
+        $result['err'] = $ex->getMessage();
+
         $error = 1001;
     }
 
