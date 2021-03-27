@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 Route::get('/api/get-wallet-info', function (Request $request) {
 
     if ($errors = ApiHelper::checkAttributes([
-        'wallet' => [],
+        'wallet' => ['regex' => '/^[a-zA-Z\d]{4,}$/'],
         'key' => [],
-        'project' => [],
+        'project' => ['regex' => '/^[A-Z]{2,4}$/'],
     ], $request)) {
         return [
             'success' => false,
