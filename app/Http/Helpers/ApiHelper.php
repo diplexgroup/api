@@ -22,7 +22,7 @@ class ApiHelper {
  
             if (!isset($all[$attr])) {
                 addError($errors, $attr, 'Not Exist');
-            } else if (isset($rules['regex']) && preg_match($rules['regex'], $all[$attr])) {
+            } else if (isset($rules['regex']) && !preg_match($rules['regex'], $all[$attr])) {
                 addError($errors, $attr, 'Wrong regex ' . $rules['regex']);
             }
 
