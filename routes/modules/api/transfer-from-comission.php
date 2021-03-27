@@ -8,7 +8,7 @@ use \App\Http\Helpers\ApiHelper;
 
 
 
-Route::post('/api/transfer', function (Request $request) {
+Route::post('/api/transfer-from-comission', function (Request $request) {
 
     if ($errors = ApiHelper::checkAttributes([
         'amount' => ['regex' => '/^\d+(\.\d+)?$/'],
