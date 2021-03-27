@@ -138,7 +138,7 @@ class Transaction extends Model
         $endpoint = $project->api_endpont;
 
         $url = "$endpoint/change_wallet_amount?token=".$token."&amount=".$transaction->amount."&wallet=".$addr."&transaction_id=".$transaction->tid."&transfer_id=".$transaction->trid;
-var_dump($url);
+
 
 
         try {
@@ -180,7 +180,6 @@ var_dump($url);
             $port = env('FLASK_PORT');
             $url = "http://localhost:".$port."/send-wallet-wallet?from=".$from."&to=".$to."&fromKey=".$fromKey."&amount=".$amount;
 
-            var_dump($url);
             $resultData = file_get_contents($url);
 
             $result['resultData'] = $resultData;
