@@ -51,8 +51,8 @@ class Transfer extends Model
         $model->toProject = $toProjectId;
         $model->dateCreated = date("Y-m-d H:i:s");
         $model->dateUpdated = date("Y-m-d H:i:s");
-        $model->toAddress = '-';
-        $model->fromAddress = $user;
+        $model->toAddress = $user;
+        $model->fromAddress = '-';
         $model->errorCode = $error;
         $model->status = $error ? 3 : 1;
         $model->status = $error ? 3 : 1;
