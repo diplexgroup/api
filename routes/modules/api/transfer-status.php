@@ -22,7 +22,7 @@ Route::get('/api/transfer-status', function (Request $request) {
 
     if ($errors = ApiHelper::checkAttributes([
         'key' => [],
-        'transferId' => ['regex' => '/^[a-zA-Z\d]{6,}%/'],
+        'transferId' => ['regex' => '/^[a-zA-Z\d]{6,}$/'],
     ], $request)) {
         return [
             'success' => false,
