@@ -50,7 +50,7 @@ Route::post('/api/transfer-from-comission', function (Request $request) {
 
 
     try {
-        $walletFrom = Wallet::getWallet($currentProject->pref, 3, NULL);
+        $walletFrom = Wallet::getWallet($currentProject->id, 3, NULL);
 
         $port = env('FLASK_PORT');
         $url = "http://localhost:".$port."/get-balance?addr=" . $walletFrom->addr;
