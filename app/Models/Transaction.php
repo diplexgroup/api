@@ -142,7 +142,7 @@ class Transaction extends Model
 
 
         try {
-            $json = = ApiHelper::postQuery($url, [
+            $json = ApiHelper::postQuery($url, [
                 'token' => $token,
                 'amount' => $transaction->amount,
                 'wallet' => $addr,
