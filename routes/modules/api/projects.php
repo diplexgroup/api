@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Project;
+use App\Models\Wallet;
 use \App\Http\Helpers\ApiHelper;
 use Illuminate\Http\Request;
 
@@ -26,13 +27,29 @@ Route::get('/api/projects', function (Request $request) {
         ];
     }
 
+    $withWallet = request()->get('withWallet', '') === 'true';
+
     $projects = Project::where(['status' => 1])->get()->all();
 
     $result = [
       'success' => true
     ];
 
-    $result['items'] = array_map(function($item) {
+    $result['items'] = array_map(function($item) use ($withWallet) {
+        if ($withWallet) {
+
+            $wallet = Wallet::getWallet($item->pref, 1, NULL);
+
+            return [
+                'name' => $item->name,
+                'short' => $item->pref,
+                'description' => $item->description,
+                'link' => $item->api_front_link,
+                'wallet' => $wallet ? $wallet->addr : ''
+            ];
+
+        }
+
         return [
             'name' => $item->name,
             'short' => $item->pref,
