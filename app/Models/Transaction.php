@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Helpers\ApiHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
@@ -137,12 +138,17 @@ class Transaction extends Model
         $token = $project->token;
         $endpoint = $project->api_endpont;
 
-        $url = "$endpoint/change_wallet_amount?token=".$token."&amount=".$transaction->amount."&wallet=".$addr."&transaction_id=".$transaction->tid."&transfer_id=".$transaction->trid;
-
+        $url = "$endpoint/change_wallet_amount?token=".$token;
 
 
         try {
-            $json = file_get_contents($url);
+            $json = = ApiHelper::postQuery($url, [
+                'token' => $token,
+                'amount' => $transaction->amount,
+                'wallet' => $addr,
+                'transaction_id' => $transaction->tid,
+                'transfer_id' => $transaction->trid
+            ]);
 
             $data = json_decode($json, true);
 
