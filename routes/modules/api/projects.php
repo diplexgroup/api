@@ -38,7 +38,7 @@ Route::get('/api/projects', function (Request $request) {
     $result['items'] = array_map(function($item) use ($withWallet) {
         if ($withWallet) {
 
-            $wallet = Wallet::getWallet($item->pref, 1, NULL);
+            $wallet = Wallet::getWallet($item->id, 1, NULL);
 
             return [
                 'name' => $item->name,
