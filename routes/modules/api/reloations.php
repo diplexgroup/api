@@ -32,7 +32,7 @@ Route::get('/api/relations', function (Request $request) {
             global $currentProject;
 
             $q->where(['from_project'=>$currentProject->id])
-                ->orWhere(['from_project'=>$currentProject->id]);
+                ->orWhere(['to_project'=>$currentProject->id]);
         })
         ->get()
         ->all();
@@ -60,6 +60,7 @@ Route::get('/api/relations', function (Request $request) {
             'fromName' => Project::getName($item->from_project),
             'to' => $getProjectPref($item->to_project),
             'toName' => Project::getName($item->to_project),
+            'status' => $item->status,
             'fee_strategy' => $item->tax_strategy,
             'min_amount' => $item->min_amount,
             'max_amount' => $item->max_amount,
