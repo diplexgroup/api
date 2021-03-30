@@ -151,7 +151,7 @@ class Transaction extends Model
             ]);
 
             $data = json_decode($json, true);
-            var_dump($json, $data);
+            var_dump($json, $data, $url);
 
             $ok = $data['success'] ?? false;
 
