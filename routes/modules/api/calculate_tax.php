@@ -116,8 +116,8 @@ Route::get('/api/calculate-fee', function (Request $request) {
     $result['success'] = !!$road && !!$tStrategy;
 
     if ($result['success']) {
-        $result['fee'] = $feeAmount;
-        $result['burned'] = $feeAmount * $road->burn_percent;
+        $result['fee'] = round($feeAmount, 6);
+        $result['burned'] = round($feeAmount * $road->burn_percent, 6);
     } else {
         $result['err'] = $err;
         $result['error_code'] = 1106;
