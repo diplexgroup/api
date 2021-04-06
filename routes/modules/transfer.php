@@ -58,6 +58,7 @@ Route::middleware($mids)->group(function () {
             'docsLabel' => 'Трансферы',
             'count' => $count,
             'q' => $q,
+            'page' => $page,
             'searchParams' => $searchParams,
             'mxPage' => $mxPage,
         ]);

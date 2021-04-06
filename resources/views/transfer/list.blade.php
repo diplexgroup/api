@@ -43,7 +43,11 @@
                             </div>
                             @if ($mxPage > 1):
                                 <div class="text-center">
+                                    @if ($page > 2): <span>...</span><a href="?page=1">1</a> @endif
                                     @if ($page > 1): <a href="?page={{$page - 1}}">{{$page - 1}}</a> @endif
+                                    @if ($page): <a href="?page={{$page}}">{{$page}}</a> @endif
+                                    @if ($page < $mxPage): <a href="?page={{$page + 1}}">{{$page + 1}}</a> @endif
+                                    @if ($page + 1 < $mxPage): <span>...</span><a href="?page={{$mxPage}}">{{$mxPage}}</a> @endif
                                 </div>
                             @endif
                         </div>
