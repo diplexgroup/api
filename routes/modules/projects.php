@@ -15,11 +15,11 @@ Route::middleware($mids)->group(function () {
         if ($q) {
             $query = Project::where('pref', $q);
 
-            $query->orWhere('api_endpont', 'like',  '%' . $q . '%');
+            $query->orWhere('name', 'like', '%' . $q . '%');
 
             if (Strlen($q) > 6) {
+                $query->orWhere('api_endpont', 'like',  '%' . $q . '%');
                 $query->orWhere('api_front_link', 'like', '%' . $q . '%');
-                $query->orWhere('name', 'like', '%' . $q . '%');
             }
 
 
