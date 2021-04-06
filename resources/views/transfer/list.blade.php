@@ -42,7 +42,7 @@
                                 </table>
                             </div>
                             @if ($mxPage > 1)
-                                <div class="text-center">
+                                <div class="text-center font-weight-bold text-lg">
                                     @if ($page > 2) <a href="?page=1">1</a> <span>...</span> @endif
                                     @if ($page > 1) <a href="?page={{$page - 1}}">{{$page - 1}}</a> @endif
                                     @if ($page) <a href="?page={{$page}}">{{$page}}</a> @endif
