@@ -16,7 +16,9 @@ Route::middleware($mids)->group(function () {
         if ($q) {
             $query = ProjectRoad::where('id', $q);
 
-            $project = Project::where('pref', $q)->first();
+            $project = Project::where('pref', $q)
+                ->orWhere('name', 'like', '%' . $q . '%')
+                ->first();
 
             if ($project) {
                 $query->orWhere('from_project', $project->id);

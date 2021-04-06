@@ -17,7 +17,9 @@ Route::middleware($mids)->group(function () {
         if ($q) {
             $query = Wallet::where('addr', $q);
 
-            $project = Project::where('pref', $q)->first();
+            $project = Project::where('pref', $q)
+                ->orWhere('name', 'like', '%' . $q . '%')
+                ->first();
 
             if ($project) {
                 $query->orWhere('relationId', $project->id);
