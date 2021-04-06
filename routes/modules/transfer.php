@@ -56,7 +56,7 @@ Route::middleware($mids)->group(function () {
             'fields' => $fields,
             'link' => 'transfer',
             'docsLabel' => 'Трансферы',
-            'couut' => $count,
+            'count' => $count,
             'q' => $q,
             'searchParams' => $searchParams,
             'mxPage' => $mxPage,
