@@ -10,10 +10,19 @@ $mids = [
 Route::middleware($mids)->group(function () {
 
     Route::get('/transaction', function () {
+        $q = $_GET['q'] ?? $_GET['trid'] ?? NULL;
+        $searchParams = 'trid, tid';
 
-        $trid = $_GET['trid'] ?? null;
+        if ($q) {
+            $query = Transaction::where('trid', $q);
 
-        $docs = $trid ? Transaction::where('trid', $trid)->orderBy('createdAt', 'desc')->get() : Transaction::orderBy('createdAt', 'desc')->get();
+            $query->orWhere('tid', $q);
+
+            $docs = $query->orderBy('createdAt', 'desc')->get();
+        } else {
+            $docs = Transaction::orderBy('createdAt', 'desc')->get();
+        }
+
         $fields = Transaction::getListFields();
 
         return view('transaction/list', [
@@ -21,6 +30,8 @@ Route::middleware($mids)->group(function () {
             'fields' => $fields,
             'link' => 'transaction',
             'docsLabel' => 'Транзакции',
+            'q' => $q,
+            'searchParams' => $searchParams
         ]);
     });
 

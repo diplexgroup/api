@@ -10,7 +10,17 @@ $mids = [
 Route::middleware($mids)->group(function () {
 
     Route::get('/user_roles', function () {
-        $docs = UserRole::all();
+
+        $q = $_GET['q'] ?? NULL;
+        $searchParams = 'name';
+        if ($q) {
+            $query = UserRole::where('name', 'like', '%' . $q . '%');
+
+            $docs = $query->get();
+        } else {
+            $docs = UserRole::all();
+        }
+
         $fields = UserRole::getListFields();
 
         return view('user_roles/list', [
@@ -18,6 +28,8 @@ Route::middleware($mids)->group(function () {
             'fields' => $fields,
             'link' => 'user_roles',
             'docsLabel' => 'Всего ролей',
+            'q' => $q,
+            'searchParams' => $searchParams
         ]);
     });
 

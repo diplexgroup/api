@@ -10,7 +10,17 @@ $mids = [
 Route::middleware($mids)->group(function () {
 
     Route::get('/users', function () {
-        $docs = User::all();
+
+        $q = $_GET['q'] ?? NULL;
+        $searchParams = 'email';
+        if ($q) {
+            $query = User::where('email', 'like', '%' . $q . '%');
+
+            $docs = $query->get();
+        } else {
+            $docs = User::all();
+        }
+
         $fields = User::getListFields();
 
         return view('users/list', [
@@ -18,6 +28,8 @@ Route::middleware($mids)->group(function () {
             'fields' => $fields,
             'link' => 'users',
             'docsLabel' => 'Всего пользователей',
+            'q' => $q,
+            'searchParams' => $searchParams
         ]);
     });
 

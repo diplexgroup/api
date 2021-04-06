@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Wallet;
+use App\Models\Project;
 
 $mids = [
     \App\Http\Middleware\Authenticate::class,
@@ -10,7 +11,23 @@ $mids = [
 Route::middleware($mids)->group(function () {
 
     Route::get('/wallet', function () {
-        $docs = Wallet::all();
+
+        $q = $_GET['q'] ?? NULL;
+        $searchParams = 'project, address';
+        if ($q) {
+            $query = Wallet::where('addr', $q);
+
+            $project = Project::where('pref', $q)->first();
+
+            if ($project) {
+                $query->orWhere('relationId', $project->id);
+            }
+
+            $docs = $query->get();
+        } else {
+            $docs = Wallet::all();
+        }
+
         $fields = Wallet::getListFields();
 
         return view('wallet/list', [
@@ -18,6 +35,8 @@ Route::middleware($mids)->group(function () {
             'fields' => $fields,
             'link' => 'wallet',
             'docsLabel' => 'Всего кошельков',
+            'q' => $q,
+            'searchParams' => $searchParams
         ]);
     });
 

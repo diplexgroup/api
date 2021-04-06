@@ -10,7 +10,16 @@ $mids = [
 Route::middleware($mids)->group(function () {
 
     Route::get('/log', function () {
-        $docs = Log::all();
+        $q = $_GET['q'] ?? NULL;
+        $searchParams = 'api';
+
+        if ($q) {
+            $query = Log::where('api', $q);
+
+            $docs = $query->orderBy('date', 'desc')->get();
+        } else {
+            $docs = Log::orderBy('date', 'desc')->get();
+        }
         $fields = Log::getListFields();
 
         return view('log/list', [
@@ -18,6 +27,8 @@ Route::middleware($mids)->group(function () {
             'fields' => $fields,
             'link' => 'log',
             'docsLabel' => 'Логи',
+            'q' => $q,
+            'searchParams' => $searchParams
         ]);
     });
 

@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -35,7 +37,7 @@
         <!-- SEARCH FORM -->
         <form class="form-inline ml-auto">
             <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control form-control-navbar" name="q" type="search" value="{{$q ?? ''}}" placeholder="Search{{isset($searchParams) ? ': ' . $searchParams : ''}}" aria-label="Search">
                 <div class="input-group-append">
                     <button class="btn btn-navbar" type="submit">
                         <i class="fas fa-search"></i>

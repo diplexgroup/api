@@ -10,7 +10,16 @@ $mids = [
 Route::middleware($mids)->group(function () {
 
     Route::get('/modules', function () {
-        $docs = Modules::all();
+        $q = $_GET['q'] ?? NULL;
+        $searchParams = 'name';
+        if ($q) {
+            $query = Modules::where('name', $q);
+
+            $docs = $query->get();
+        } else {
+            $docs = Modules::all();
+        }
+
         $fields = Modules::getListFields();
 
         return view('modules/list', [
@@ -18,6 +27,8 @@ Route::middleware($mids)->group(function () {
             'fields' => $fields,
             'link' => 'modules',
             'docsLabel' => 'Всего модулей',
+            'q' => $q,
+            'searchParams' => $searchParams
         ]);
     });
 

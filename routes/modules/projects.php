@@ -10,7 +10,24 @@ $mids = [
 Route::middleware($mids)->group(function () {
 
     Route::get('/projects', function () {
-        $docs = Project::all();
+        $q = $_GET['q'] ?? NULL;
+        $searchParams = 'pref, endpont, link, name';
+        if ($q) {
+            $query = Project::where('pref', $q);
+
+            $query->orWhere('api_endpont', 'like',  '%' . $q . '%');
+
+            if (Strlen($q) > 6) {
+                $query->orWhere('api_front_link', 'like', '%' . $q . '%');
+                $query->orWhere('name', 'like', '%' . $q . '%');
+            }
+
+
+            $docs = $query->get();
+        } else {
+            $docs = Project::all();
+        }
+
         $fields = Project::getListFields();
 
         return view('projects/list', [
@@ -18,6 +35,8 @@ Route::middleware($mids)->group(function () {
             'fields' => $fields,
             'link' => 'projects',
             'docsLabel' => 'Всего проектов',
+            'q' => $q,
+            'searchParams' => $searchParams
         ]);
     });
 

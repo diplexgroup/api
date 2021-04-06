@@ -10,7 +10,15 @@ $mids = [
 Route::middleware($mids)->group(function () {
 
     Route::get('/currency', function () {
-        $docs = Currency::all();
+        $q = $_GET['q'] ?? NULL;
+        $searchParams = 'code';
+        if ($q) {
+            $query = Currency::where('code', $q);
+
+            $docs = $query->get();
+        } else {
+            $docs = Currency::all();
+        }
         $fields = Currency::getListFields();
 
         return view('currency/list', [
@@ -18,6 +26,8 @@ Route::middleware($mids)->group(function () {
             'fields' => $fields,
             'link' => 'currency',
             'docsLabel' => 'Всего валют',
+            'q' => $q,
+            'searchParams' => $searchParams
         ]);
     });
 

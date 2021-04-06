@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\ProjectRoad;
+use App\Models\Project;
 
 $mids = [
     \App\Http\Middleware\Authenticate::class,
@@ -10,7 +11,23 @@ $mids = [
 Route::middleware($mids)->group(function () {
 
     Route::get('/project_roads', function () {
-        $docs = ProjectRoad::all();
+        $q = $_GET['q'] ?? NULL;
+        $searchParams = 'id, from, to';
+        if ($q) {
+            $query = ProjectRoad::where('id', $q);
+
+            $project = Project::where('pref', $q)->first();
+
+            if ($project) {
+                $query->orWhere('from_project', $project->id);
+                $query->orWhere('to_project', $project->id);
+            }
+
+            $docs = $query->get();
+        } else {
+            $docs = ProjectRoad::all();
+        }
+
         $fields = ProjectRoad::getListFields();
 
         return view('project_roads/list', [
@@ -18,6 +35,8 @@ Route::middleware($mids)->group(function () {
             'fields' => $fields,
             'link' => 'project_roads',
             'docsLabel' => 'Всего связей',
+            'q' => $q,
+            'searchParams' => $searchParams
         ]);
     });
 
