@@ -12,6 +12,11 @@ Route::middleware($mids)->group(function () {
 
     Route::get('/transfer', function () {
 
+
+        $page = +($_GET['page'] ?? 1);
+        $limit = +($_GET['limit'] ?? 1);
+
+
         $q = $_GET['q'] ?? $_GET['trid'] ?? NULL;
         $searchParams = 'trid, acc, project';
 
@@ -28,10 +33,21 @@ Route::middleware($mids)->group(function () {
             $query->orWhere('fromAddress', $q);
             $query->orWhere('toAddress', $q);
 
-            $docs = $query->orderBy('dateCreated', 'desc')->get();
+            $query->orderBy('dateCreated', 'desc');
         } else {
-            $docs = Transfer::orderBy('dateCreated', 'desc')->get();
+            $query = Transfer::orderBy('dateCreated', 'desc');
+
+
         }
+
+        $count = $query->count();
+
+        $mxPage = ceil($count / 10);
+
+        $docs = $query
+            ->offset(($page-1) * $limit)
+            ->limit($limit)
+            ->get();
 
         $fields = Transfer::getListFields();
 
@@ -40,8 +56,10 @@ Route::middleware($mids)->group(function () {
             'fields' => $fields,
             'link' => 'transfer',
             'docsLabel' => 'Трансферы',
+            'couut' => $count,
             'q' => $q,
-            'searchParams' => $searchParams
+            'searchParams' => $searchParams,
+            'mxPage' => $mxPage,
         ]);
     });
 
