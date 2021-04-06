@@ -14,7 +14,7 @@ Route::middleware($mids)->group(function () {
 
 
         $page = +($_GET['page'] ?? 1);
-        $limit = +($_GET['limit'] ?? 1);
+        $limit = +($_GET['limit'] ?? 10);
 
 
         $q = $_GET['q'] ?? $_GET['trid'] ?? NULL;

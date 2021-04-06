@@ -41,9 +41,13 @@
                                     </tbody>
                                 </table>
                             </div>
+                            @if ($mxPage > 1):
+                                <div class="text-center">
+                                    @if ($page > 1): <a href="?page={{$page - 1}}">{{$page - 1}}</a> @endif
+                                </div>
+                            @endif
                         </div>
                     </div>
-
                 @else
 
                     <div class="col-lg-12 col-12 text-center">
