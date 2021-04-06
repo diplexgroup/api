@@ -9,7 +9,7 @@
                     <!-- small box -->
                     <div href="/projects/add" class="small-box bg-info">
                         <h3 class="inner text-center">
-                            {{$docsLabel}}: {{sizeof($docs)}}
+                            {{$docsLabel}}: {{$count}}
                         </h3>
                     </div>
                 </div>
