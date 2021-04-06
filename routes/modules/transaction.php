@@ -13,15 +13,30 @@ Route::middleware($mids)->group(function () {
         $q = $_GET['q'] ?? $_GET['trid'] ?? NULL;
         $searchParams = 'trid, tid';
 
+        $page = +($_GET['page'] ?? 1);
+        $limit = +($_GET['limit'] ?? 10);
+
         if ($q) {
             $query = Transaction::where('trid', $q);
 
             $query->orWhere('tid', $q);
 
-            $docs = $query->orderBy('createdAt', 'desc')->get();
+            $query->orderBy('createdAt', 'desc');
         } else {
-            $docs = Transaction::orderBy('createdAt', 'desc')->get();
+            $query = Transaction::orderBy('createdAt', 'desc');
         }
+
+
+
+        $count = $query->count();
+
+        $mxPage = ceil($count / 10);
+
+        $docs = $query
+            ->offset(($page-1) * $limit)
+            ->limit($limit)
+            ->get();
+
 
         $fields = Transaction::getListFields();
 
@@ -30,8 +45,11 @@ Route::middleware($mids)->group(function () {
             'fields' => $fields,
             'link' => 'transaction',
             'docsLabel' => 'Транзакции',
+            'count' => $count,
             'q' => $q,
-            'searchParams' => $searchParams
+            'page' => $page,
+            'searchParams' => $searchParams,
+            'mxPage' => $mxPage,
         ]);
     });
 
