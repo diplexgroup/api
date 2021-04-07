@@ -163,7 +163,7 @@ class Transaction extends Model
 
             return $data['success'] === true ? 0 : 1104;
 
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
         }
 
         return 1103;
@@ -202,7 +202,7 @@ class Transaction extends Model
                 $code = 10003;
             }
 
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
 
             $code = 1002;
         }
