@@ -69,11 +69,15 @@ class LoginController extends Controller
 
                 $user->save();
 
-                Mail::send('vendor.mail.code', ['code' => $user->confirm_code], function ($m) use ($user) {
-                    $m->from('hello@app.com', 'Admin');
+                try {
+                    Mail::send('vendor.mail.code', ['code' => $user->confirm_code], function ($m) use ($user) {
+                        $m->from('hello@app.com', 'Admin');
 
-                    $m->to($user->email, $user->email)->subject('Auth code!');
-                });
+                        $m->to($user->email, $user->email)->subject('Auth code!');
+                    });
+                } catch (\Exception $ex) {
+                    session(['error' => 'error: '.$ex->getMessage() . '. Code; '.$user->confirm_code]);
+                }
 
 
                 return redirect('/auth/step2');
