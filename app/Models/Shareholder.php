@@ -63,8 +63,8 @@ class Shareholder extends Model
 
     public static function types() {
         return [
-            1 => 'Акционер',
-            2 => 'Юзер',
+            1 => 'Юзер',
+            2 => 'Акционер',
             3 => 'Акционер + Юзер',
         ];
     }
