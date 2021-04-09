@@ -78,4 +78,52 @@ Route::middleware($mids)->group(function () {
 
         return redirect('/shareholder');
     });
+
+
+    Route::get('/shareholder/view/{id}', function ($id) {
+        $doc = Shareholder::where('id', $id)->first();
+        $fields = Shareholder::getViewFields();
+
+        return view('shareholder/view', [
+            'doc' => $doc,
+            'link' => 'shareholder',
+            'fields' => $fields,
+            'docLabel' => 'Проект',
+        ]);
+    });
+
+    Route::get('/shareholder/edit/{id}', function ($id) {
+        $error = session()->pull('error');
+        $doc = Shareholder::where('id', $id)->first();
+
+        if ($id === '0') {
+            $doc = new Shareholder();
+            $doc->type = 2;
+        }
+
+        $fields = Shareholder::defaultInputList();
+
+        return view('shareholder/edit', [
+            'doc' => $doc,
+            'link' => 'shareholder',
+            'fields' => $fields,
+            'docLabel' => 'Проект',
+            'error' => $error
+        ]);
+    });
+
+    Route::post('/shareholder/edit/{id}', function ($id) {
+
+        $modelId = $id;
+        try {
+            $modelId = Shareholder::processPost(+$id);
+        } catch (Exception $ex) {
+            session(['error' => 'Ошибка: ' . $ex->getMessage()]);
+
+            return redirect()->intended('/shareholder/edit/' . $modelId);
+        }
+
+        return redirect()->intended('/shareholder/view/' . $modelId);
+
+    });
 });

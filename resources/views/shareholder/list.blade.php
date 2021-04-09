@@ -11,6 +11,10 @@
                         <h3 class="inner text-center">
                             {{$docsLabel}}: {{$count}}
                         </h3>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                        <a href="/{{$link}}/edit/0" class="small-box-footer">Добавить</a>
                     </div>
                 </div>
 
@@ -25,6 +29,7 @@
                                         @foreach ($fields as $field=>$lavel)
                                             <th>{{$lavel}}</th>
                                         @endforeach
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -33,6 +38,10 @@
                                             @foreach ($fields as $field=>$lavel)
                                                 <td>{!! $doc->getAttr($field) !!}</td>
                                             @endforeach
+                                            <td>
+                                                <a class="fa fa-edit" href="/{{$link}}/edit/{{$doc->id}}"></a>
+                                                <a class="fa fa-eye" href="/{{$link}}/view/{{$doc->id}}"></a>
+                                            </td>
                                         </tr>
                                     @endforeach
 
