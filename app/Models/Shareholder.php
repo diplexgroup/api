@@ -53,7 +53,6 @@ class Shareholder extends Model
             $t->sponsor_user_name = $spUsername;
         } else {
             if ($id && strlen($id))  $t->uid = $id;
-            if ($telegram && strlen($telegram))  $t->telegram = $telegram;
             if ($user && strlen($user))  $t->user = $user;
             if ($spId && strlen($spId))  $t->sponsor_id = $spId;
             if ($spUsername && strlen($spUsername))  $t->sponsor_user_name = $spUsername;
