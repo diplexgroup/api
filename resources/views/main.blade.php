@@ -182,6 +182,14 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="/shareholder" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Акционеры
+                            </p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
