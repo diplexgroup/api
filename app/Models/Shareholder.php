@@ -45,13 +45,19 @@ class Shareholder extends Model
         $t = self::where('telegram', $telegram)->first();
         if (!$t) {
             $t = new Shareholder();
+            $t->type = 2;
+            $t->uid = $id;
+            $t->telegram = $telegram;
+            $t->user = $username;
+            $t->sponsor_id = $spId;
+            $t->sponsor_user_name = $spUsername;
+        } else {
+            if ($id && strlen($id))  $t->uid = $id;
+            if ($telegram && strlen($telegram))  $t->telegram = $telegram;
+            if ($user && strlen($user))  $t->user = $user;
+            if ($spId && strlen($spId))  $t->sponsor_id = $spId;
+            if ($spUsername && strlen($spUsername))  $t->sponsor_user_name = $spUsername;
         }
-        $t->uid = $id;
-        $t->telegram = $telegram;
-        $t->user = $username;
-        $t->sponsor_id = $spId;
-        $t->type = 2;
-        $t->sponsor_user_name = $spUsername;
 
         $t->save();
     }
