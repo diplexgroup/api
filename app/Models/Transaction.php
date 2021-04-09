@@ -121,7 +121,7 @@ class Transaction extends Model
     }
 
     public static function processTransactions() {
-        $transactions = self::where('nextDate', '<', date("Y-m-d H:i:s"))->get();
+        $transactions = self::where('nextDate', '<', date("Y-m-d H:i:s"))->limit(2)->get();
 
         foreach ($transactions as $transaction) {
             self::processTransaction($transaction);
