@@ -34,7 +34,7 @@ Route::get('/api/shareholder', function (Request $request) {
             'success' => false,
             'error_code' => 1522,
             'errors' => [
-                'error' => 'uid or telegram_id should be set'
+                'error' => 'uid or telegram should be set'
             ]
         ];
     }
