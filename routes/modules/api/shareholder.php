@@ -26,7 +26,7 @@ Route::get('/api/shareholder', function (Request $request) {
         ];
     }
 
-    $tid = $_GET['transaction'] ?? NULL;
+    $tid = $_GET['telegram'] ?? NULL;
     $user_id = $_GET['uid'] ?? NULL;
 
     if (!$tid && !$user_id) {
@@ -40,6 +40,14 @@ Route::get('/api/shareholder', function (Request $request) {
     }
 
     $sh = ($tid ? Shareholder::where('telegram', 'like', '%'.$tid.'%') : Shareholder::where('uid', 'like', $user_id))->first();
+
+    if (!$sh) {
+        return [
+            'success' => false,
+            'error_code' => 1001,
+            'error' => 'no such user'
+        ]
+    }
 
     $result = [
         'success' => true,
