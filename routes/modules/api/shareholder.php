@@ -39,7 +39,7 @@ Route::get('/api/shareholder', function (Request $request) {
         ];
     }
 
-    $sh = ($tid ? Shareholder::where('telegram', 'like', '%'.$tid.'%') : Shareholder::where('uid', 'like', $user_id))->first();
+    $sh = ($tid ? Shareholder::where('telegram', 'like', $tid) : Shareholder::where('uid', 'like', $user_id))->first();
 
     if (!$sh) {
         return [
