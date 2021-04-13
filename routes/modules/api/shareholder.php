@@ -46,7 +46,7 @@ Route::get('/api/shareholder', function (Request $request) {
             'success' => false,
             'error_code' => 1001,
             'error' => 'no such user'
-        ]
+        ];
     }
 
     $result = [
