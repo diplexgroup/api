@@ -51,7 +51,7 @@ Route::get('/api/shareholder', function (Request $request) {
 
     $result = [
         'success' => true,
-        'telgram_id' => $sh
+        'shareholder' => $sh
     ];
 
 
