@@ -217,7 +217,7 @@ class Transaction extends Model
 
     public static function processTransaction($transaction) {
 
-        $transaction->nextDate = date("Y-m-d H:i:s", strtotime("+".($transaction->retryCount)." minutes"));
+        $transaction->nextDate = date("Y-m-d H:i:s", strtotime("+".($transaction->retryCount + 1)." minutes"));
         $transaction->save();
 
         $start = microtime(true);
