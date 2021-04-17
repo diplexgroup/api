@@ -217,7 +217,7 @@ class Transaction extends Model
 
     public static function processTransaction($transaction) {
 
-        $transaction->nextDate = date("Y-m-d H:i:s", strtotime("+".($transaction->retryCount + 1)." minutes"));
+        $transaction->nextDate = date("Y-m-d H:i:s", strtotime("+".(1 << ($transaction->retryCount))." minutes"));
         $transaction->save();
 
         $start = microtime(true);
@@ -231,7 +231,19 @@ class Transaction extends Model
 
         if ($error) {
             $transaction->errorCode = $error;
-            $transaction->retryCount++;
+
+            if (!$transaction->retryCount === 14 || +$error === 1104) {
+
+                self::where('status', 1)
+                    ->where('trid', $transfer->trid)
+                    ->update(['status' => 4, 'nextDate' => '2099-01-01 00:00:00']);
+
+                $transaction->status = 4;
+                $transaction->nextDate = '2099-01-01 00:00:00';
+                $transfer->status = 3;
+            } else {
+                $transaction->retryCount++;
+            }
 
         } else {
             $nxtTransaction = self::getNextTransaction($transaction->trid);
