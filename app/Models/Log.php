@@ -49,7 +49,7 @@ class Log extends Model
 
         if ($attr === 'response') {
             try {
-                return Storage::disk('local')->get($this->response);
+                return Storage::disk('api_logs')->get($this->response);
             } catch(\Exception $ex) {
                 return 'file deleted';
             }

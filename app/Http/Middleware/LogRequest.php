@@ -42,7 +42,7 @@ class LogRequest {
             $context = 'no data';
         }
 
-        Storage::disk('local')->put($logFile, $context);
+        Storage::disk('api_logs')->put($logFile, $context);
 
         $log->response = $logFile;
 
