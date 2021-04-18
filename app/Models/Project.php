@@ -15,7 +15,7 @@ class Project extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'api_endpont', 'api_front_link', 'type', 'addr_need_flag', 'pref', 'description', 'status', 'token'
+        'name', 'api_endpont', 'api_front_link', 'type', 'addr_need_flag', 'pref', 'description', 'status', 'token', 'show_in_explorer', 'svg'
     ];
 
     public $timestamps = false;
@@ -38,6 +38,7 @@ class Project extends Model
             'api_endpont' => 'Endpoint',
             'api_front_link' => 'Ссылка на проект',
             'status' => 'Статус',
+            'show_in_explorer' => 'Показывать в Explorer',
         ];
     }
 
@@ -53,6 +54,8 @@ class Project extends Model
             'description' => 'Описание',
             'status' => 'Статус',
             'token' => 'Токен',
+            'show_in_explorer' => 'Показывать в Explorer',
+            'svg' => 'SVG',
         ];
     }
 
@@ -94,6 +97,9 @@ class Project extends Model
         if ($attr === 'addr_need_flag') {
             return $this->addr_need_flag ? 'Да' : 'Нет';
         }
+        if ($attr === 'show_in_explorer') {
+            return $this->show_in_explorer ? 'Да' : 'Нет';
+        }
 
         if ($attr === 'api_front_link') {
             $link = $this->api_front_link;
@@ -124,6 +130,12 @@ class Project extends Model
                 0 => 'Нет'
             ];
         }
+        if ($attr === 'show_in_explorer') {
+            return [
+                1 => 'Да',
+                0 => 'Нет'
+            ];
+        }
         if ($attr === 'type') {
             return [
                 1 => 'Внутренний',
@@ -136,7 +148,7 @@ class Project extends Model
     }
 
     public function isSelect($attr) {
-        return in_array($attr, ['status', 'addr_need_flag', 'type']);
+        return in_array($attr, ['status', 'addr_need_flag', 'type', 'show_in_explorer']);
     }
 
     public static function getById($id) {

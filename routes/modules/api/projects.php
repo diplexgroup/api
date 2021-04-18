@@ -45,7 +45,9 @@ Route::get('/api/projects', function (Request $request) {
                 'short' => $item->pref,
                 'description' => $item->description,
                 'link' => $item->api_front_link,
-                'wallet' => $wallet ? $wallet->addr : ''
+                'wallet' => $wallet ? $wallet->addr : '',
+                'svg' => $item ? $item->svg : '',
+                'show_in_explorer' => $item ? $item->show_in_explorer : '',
             ];
 
         }
