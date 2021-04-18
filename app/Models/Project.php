@@ -61,7 +61,7 @@ class Project extends Model
 
     public static function defaultInputList() {
         $list = [
-            'name', 'api_endpont', 'api_front_link', 'type', 'addr_need_flag', 'pref', 'description', 'status', 'token'
+            'name', 'api_endpont', 'api_front_link', 'type', 'addr_need_flag', 'pref', 'description', 'status', 'token', 'show_in_explorer', 'svg'
         ];
 
         $result = [];
