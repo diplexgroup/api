@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Storage;
 
 
 class LogRequest {
@@ -25,7 +26,25 @@ class LogRequest {
 
         $log->request = json_encode($request->all());
 
-        $log->response = is_array($result) ? json_encode($result) : $result;
+        $logFile = uniqid(date('Y-m-d_His')) . '.txt';
+
+        try {
+            $context = json_encode($result);
+        } catch (\Exception $ex) {
+            if (is_string($result)) {
+                $context = $result;
+            } else {
+                $context = 'no data';
+            }
+        }
+
+        if (!$context || !strlen($context)) {
+            $context = 'no data';
+        }
+
+        Storage::disk('local')->put($logFile, $context);
+
+        $log->response = $logFile;
 
         $log->date = date("Y-m-d H:i:s");
 

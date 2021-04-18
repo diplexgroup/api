@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class Log extends Model
 {
@@ -45,6 +46,15 @@ class Log extends Model
     }
 
     public function getAttr($attr) {
+
+        if ($attr === 'response') {
+            try {
+                return Storage::disk('local')->get($this->response);
+            } catch(\Exception $ex) {
+                return 'file deleted';
+            }
+        }
+
         return $this->$attr;
     }
 }
