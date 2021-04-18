@@ -29,6 +29,10 @@ class User extends Authenticatable
         'confirm_code', 'confirm_attempts',
     ];
 
+    public function getInputAttr($attr) {
+        return $this->$attr;
+    }
+
     public static function getListFields() {
         return [
             'id' => 'ID',

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Modules extends Model
+class Modules extends Base
 {
     protected $table = 'modules';
 

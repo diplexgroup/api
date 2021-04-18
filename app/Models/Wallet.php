@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Wallet extends Model
+class Wallet extends Base
 {
     public $timestamps = false;
     protected $table = 'wallet';

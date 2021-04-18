@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class UserRole extends Model
+class UserRole extends Base
 {
     protected $table = 'user_role';
 

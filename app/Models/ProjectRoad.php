@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class ProjectRoad extends Model
+class ProjectRoad extends Base
 {
     protected $table = 'project_road';
 

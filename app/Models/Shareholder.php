@@ -6,7 +6,7 @@ use App\Http\Helpers\ApiHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Shareholder extends Model
+class Shareholder extends Base
 {
     protected $table = 'shareholder';
 

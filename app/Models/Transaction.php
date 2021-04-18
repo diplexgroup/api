@@ -6,7 +6,7 @@ use App\Http\Helpers\ApiHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Transaction extends Model
+class Transaction extends Base
 {
     static function statuses() {
         return [

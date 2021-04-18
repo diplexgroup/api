@@ -8,6 +8,6 @@
             </select>
         </td>
     @else
-        <td><input name="forms[{{$field}}]" class="form-control" value="{{$doc->$field}}"/></td>
+        <td><input name="forms[{{$field}}]" class="form-control" value="{{$doc->getInputAttr($field)}}"/></td>
     @endif
 </tr>

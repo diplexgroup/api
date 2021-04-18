@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Transfer extends Model
+class Transfer extends Base
 {
     protected $table = 'transfer';
 

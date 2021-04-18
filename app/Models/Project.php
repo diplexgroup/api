@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 
-class Project extends Model
+class Project extends Base
 {
     protected $table = 'project';
 
@@ -178,5 +178,14 @@ class Project extends Model
 
     public static function getShort($id) {
         return self::getById($id)->pref ?? 'UNKNOWN';
+    }
+
+    public function getInputAttr($attr) {
+
+        if ($attr === 'svg') {
+            return  Storage::disk('svg')->get($this->id . '.svg');
+        }
+
+        return $this->$attr;
     }
 }
