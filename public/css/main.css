@@ -22,4 +22,8 @@ AUTH
 .full-width {
   width: 100%; }
 
+.card-body .table svg {
+  height: 60px;
+  max-width: 100%; }
+
 /*# sourceMappingURL=main.css.map */

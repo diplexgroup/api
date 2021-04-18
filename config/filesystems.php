@@ -53,6 +53,11 @@ return [
             'root' => storage_path('app/api_logs'),
         ],
 
+        'svg' => [
+            'driver' => 'local',
+            'root' => storage_path('app/svg'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

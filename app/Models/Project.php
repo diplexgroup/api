@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class Project extends Model
 {
@@ -75,6 +76,17 @@ class Project extends Model
     }
 
     public function setAttr($attr, $value) {
+        if ($attr === 'svg') {
+
+            if (!$this->id) return;
+
+            Storage::disk('svg')->put($this->id . '.svg', $value);
+
+            $this->svg = $this->id . '.svg';
+
+            return;
+        }
+
         $this->$attr = $value;
     }
 
@@ -89,6 +101,11 @@ class Project extends Model
         }
 
         $model->save();
+
+        if (!$id) {
+            $model->setAttr('svg', $forms['svg']);
+            $model->save();
+        }
 
         return $model->id;
     }
@@ -112,6 +129,10 @@ class Project extends Model
 
         if ($attr === 'type') {
             return $this->type === 1 ? 'Внутренний' : 'Внешний';
+        }
+
+        if ($attr === 'svg') {
+            return  Storage::disk('svg')->get($this->id . '.svg');
         }
 
         return $this->$attr;
