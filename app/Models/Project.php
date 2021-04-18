@@ -132,7 +132,7 @@ class Project extends Base
         }
 
         if ($attr === 'svg') {
-            return  Storage::disk('svg')->get($this->id . '.svg');
+            return $this->svg();
         }
 
         return $this->$attr;
@@ -180,10 +180,18 @@ class Project extends Base
         return self::getById($id)->pref ?? 'UNKNOWN';
     }
 
+    public function svg() {
+        try {
+            return  Storage::disk('svg')->get($this->id . '.svg');
+        } catch (\Exception $ex) {
+            return '';
+        }
+    }
+
     public function getInputAttr($attr) {
 
         if ($attr === 'svg') {
-            return  Storage::disk('svg')->get($this->id . '.svg');
+            return $this->svg();
         }
 
         return $this->$attr;
