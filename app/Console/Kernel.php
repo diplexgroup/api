@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
         $schedule->call(function () {
+            var_dump('here');
             Transaction::processTransactions();
 
         })->everyMinute();
