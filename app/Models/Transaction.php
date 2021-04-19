@@ -122,14 +122,13 @@ class Transaction extends Base
 
     public static function processTransactions() {
         $transactions = self::where('nextDate', '<', date("Y-m-d H:i:s"))->limit(1)->get();
-
+var_dump($transactions);
         foreach ($transactions as $transaction) {
             self::processTransaction($transaction);
         }
     }
 
     public static function processTransactionWW($transaction) {
-        var_dump($transaction->id);
         $data = json_decode($transaction->data, true);
 
         $project = Project::getById($data['project']);
