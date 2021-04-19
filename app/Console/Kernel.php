@@ -28,9 +28,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        var_dump('123');
         $schedule->call(function () {
-            var_dump('here');
             Transaction::processTransactions();
 
         })->everyMinute();

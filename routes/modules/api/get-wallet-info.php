@@ -10,7 +10,7 @@ Route::get('/api/get-wallet-info', function (Request $request) {
     if ($errors = ApiHelper::checkAttributes([
         'wallet' => ['regex' => '/^[a-zA-Z\d]{4,}$/'],
         'key' => [],
-        'project' => ['regex' => '/^[A-Z]{2,4}$/'],
+        'project' => ['regex' => '/^[A-Z]{2,6}$/'],
     ], $request)) {
         return [
             'success' => false,

@@ -37,7 +37,7 @@ Route::post('/api/transfer', function (Request $request) {
         'fromUser' => ['regex' => '/^[a-zA-Z\d]{4,}$/'],
         'toUser' => ['regex' => '/^[a-zA-Z\d]{4,}$/'],
         'key' => [],
-        'toProj' => ['regex' => '/^[A-Z]{2,4}$/'],
+        'toProj' => ['regex' => '/^[A-Z]{2,6}$/'],
     ], $request)) {
         return [
             'success' => false,
