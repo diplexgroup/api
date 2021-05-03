@@ -60,6 +60,10 @@ Route::get('/api/projects', function (Request $request) {
         ];
     }, $projects);
 
+    if ($withWallet) {
+        $burn = Wallet::getBurnWallet();
+        $result['burnWallet'] = $burn ? $burn->addr : '';
+    }
 
     return json_encode($result);
 });
