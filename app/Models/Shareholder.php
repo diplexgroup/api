@@ -81,7 +81,7 @@ class Shareholder extends Base
             'id' => 'ID',
             'telegram' => 'Телеграм',
             'uid' => 'ID юзера',
-            'user' => 'Юзер',
+            'user' => 'SDS ID',
             'sponsor_id' => 'ID Спонсора',
             'sponsor_user_name' => 'Спонсор',
             'type' => 'Тип',
