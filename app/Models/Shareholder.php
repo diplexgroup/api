@@ -39,7 +39,7 @@ class Shareholder extends Base
     public static function createShareholder($sds_id, $telegram, $userId, $sponsor, $sponsorId, $type) {
 
 
-        $t = self::where('telegram', $telegram)->first();
+        $t = self::where('uid', $userId)->first();
         if (!$t) {
             $t = new Shareholder();
             $t->type = $type;
