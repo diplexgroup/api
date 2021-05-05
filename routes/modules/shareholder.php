@@ -71,7 +71,7 @@ Route::middleware($mids)->group(function () {
 
             $columns = explode(',', $row);
 
-            Shareholder::createShareholder($columns[1], $columns[2], $columns[3]);
+            Shareholder::createShareholder($columns[0], $columns[1], $columns[2],  $columns[3], $columns[4], $columns[5]);
         }
 
         unlink($tmp_name);

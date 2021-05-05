@@ -36,26 +36,33 @@ class Shareholder extends Base
         return [$id, $username];
     }
 
-    public static function createShareholder($telegram, $user, $sponsor) {
-
-        list($id, $username) = self::getUser($user);
-        list($spId, $spUsername) = self::getUser($sponsor);
+    public static function createShareholder($sds_id, $telegram, $userId, $sponsor, $sponsorId, $type) {
 
 
         $t = self::where('telegram', $telegram)->first();
         if (!$t) {
             $t = new Shareholder();
-            $t->type = 2;
-            $t->uid = $id;
+            $t->type = $type;
+            $t->uid = $userId;
             $t->telegram = $telegram;
-            $t->user = $username;
-            $t->sponsor_id = $spId;
-            $t->sponsor_user_name = $spUsername;
+            $t->user = $sds_id;
+            $t->sponsor_id = $sponsorId;
+            $t->sponsor_user_name = $sponsor;
         } else {
-            if ($id && strlen($id))  $t->uid = $id;
-            if ($user && strlen($user))  $t->user = $user;
-            if ($spId && strlen($spId))  $t->sponsor_id = $spId;
-            if ($spUsername && strlen($spUsername))  $t->sponsor_user_name = $spUsername;
+            $map = [
+                'sds_id' => 'user',
+                'telegram' => 'telegram',
+                'userId' => 'uid',
+                'sponsor' => 'sponsor_user_name',
+                'sponsorId' => 'sponsor_id',
+                'type' => 'type',
+            ];
+
+            foreach ($map as $key => $target) {
+                if ($$key) {
+                    $t->$target = $$key;
+                }
+            }
         }
 
         $t->save();
