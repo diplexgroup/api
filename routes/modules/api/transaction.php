@@ -21,7 +21,7 @@ Route::post('/api/transaction', function (Request $request) {
     if ($errors = ApiHelper::checkAttributes([
         'key' => [],
         'amount' => ['regex' => '/^\d+(\.\d+)?$/'],
-        'from' => ['regex' => '/^[a-zA-Z\d]{10,}$/'],
+        'from' => ['regex' => '/^[a-zA-Z\d]{4,}$/'],
         'to' => ['regex' => '/^[a-zA-Z\d]{10,}$/'],
     ], $request)) {
         return [
@@ -46,7 +46,9 @@ Route::post('/api/transaction', function (Request $request) {
 
 
     try {
-        $wallet = Wallet::where('addr', $all['from'])->first();
+        $from = $all['from'];
+
+        $wallet = $from === 'main' ? Wallet::getWallet($currentProject->id,1, NULL) : Wallet::where('addr', $all['from'])->first();
 
         $amount = +$all['amount'];
 
