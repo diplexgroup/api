@@ -73,6 +73,7 @@ Route::post('/api/transaction', function (Request $request) {
     }
 
     $status = $code === 0 ? 3 : 4;
+    $results['success'] = $code === 0;
 
 
     $t = new Transaction();
