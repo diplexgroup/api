@@ -1,8 +1,6 @@
 @extends('main')
 
 @section('content')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/js/main.js"></script>
     <section class="content">
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->

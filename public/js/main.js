@@ -1,4 +1,6 @@
 jQuery(function ($) {
+
+    // script for /project_roads/edit
     if (window.location.pathname.startsWith('/project_roads/edit')) {
         var el = $('#fee_strategy_textarea');
 
@@ -32,10 +34,7 @@ jQuery(function ($) {
         $('#amount, #percent').on('change keypress input', changeJSON);
     }
 
-});
-
-
-jQuery(function ($) {
+    // script for /project_roads/view
     if (window.location.pathname.startsWith('/project_roads/view')) {
 
         var el = $('tr:contains("Стратегия категорий")');
@@ -48,6 +47,5 @@ jQuery(function ($) {
             $(`<tr><td>Фиксированная сумма комиссии</td><td>${content["amount"]}</td></tr>`).insertAfter(el);
         }
     }
-
 
 });
