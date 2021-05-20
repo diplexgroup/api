@@ -1,6 +1,8 @@
 @extends('main')
 
 @section('content')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
     <section class="content">
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
@@ -27,9 +29,9 @@
                                         @include('base.input')
                                     @endforeach
 
-                                    <tr>
+                                    <tr id="fee-strategy-tr">
                                         <td>Стратегия комиссии</td>
-                                        <td><textarea name="forms[tax_strategy]">{{$doc->tax_strategy}}</textarea></td>
+                                        <td><textarea id="fee_strategy_textarea" name="forms[tax_strategy]">{{$doc->tax_strategy}}</textarea></td>
                                     </tr>
 
 
