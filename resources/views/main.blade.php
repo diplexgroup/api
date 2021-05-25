@@ -192,6 +192,14 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="/send-wallet-wallet" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Перевод монет
+                            </p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
