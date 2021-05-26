@@ -27,9 +27,9 @@
                                         @include('base.input')
                                     @endforeach
 
-                                    <tr>
+                                    <tr id="fee-strategy-tr">
                                         <td>Стратегия комиссии</td>
-                                        <td><textarea name="forms[tax_strategy]">{{$doc->tax_strategy}}</textarea></td>
+                                        <td><textarea id="fee_strategy_textarea" name="forms[tax_strategy]">{{$doc->tax_strategy}}</textarea></td>
                                     </tr>
 
 

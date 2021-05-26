@@ -23,11 +23,11 @@
                 @if ($error) <div class="text-danger">Error: {{$error}}</div> @endif
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email</label>
-                    <input type="email" name="email" value="{{$creds['email'] ? $creds['email'] : ''}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="email" name="email" value="{{$creds['email'] ??  ''}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Пароль</label>
-                    <input type="password" name="password" value="{{$creds['password'] ? $creds['password'] : ''}}" class="form-control" id="exampleInputPassword1">
+                    <input type="password" name="password" value="{{$creds['password'] ??  ''}}" class="form-control" id="exampleInputPassword1">
                 </div>
                 <div>
                     <button type="submit" class="btn btn-success">Вход</button>

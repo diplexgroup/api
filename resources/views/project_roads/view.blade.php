@@ -21,7 +21,7 @@
                                     </thead>
                                     <tbody>
                                     @foreach ($fields as $field=>$label)
-                                        <tr>
+                                        <tr id="{{$field}}">
                                             <td>{{$label}}</td>
                                             <td>{!! $doc->getAttr($field) !!}</td>
                                         </tr>
