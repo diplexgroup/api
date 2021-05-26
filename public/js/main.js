@@ -7,7 +7,11 @@ jQuery(function ($) {
         var changeJSON = function () {
             var data = {};
             //make data
-            data.type = JSON.parse(el.val())['type'];
+            try {
+                data.type = JSON.parse(el.val())['type'];
+            } catch (e) {
+                data.type = 1;
+            }
             var amount = parseInt($('#amount').val());
             var percent = parseFloat($('#percent').val().replace(",", "."));
             if (percent) {
@@ -25,15 +29,20 @@ jQuery(function ($) {
         var fee_strategy_tr = $('#fee-strategy-tr');
         // fee_strategy_tr.hide();
 
-        $('<tr><td>Фиксированная сумма комиссии: </td><td><input type="number" value="" id="amount"></td></tr>').insertAfter(fee_strategy_tr);
-        $('<tr><td>Процент комиссии</td><td><input type="number" min="0" max="1" step="0.0001" id="percent"></td></tr>').insertAfter(fee_strategy_tr);
-        $('#percent').val(JSON.parse(el.val())['percent']);
-        $('#amount').val(JSON.parse(el.val())['amount']);
+        $('<tr><td>Фиксированная сумма комиссии: </td><td><input class="form-control" type="number" value="" id="amount"></td></tr>').insertAfter(fee_strategy_tr);
+        $('<tr><td>Процент комиссии</td><td><input class="form-control" type="number" min="0" max="1" step="0.0001" id="percent"></td></tr>').insertAfter(fee_strategy_tr);
+        try {
+            $('#percent').val(JSON.parse(el.val())['percent']);
+            $('#amount').val(JSON.parse(el.val())['amount']);
+        } catch (e) {
+        }
         var x = fee_strategy_tr.detach();
         x.appendTo('.content form');
         x.hide();
 
-
+        if (el.val() === "") {
+            changeJSON();
+        }
         $('#amount, #percent').on('change keypress input', changeJSON);
     }
 
