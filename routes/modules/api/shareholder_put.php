@@ -35,7 +35,7 @@ Route::post('/api/shareholder-put', function (Request $request) {
                 'success' => false,
                 'error_code' => 1522,
                 'errors' => [
-                    'error' => $addr . ' should be set'
+                    'error' => $addr . ' should be set', 'items'=> json_encode($request->all())
                 ]
             ];
         }
