@@ -18,27 +18,16 @@ Route::post('/api/shareholder-put', function (Request $request) {
 
     if ($errors = ApiHelper::checkAttributes([
         'key' => [],
+        'telegram' => [],
+        'telegramId' => [],
+        'sponsor' => [],
+        'sponsorId' => [],
     ], $request)) {
         return [
             'success' => false,
             'error_code' => 1522,
             'errors' => $errors
         ];
-    }
-
-    $addrs = ['telegram', 'telegramId', 'sponsor', 'sponsorId'];
-
-    foreach ($addrs as $addr) {
-        $val = $request->get($addr, NULL);
-        if (!$val) {
-            return [
-                'success' => false,
-                'error_code' => 1522,
-                'errors' => [
-                    'error' => $addr . ' should be set'
-                ]
-            ];
-        }
     }
 
     $userId = $request->get('telegramId', NULL);
