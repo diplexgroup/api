@@ -26,10 +26,10 @@ Route::post('/api/shareholder-put', function (Request $request) {
         ];
     }
 
-    $addrs = ['telegram', 'telegramId', 'sponsor', 'sponsorId', 'type'];
+    $addrs = ['telegram', 'telegramId', 'sponsor', 'sponsorId'];
 
     foreach ($addrs as $addr) {
-        $val = $_POST[$addr] ?? NULL;
+        $val = $request->get($addr, NULL);
         if (!$val) {
             return [
                 'success' => false,
@@ -41,10 +41,10 @@ Route::post('/api/shareholder-put', function (Request $request) {
         }
     }
 
-    $userId = $_POST['telegramId'] ?? NULL;
+    $userId = $request->get('telegramId', NULL);
     $sh = $userId ? Shareholder::where('uid', $userId)->first() : NULL;
 
-    Shareholder::createShareholder(0, $_POST['telegram'], $_POST['telegramId'], $_POST['sponsor'], $_POST['sponsorId'], $sh ? ($sh->type | 2) : 2);
+    Shareholder::createShareholder(0, $request->get('telegram'), $request->get('telegramId'), $request->get('sponsor'), $request->get('sponsorId'), $sh ? ($sh->type | 2) : 2);
 
     $result = [
         'success' => true,
