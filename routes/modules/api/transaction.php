@@ -22,7 +22,7 @@ Route::post('/api/transaction', function (Request $request) {
         'key' => [],
         'amount' => ['regex' => '/^\d+(\.\d+)?$/'],
         'from' => ['regex' => '/^[a-zA-Z\d]{4,}$/'],
-        'to' => ['regex' => '/^[a-zA-Z\d]{10,}$/'],
+        'to' => ['regex' => '/^[a-zA-Z\d]{4,}$/'],
     ], $request)) {
         return [
             'success' => false,
