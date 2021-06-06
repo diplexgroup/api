@@ -16,7 +16,7 @@ class Project extends Base
      * @var array
      */
     protected $fillable = [
-        'name', 'api_endpont', 'api_front_link', 'type', 'addr_need_flag', 'pref', 'description', 'status', 'token', 'show_in_explorer', 'svg'
+        'name', 'api_endpont', 'api_front_link', 'type', 'addr_need_flag', 'pref', 'description', 'status', 'token', 'show_in_explorer', 'svg', 'ip'
     ];
 
     public $timestamps = false;
@@ -39,7 +39,7 @@ class Project extends Base
             'api_endpont' => 'Endpoint',
             'api_front_link' => 'Ссылка на проект',
             'status' => 'Статус',
-            'show_in_explorer' => 'Показывать в Explorer',
+            'show_in_explorer' => 'Показывать в Explorer'
         ];
     }
 
@@ -57,12 +57,13 @@ class Project extends Base
             'token' => 'Токен',
             'show_in_explorer' => 'Показывать в Explorer',
             'svg' => 'SVG',
+            'ip' => 'IP проекта (для whitelist)'
         ];
     }
 
     public static function defaultInputList() {
         $list = [
-            'name', 'api_endpont', 'api_front_link', 'type', 'addr_need_flag', 'pref', 'description', 'status', 'token', 'show_in_explorer', 'svg'
+            'name', 'api_endpont', 'api_front_link', 'type', 'addr_need_flag', 'pref', 'description', 'status', 'token', 'show_in_explorer', 'svg', 'ip'
         ];
 
         $result = [];

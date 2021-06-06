@@ -191,7 +191,7 @@ class Initial extends Migration
             $table->integer('type')->comment('1 - внутренний. 2 - внешний');
             $table->integer('rootType')->comment('0 - не назначен, 1 - основной, 2 - транзакционный, 3- комиссионный, 4 - для сжигания');
             $table->integer('relationId')->nullable()->default(null)->comment('реляция к проекту, если есть');
-            $table->char('addr', 40)->comment('адрес')->collation('utf8_unicode_ci')	;
+            $table->char('addr', 40)->comment('адрес')->collation('utf8_unicode_ci');
             $table->char('pkey', 120)->nullable()->default(null)->comment('приватный ключ, если есть')->collation('utf8_unicode_ci')	;
             $table->integer('status')->comment('1 - актвиен, 2 - закрыт');
             $table->char('currency', 5)->comment('код валюты в ISO')->collation('utf8_unicode_ci')	;
