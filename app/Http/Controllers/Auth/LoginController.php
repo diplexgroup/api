@@ -71,7 +71,7 @@ class LoginController extends Controller
 
                 try {
                     Mail::send('vendor.mail.code', ['code' => $user->confirm_code], function ($m) use ($user) {
-                        $m->from('hello@app.com', 'Admin');
+                        $m->from('mg.diplexwallet.com', 'Admin');
 
                         $m->to($user->email, $user->email)->subject('Auth code!');
                     });
