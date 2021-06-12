@@ -23,7 +23,7 @@ class CheckUser
 
         $user = Auth::user();
 
-        if (!$user || $user->status !== 1 || !IpHelper::checkIp()) {
+        if (!$user || $user->status !== 1 || !IpHelper::checkUserIp()) {
            Auth::logout();
 
            return redirect('/');

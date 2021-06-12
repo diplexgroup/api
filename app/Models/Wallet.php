@@ -167,6 +167,9 @@ class Wallet extends Base
         return self::where('rootType', 4)->first();
     }
 
+    public static function getByAddr($addr) {
+        return self::where('addr', $addr)->first();
+    }
 
     public static function getWallet($project, $type, $addr) {
         if (!$type) {

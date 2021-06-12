@@ -21,8 +21,8 @@ Route::post('/api/transaction', function (Request $request) {
     if ($errors = ApiHelper::checkAttributes([
         'key' => [],
         'amount' => ['regex' => '/^\d+(\.\d+)?$/'],
-        'from' => ['regex' => '/^[a-zA-Z\d]{10,}$/'],
-        'to' => ['regex' => '/^[a-zA-Z\d]{10,}$/'],
+        'from' => ['regex' => '/^[a-zA-Z\d]{4,}$/'],
+        'to' => ['regex' => '/^[a-zA-Z\d]{4,}$/'],
     ], $request)) {
         return [
             'success' => false,
@@ -46,12 +46,22 @@ Route::post('/api/transaction', function (Request $request) {
 
 
     try {
-        $wallet = Wallet::where('addr', $all['from'])->first();
+        $from = $all['from'];
+
+        $wallet = $from === 'main' ? Wallet::getWallet($currentProject->id,1, NULL) : Wallet::where('addr', $all['from'])->first();
 
         $amount = +$all['amount'];
 
         $port = env('FLASK_PORT');
-        $url = "http://localhost:".$port."/send-wallet-wallet?from=".$all['from']."&to=".$all['to']."&fromKey=".($wallet -> pkey)."&amount=".$all['amount'];
+
+        $to = $all['to'];
+
+        if ($to === 'main') {
+            $w = Wallet::getWallet($currentProject->id,1, NULL);
+            $to = $w->addr;
+        }
+
+        $url = "http://localhost:".$port."/send-wallet-wallet?from=".($wallet->addr)."&to=".$to."&fromKey=".($wallet -> pkey)."&amount=".$all['amount'];
 
         $resultData = file_get_contents($url);
 
@@ -71,6 +81,7 @@ Route::post('/api/transaction', function (Request $request) {
     }
 
     $status = $code === 0 ? 3 : 4;
+    $result['success'] = $code === 0;
 
 
     $t = new Transaction();

@@ -121,7 +121,10 @@ class Transaction extends Base
     }
 
     public static function processTransactions() {
-        $transactions = self::where('nextDate', '<', date("Y-m-d H:i:s"))->limit(1)->get();
+        $transactions = self::where('nextDate', '<', date("Y-m-d H:i:s"))
+            ->where('status', 2)
+            ->limit(1)
+            ->get();
 
         foreach ($transactions as $transaction) {
             self::processTransaction($transaction);
@@ -231,7 +234,7 @@ class Transaction extends Base
         if ($error) {
             $transaction->errorCode = $error;
 
-            if (!$transaction->retryCount === 14 || +$error === 1104) {
+            if ($transaction->retryCount === 14 || +$error === 1104) {
 
                 self::where('status', 1)
                     ->where('trid', $transfer->trid)
