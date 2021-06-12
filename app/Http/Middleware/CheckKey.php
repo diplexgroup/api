@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Helpers\IpHelper;
 use App\Models\Project;
 use Closure;
 
@@ -26,6 +27,12 @@ class CheckKey
         if (!$project) {
             die(json_encode(['error' => 'access denied', 'code' => 403, 'success'=>false]));
         }
+
+        if (!IpHelper::checkProjectIp($project)) {
+            die(json_encode(['error' => 'access denied: ip not in whitelist', 'code' => 403, 'success'=>false]));
+        }
+
+
 
 
         $currentProject = $project;
