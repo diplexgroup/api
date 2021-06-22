@@ -14,6 +14,10 @@ Route::middleware($mids)->group(function () {
 
         $q = $_GET['q'] ?? NULL;
         $searchParams = 'project, address';
+
+        $page = +($_GET['page'] ?? 1);
+        $limit = +($_GET['limit'] ?? 10);
+
         if ($q) {
             $query = Wallet::where('addr', $q);
 
@@ -24,11 +28,18 @@ Route::middleware($mids)->group(function () {
             if ($project) {
                 $query->orWhere('relationId', $project->id);
             }
-
-            $docs = $query->get();
         } else {
-            $docs = Wallet::all();
+            $query = Wallet::query();
         }
+
+        $count = $query->count();
+
+        $mxPage = ceil($count / 10);
+
+        $docs = $query
+            ->offset(($page-1) * $limit)
+            ->limit($limit)
+            ->get();
 
         $fields = Wallet::getListFields();
 
@@ -38,7 +49,9 @@ Route::middleware($mids)->group(function () {
             'link' => 'wallet',
             'docsLabel' => 'Всего кошельков',
             'q' => $q,
-            'searchParams' => $searchParams
+            'searchParams' => $searchParams,
+            'page' => $page,
+            'mxPage' => $mxPage,
         ]);
     });
 
